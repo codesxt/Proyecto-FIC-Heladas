@@ -1,0 +1,17 @@
+// Here you can add other styles
+.app-header.navbar .navbar-brand {
+  /*background-image: url('../img/logo.new.png');*/
+  background-image: none;
+  font-size: .8rem;
+}
+
+.splash-background {
+  min-height: 70%;
+  background-image: url('../img/andre-koch-188.jpg');
+  background-position: center top;
+  background-size: cover;
+  background-repeat: no-repeat;
+  .jumbotron {
+    background-color: rgba(194, 207, 214, .8);
+  }
+}

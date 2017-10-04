@@ -1,0 +1,80 @@
+<div class="animated fadeIn">
+  <div class="card">
+    <div class="card-header">
+      <strong>Estación
+        <span *ngIf="prediction">
+          {{prediction.station}}
+        </span>
+      </strong>
+    </div>
+    <div class="card-body">
+      <span *ngIf="prediction">
+        <div class="row">
+          <div class="col-sm-6 col-md-4">
+            <span *ngIf="prediction.status.id==2">
+            <div class="card text-white bg-success text-center">
+              <div class="card-body">
+                <h5>Sin heladas</h5>
+                <i class="fa fa-sun-o fa-5x"></i>
+              </div>
+            </div>
+            </span>
+
+            <span *ngIf="prediction.status.id==1">
+            <div class="card text-white bg-info text-center">
+              <div class="card-body">
+                <h5>Probabilidad de Heladas</h5>
+                <i class="fa fa-snowflake-o fa-5x"></i>
+              </div>
+            </div>
+            </span>
+
+            <span *ngIf="prediction.status.id==3">
+            <div class="card text-white bg-warning text-center">
+              <div class="card-body">
+                <h5>No hay datos</h5>
+                <i class="fa fa-sun-o fa-5x"></i>
+              </div>
+            </div>
+            </span>
+          </div>
+
+          <div class="col-sm-6 col-md-6" *ngIf="prediction.status.id!=3">
+            <div class="card">
+              <div class="card-header">
+                <strong>
+                  Detalles de la Predicción
+                </strong>
+              </div>
+              <table class="table table-sm">
+                <tbody>
+                  <tr>
+                    <td>Estación</td>
+                    <td>{{prediction.station}}</td>
+                  </tr>
+                  <tr>
+                    <td>Horario de la Predicción</td>
+                    <td>{{prediction.prediction_time}}</td>
+                  </tr>
+                  <tr>
+                    <td>Predicción para</td>
+                    <td>{{predictionDate | amDateFormat:'DD [de] MMMM [de] YYYY'}}</td>
+                  </tr>
+                  <tr>
+                    <td>Próxima Predicción</td>
+                    <td>{{prediction.next_prediction_time}} hrs.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-2">
+            <button type="button" class="btn btn-primary btn-sm mb-1" (click)="goBack()">
+              <i class="fa fa-reply"></i>
+              Volver
+            </button>
+          </div>
+        </div>
+      </span>
+  </div>
+</div>
