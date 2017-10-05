@@ -48,6 +48,14 @@ export class MyStationsComponent implements OnInit {
            }
          ]
        }
+       if(userId=='f3b61b38'){
+         this.stations = [
+           {
+             id_est: 198,
+             nom_est: 'La Pampa'
+           }
+         ]
+       }
     });
   }
 

@@ -1,33 +1,10 @@
-# See http://help.github.com/ignore-files/ for more about ignoring files.
+# Client related folders
+/client/node_modules
+/client/bower_components
+/client/dist
 
-# compiled output
-/dist
-/tmp
+# Server related folders
+/server/node_modules
 
-# dependencies
-/node_modules
-/bower_components
-
-# IDEs and editors
-/.idea
-.project
-.classpath
-*.launch
-.settings/
-
-# misc
-/.sass-cache
-/connect.lock
-/coverage/*
-/libpeerconnection.log
-npm-debug.log
-testem.log
-/typings
-
-# e2e
-/e2e/*.js
-/e2e/*.map
-
-#System Files
-.DS_Store
-Thumbs.db
+# Development Environment Variables
+/server/.env
