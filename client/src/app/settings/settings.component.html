@@ -1,0 +1,43 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <strong>Configuraciones de Usuario</strong>
+        </div>
+        <div class="card-body">
+          <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+            <div class="form-group row">
+              <label class="col-md-3 form-control-label" for="name-input">Nombre</label>
+              <div class="col-md-9">
+                <input
+                  type="text"
+                  id="name-input"
+                  name="name-input"
+                  class="form-control"
+                  placeholder="Nombre del usuario"
+                  [(ngModel)]="profileData.name">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-md-3 form-control-label" for="email-input">Email</label>
+              <div class="col-md-9">
+                <input
+                  type="email"
+                  id="email-input"
+                  name="email-input"
+                  class="form-control"
+                  placeholder="Ingrese su email"
+                  [(ngModel)]="profileData.email">
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="card-footer">
+          <button type="submit" class="btn btn-sm btn-primary" (click)="updateProfile()"><i class="fa fa-dot-circle-o"></i> Actualizar</button>
+          <button type="reset" class="btn btn-sm btn-danger" (click)="loadData()"><i class="fa fa-ban"></i> Reiniciar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

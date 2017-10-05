@@ -7,7 +7,7 @@ const auth = jwt({
 });
 
 const ctrlAuthentication  = require('./controllers/authentication');
-//const ctrlProfile         = require('./controllers/profile');
+const ctrlProfile         = require('./controllers/profile');
 //const ctrlUsers           = require('./controllers/users');
 //const ctrlDocuments       = require('./controllers/documents');
 
@@ -20,14 +20,14 @@ router.post('/login', ctrlAuthentication.login);
 // router.post('/request-password-reset', ctrlAuth.requestPasswordReset);
 // router.post('/reset-password', ctrlAuth.resetPassword);
 
-/*
+
 // ============== Profile Endpoints ================
 router.get('/profile', auth, ctrlProfile.getProfile);
 router.patch('/profile', auth, ctrlProfile.updateProfile);
 // GET      /profile        Gets user data
 // PATCH    /profile        Updates user data
 // DELETE   /profile        Deletes user account
-
+/*
 // =============== User Management =================
 router.get('/users', auth, roleAuth(['administrator']), ctrlUsers.readUserList);
 router.get('/users/:userId', auth, roleAuth(['administrator']), ctrlUsers.readUser);

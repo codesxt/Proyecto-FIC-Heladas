@@ -36,7 +36,7 @@ export class FullLayoutComponent implements OnInit {
     this.status.isopen = !this.status.isopen;
   }
 
-  ngOnInit(): void {
+  ngOnInit(){
     if(!this.authenticationService.isLoggedIn()){
       this.notificationsService.alert("Error", "Debes acceder para poder usar la aplicación.");
       this.router.navigate(['/auth/login']);

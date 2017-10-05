@@ -10,6 +10,7 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { NAV_DROPDOWN_DIRECTIVES } from './shared/nav-dropdown.directive';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { SIDEBAR_TOGGLE_DIRECTIVES } from './shared/sidebar.directive';
@@ -28,6 +29,7 @@ import { SimpleLayoutComponent } from './layouts/simple-layout.component';
 // Services
 import { FrostService } from './shared/services/frost.service';
 import { AuthenticationService } from './shared/services/authentication.service';
+import { ProfileService } from './shared/services/profile.service';
 
 // Shared Module
 import { SharedModule } from './shared/shared.module';
@@ -45,7 +47,8 @@ import { SharedModule } from './shared/shared.module';
     SharedModule.forRoot(),
     FormsModule,
     ReactiveFormsModule,
-    SimpleNotificationsModule.forRoot()
+    SimpleNotificationsModule.forRoot(),
+    BrowserAnimationsModule
   ],
   declarations: [
     AppComponent,
@@ -58,7 +61,8 @@ import { SharedModule } from './shared/shared.module';
   ],
   providers: [
     FrostService,
-    AuthenticationService, {
+    AuthenticationService,
+    ProfileService, {
     provide: LocationStrategy,
     useClass: HashLocationStrategy
   }],

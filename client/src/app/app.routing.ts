@@ -37,6 +37,10 @@ export const routes: Routes = [
       {
         path: 'stations-list',
         loadChildren: './stations-list/stations-list.module#StationsListModule'
+      },
+      {
+        path: 'settings',
+        loadChildren: './settings/settings.module#SettingsModule'
       }
     ]
   },
