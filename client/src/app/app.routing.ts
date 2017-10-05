@@ -23,6 +23,10 @@ export const routes: Routes = [
         loadChildren: './dashboard/dashboard.module#DashboardModule'
       },
       {
+        path: 'users',
+        loadChildren: './admin-users/admin-users.module#AdminUsersModule'
+      },
+      {
         path: 'station/:id',
         loadChildren: './station/station.module#StationModule'
       },

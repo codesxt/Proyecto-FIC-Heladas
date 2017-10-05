@@ -22,7 +22,13 @@
           <a class="nav-link" routerLinkActive="active" [routerLink]="['/dashboard']"><i class="icon-list"></i> Estaciones </a>
         </li>-->
         <li class="nav-item">
-          <a class="nav-link" routerLinkActive="active" [routerLink]="['/dashboard']"><i class="icon-speedometer"></i> Heladas </a>
+          <a class="nav-link" routerLinkActive="active" [routerLink]="['/dashboard']"><i class="icon-speedometer"></i> Panel de Control </a>
+        </li>
+        <li class="nav-title" *ngIf="isAdmin()">
+          Administración
+        </li>
+        <li class="nav-item" *ngIf="isAdmin()">
+          <a class="nav-link" routerLinkActive="active" [routerLink]="['/users']"><i class="icon-people"></i> Usuarios</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" routerLinkActive="active" [routerLink]="['/stations-list']"><i class="icon-list"></i> Lista de Estaciones </a>

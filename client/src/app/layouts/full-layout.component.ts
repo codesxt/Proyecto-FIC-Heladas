@@ -50,4 +50,8 @@ export class FullLayoutComponent implements OnInit {
     this.authenticationService.logout();
     this.router.navigate(['/auth/login']);
   }
+
+  isAdmin(){
+    return this.user.role == "administrator";
+  }
 }

@@ -30,9 +30,11 @@ import { SimpleLayoutComponent } from './layouts/simple-layout.component';
 import { FrostService } from './shared/services/frost.service';
 import { AuthenticationService } from './shared/services/authentication.service';
 import { ProfileService } from './shared/services/profile.service';
+import { UsersService } from './shared/services/users.service';
 
 // Shared Module
 import { SharedModule } from './shared/shared.module';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   imports: [
@@ -48,7 +50,8 @@ import { SharedModule } from './shared/shared.module';
     FormsModule,
     ReactiveFormsModule,
     SimpleNotificationsModule.forRoot(),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    NgbModule.forRoot()
   ],
   declarations: [
     AppComponent,
@@ -62,7 +65,8 @@ import { SharedModule } from './shared/shared.module';
   providers: [
     FrostService,
     AuthenticationService,
-    ProfileService, {
+    ProfileService,
+    UsersService, {
     provide: LocationStrategy,
     useClass: HashLocationStrategy
   }],

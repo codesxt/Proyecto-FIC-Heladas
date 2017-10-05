@@ -8,7 +8,7 @@ const auth = jwt({
 
 const ctrlAuthentication  = require('./controllers/authentication');
 const ctrlProfile         = require('./controllers/profile');
-//const ctrlUsers           = require('./controllers/users');
+const ctrlUsers           = require('./controllers/users');
 //const ctrlDocuments       = require('./controllers/documents');
 
 const roleAuth            = ctrlAuthentication.roleAuthorization;
@@ -27,12 +27,12 @@ router.patch('/profile', auth, ctrlProfile.updateProfile);
 // GET      /profile        Gets user data
 // PATCH    /profile        Updates user data
 // DELETE   /profile        Deletes user account
-/*
+
 // =============== User Management =================
 router.get('/users', auth, roleAuth(['administrator']), ctrlUsers.readUserList);
 router.get('/users/:userId', auth, roleAuth(['administrator']), ctrlUsers.readUser);
 router.patch('/users/:userId', auth, roleAuth(['administrator']), ctrlUsers.updateUser);
-
+/*
 // ============= Document Endpoints ================
 router.get('/documents/:id', auth, ctrlDocuments.readDocument);
 router.patch('/documents/:id', auth, ctrlDocuments.updateDocument);
