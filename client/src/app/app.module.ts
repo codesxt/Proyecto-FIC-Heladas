@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { HttpModule } from '@angular/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
@@ -15,6 +16,8 @@ import { SIDEBAR_TOGGLE_DIRECTIVES } from './shared/sidebar.directive';
 import { AsideToggleDirective } from './shared/aside.directive';
 import { BreadcrumbsComponent } from './shared/breadcrumb.component';
 
+import { SimpleNotificationsModule } from 'angular2-notifications';
+
 // Routing Module
 import { AppRoutingModule } from './app.routing';
 
@@ -24,6 +27,7 @@ import { SimpleLayoutComponent } from './layouts/simple-layout.component';
 
 // Services
 import { FrostService } from './shared/services/frost.service';
+import { AuthenticationService } from './shared/services/authentication.service';
 
 // Shared Module
 import { SharedModule } from './shared/shared.module';
@@ -38,7 +42,10 @@ import { SharedModule } from './shared/shared.module';
     BsDatepickerModule.forRoot(),
     ChartsModule,
     HttpModule,
-    SharedModule.forRoot()
+    SharedModule.forRoot(),
+    FormsModule,
+    ReactiveFormsModule,
+    SimpleNotificationsModule.forRoot()
   ],
   declarations: [
     AppComponent,
@@ -50,7 +57,8 @@ import { SharedModule } from './shared/shared.module';
     AsideToggleDirective
   ],
   providers: [
-    FrostService, {
+    FrostService,
+    AuthenticationService, {
     provide: LocationStrategy,
     useClass: HashLocationStrategy
   }],

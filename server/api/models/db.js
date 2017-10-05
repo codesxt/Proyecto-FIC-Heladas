@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 mongoose.set('debug', true);
-var dbpath = 'mongodb://localhost/application';
+var dbpath = 'mongodb://localhost/heladas';
 if (process.env.NODE_ENV === 'production') {
   dbpath = process.env.MONGODB_URI;
 }

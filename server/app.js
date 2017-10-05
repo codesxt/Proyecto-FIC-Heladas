@@ -8,11 +8,11 @@ const passport = require('passport');
 const cors = require('cors');
 
 // Get Configuration Files
-//require('./api/models/db');
-//require('./api/config/passport');
+require('./api/models/db');
+require('./api/config/passport');
 
 // Get our API routes
-//const api = require('./api/index');
+const api = require('./api/index');
 
 const app = express();
 
@@ -30,7 +30,7 @@ app.use(express.static(path.join(__dirname, '../client/dist')));
 app.use(passport.initialize());
 
 // Set our api routes
-//app.use('/api/v1', api);
+app.use('/api/v1', api);
 
 // Catch all other routes and return the index file
 app.get('*', (req, res) => {

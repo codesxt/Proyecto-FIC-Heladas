@@ -52,6 +52,19 @@ export const routes: Routes = [
         loadChildren: './landing/landing.module#LandingModule'
       }
     ]
+  },
+  {
+    path: 'auth',
+    component: SimpleLayoutComponent,
+    data: {
+      title: 'Authentication'
+    },
+    children: [
+      {
+        path: '',
+        loadChildren: './authentication/authentication.module#AuthenticationModule'
+      }
+    ]
   }
 ];
 

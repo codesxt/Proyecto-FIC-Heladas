@@ -20,10 +20,10 @@
   <div class="collapse navbar-collapse justify-content-end" id="navbarNav" [collapse]="isCollapsed">
     <ul class="navbar-nav">
       <li class="nav-item active">
-        <a class="nav-link" pageScroll pageScrollDuration="300" href="#content">¿Qué son las Heladas?</a>
+        <a class="nav-link" [routerLink]="['/home']" pageScroll pageScrollDuration="300" href="#content">¿Qué son las Heladas?</a>
       </li>
       <li class="nav-item active">
-        <a class="nav-link" href="/#/dashboard">Acceder</a>
+        <a class="nav-link" href="/#/auth">Acceder</a>
       </li>
     </ul>
   </div>

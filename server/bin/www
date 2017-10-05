@@ -5,7 +5,7 @@
  */
 
 var app = require('../app');
-var debug = require('debug')('application:server');
+var debug = require('debug')('heladas:server');
 var http = require('http');
 
 /**

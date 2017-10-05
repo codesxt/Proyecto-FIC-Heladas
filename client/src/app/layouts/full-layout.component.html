@@ -6,6 +6,11 @@
       <a class="nav-link navbar-toggler" href="#" appSidebarToggler>&#9776;</a>
     </li>
   </ul>
+  <ul class="navbar-nav justify-content-end">
+    <li class="nav-item active">
+      <button class="nav-link" (click)="logout()">Salir</button>
+    </li>
+  </ul>
 </header>
 
 <div class="app-body">
@@ -44,3 +49,5 @@
   Proyecto FIC, Transferencia Sistema de Alerta Temprana y Sectorizada de Heladas
   <!--<span class="float-right">Powered by <a href="http://coreui.io">CoreUI</a></span>-->
 </footer>
+
+<simple-notifications [options]="options"></simple-notifications>

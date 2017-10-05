@@ -20,26 +20,38 @@ module.exports.register = (req, res) => {
     return;
   }
 
-  var user = new User();
-
-  user.name = req.body.name;
-  user.email = req.body.email;
-
-  user.setPassword(req.body.password1);
-
-  user.save(function(err){
-    var token;
+  User.count({}, (err, count) => {
     if (err){
       utils.sendJSONresponse(res, 404, {
-        "message": "Ha ocurrido un error en la creación del usuario. Probablemente el correo utilizado ya existe en el sistema."
+        "message": "Ha ocurrido un error en la creación del usuario."
       })
     }else{
-      token = user.generateJwt();
-      utils.sendJSONresponse(res, 200, {
-        "token": token
+      var user = new User();
+
+      user.name = req.body.name;
+      user.email = req.body.email;
+
+      if(count==0){
+        user.role = 'administrator';
+      }
+
+      user.setPassword(req.body.password1);
+
+      user.save(function(err){
+        var token;
+        if (err){
+          utils.sendJSONresponse(res, 404, {
+            "message": "Ha ocurrido un error en la creación del usuario. Probablemente el correo utilizado ya existe en el sistema."
+          })
+        }else{
+          token = user.generateJwt();
+          utils.sendJSONresponse(res, 200, {
+            "token": token
+          });
+        }
       });
     }
-  });
+  })
 };
 
 module.exports.login = (req, res) => {

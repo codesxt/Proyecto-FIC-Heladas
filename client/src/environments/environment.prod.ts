@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  apiUrl: "http://srvbioinf1.utalca.cl/heladas"
+  oldApiUrl: "http://srvbioinf1.utalca.cl/heladas",
+  apiUrl: ''
 };
