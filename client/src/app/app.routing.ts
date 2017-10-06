@@ -27,6 +27,10 @@ export const routes: Routes = [
         loadChildren: './admin-users/admin-users.module#AdminUsersModule'
       },
       {
+        path: 'admin-stations',
+        loadChildren: './admin-stations/admin-stations.module#AdminStationsModule'
+      },
+      {
         path: 'station/:id',
         loadChildren: './station/station.module#StationModule'
       },

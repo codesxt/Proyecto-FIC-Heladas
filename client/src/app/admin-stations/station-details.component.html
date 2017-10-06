@@ -1,0 +1,56 @@
+<h6> Editar Estación </h6>
+<form class="form-horizontal" [formGroup]="stationForm" (ngSubmit)="updateStationData()" novalidate>
+  <div class="form-group row">
+    <label class="col-md-2 form-control-label" for="name-input">Nombre</label>
+    <div class="col-md-10">
+      <input
+        class="form-control"
+        formControlName="name"
+        placeholder="Nombre de la Estación"
+        [ngClass]="{
+          'is-invalid': stationForm.controls['name'].errors && !stationForm.controls['name'].pristine,
+          'is-valid'  : stationForm.controls['name'].valid
+        }"
+      >
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-md-2 form-control-label" for="public-input">Pública:</label>
+    <div class="col-md-10">
+      <label class="switch switch-3d switch-primary">
+        <input type="checkbox" class="switch-input" formControlName="public">
+        <span class="switch-label"></span>
+        <span class="switch-handle"></span>
+      </label>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-md-2 form-control-label" for="ema-input">ID EMA</label>
+    <div class="col-md-10">
+      <select class="form-control" formControlName="ema">
+        <option *ngFor="let ema of stationList" [value]="ema.id">({{ema.id}}) {{ema.name}}</option>
+      </select>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-md-2 form-control-label" for="location-input">Ubicación</label>
+    <div class="col-md-10">
+      <agm-map
+        [latitude]="mapLat"
+        [longitude]="mapLng"
+        [zoom]="zoom"
+        [zoomControl]="true"
+        (mapClick)="mapClicked($event)">
+        <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+      </agm-map>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-md-2 form-control-label">Coordenadas:</label>
+    <div class="col-md-10">
+      Latitud: {{lat}}, Longitud: {{lng}}
+    </div>
+  </div>
+  <button type="submit" class="btn btn-sm btn-primary" [disabled]="!stationForm.valid"><i class="fa fa-dot-circle-o"></i> Actualizar Estación</button>
+  <button type="reset" class="btn btn-sm btn-danger" (click)="loadStationData()"><i class="fa fa-ban"></i> Reiniciar</button>
+</form>

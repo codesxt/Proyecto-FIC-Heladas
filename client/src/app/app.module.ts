@@ -31,10 +31,12 @@ import { FrostService } from './shared/services/frost.service';
 import { AuthenticationService } from './shared/services/authentication.service';
 import { ProfileService } from './shared/services/profile.service';
 import { UsersService } from './shared/services/users.service';
+import { StationsService } from './shared/services/stations.service';
 
 // Shared Module
 import { SharedModule } from './shared/shared.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AgmCoreModule } from '@agm/core';
 
 @NgModule({
   imports: [
@@ -51,7 +53,10 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     ReactiveFormsModule,
     SimpleNotificationsModule.forRoot(),
     BrowserAnimationsModule,
-    NgbModule.forRoot()
+    NgbModule.forRoot(),
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyBpS9EB53vYadB4EB_bcooT8_e4tK25-Gw'
+    })
   ],
   declarations: [
     AppComponent,
@@ -66,7 +71,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     FrostService,
     AuthenticationService,
     ProfileService,
-    UsersService, {
+    UsersService,
+    StationsService, {
     provide: LocationStrategy,
     useClass: HashLocationStrategy
   }],

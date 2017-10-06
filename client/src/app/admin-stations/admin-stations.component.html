@@ -1,0 +1,27 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <strong>Estaciones</strong>
+        </div>
+        <div class="card-body">
+          <ul class="nav nav-tabs">
+            <li class="nav-item">
+              <a class="nav-link" routerLinkActive="active" [routerLink]="['/admin-stations/list']"><i class="icon-notebook"></i> Lista de Estaciones</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLinkActive="active" [routerLink]="['/admin-stations/map']"><i class="icon-map"></i> Mapa de Estaciones</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLinkActive="active" [routerLink]="['/admin-stations/create']"><i class="icon-plus"></i> Crear Estación</a>
+            </li>
+          </ul>
+          <div class="p-2">
+            <router-outlet></router-outlet>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

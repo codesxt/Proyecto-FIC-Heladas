@@ -9,6 +9,8 @@ const auth = jwt({
 const ctrlAuthentication  = require('./controllers/authentication');
 const ctrlProfile         = require('./controllers/profile');
 const ctrlUsers           = require('./controllers/users');
+const ctrlEma             = require('./controllers/ema');
+const ctrlStations        = require('./controllers/stations');
 //const ctrlDocuments       = require('./controllers/documents');
 
 const roleAuth            = ctrlAuthentication.roleAuthorization;
@@ -40,4 +42,17 @@ router.delete('/documents/:id', auth, ctrlDocuments.deleteDocument);
 router.post('/documents', auth, ctrlDocuments.createDocument);
 router.get('/user-documents', auth, ctrlDocuments.readUserDocumentList);
 */
+
+// ================ Ema Endpoints ==================
+// Queries data from legacy API at:
+// http://srvbioinf1.utalca.cl/heladas/monitor/index.php
+router.get('/ema', ctrlEma.readEmaList);
+
+// ===============Station Endpoints ================
+router.get('/stations', ctrlStations.readStationList);
+router.get('/stations/:id', ctrlStations.readStation);
+router.post('/stations', auth, roleAuth(['administrator']), ctrlStations.createStation);
+router.patch('/stations/:id', auth, roleAuth(['administrator']), ctrlStations.updateStation);
+router.delete('/stations/:id', auth, roleAuth(['administrator']), ctrlStations.deleteStation);
+
 module.exports = router;
