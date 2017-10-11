@@ -47,12 +47,19 @@ router.get('/user-documents', auth, ctrlDocuments.readUserDocumentList);
 // Queries data from legacy API at:
 // http://srvbioinf1.utalca.cl/heladas/monitor/index.php
 router.get('/ema', ctrlEma.readEmaList);
+router.get('/prediction/:id', ctrlEma.readEmaPrediction);
 
 // ===============Station Endpoints ================
-router.get('/stations', ctrlStations.readStationList);
+router.get('/stations', auth, ctrlStations.readStationList);
+router.get('/public-stations', ctrlStations.readStationList);
 router.get('/stations/:id', ctrlStations.readStation);
 router.post('/stations', auth, roleAuth(['administrator']), ctrlStations.createStation);
 router.patch('/stations/:id', auth, roleAuth(['administrator']), ctrlStations.updateStation);
 router.delete('/stations/:id', auth, roleAuth(['administrator']), ctrlStations.deleteStation);
+
+router.get('/day-prediction/:id', ctrlStations.readStationDayPrediction);
+router.get('/day-before-prediction/:id', ctrlStations.readStationDayBeforePrediction);
+
+router.get('/predictions-history/:id', ctrlStations.getPredictionsHistory);
 
 module.exports = router;

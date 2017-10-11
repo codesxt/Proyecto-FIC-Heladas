@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const utils = require('./utils');
 const Station = mongoose.model('Station');
+const request = require('request');
 
 const JsonApiQueryParserClass = require('jsonapi-query-parser');
 const JsonApiQueryParser = new JsonApiQueryParserClass();
@@ -38,8 +39,19 @@ module.exports.readStationList = (req, res) => {
   var hostname    = req.headers.host;
   let requestData = JsonApiQueryParser.parseRequest(req.url);
   let pageNumber  = requestData.queryData.page.number  || 0;
-  let pageSize    = requestData.queryData.page.size    || 0;
+  let pageSize    = requestData.queryData.page.size    || 10;
   let query = { };
+  if(req.user){
+    // Si el usuario no es administrador, sólo puede ver las estaciones públicas
+    if(req.user.role!='administrator'){
+      query.public = true;
+    }
+  }else{
+    // Si el usuario no está autenticado, sólo puede ver las estaciones públicas
+    query.public = true;
+  }
+  console.log("Query:");
+  console.log(query);
   Station.find(
     query
     ,
@@ -161,6 +173,240 @@ module.exports.deleteStation = (req, res) => {
         return;
       }
     )
+  }else{
+    sendJSONresponse(res, 404, {
+      "message": "No se encontró la estación."
+    })
+    return;
+  }
+}
+
+module.exports.readStationDayPrediction = (req, res) => {
+  var hostname    = req.headers.host;
+  if(req.params.id){
+    Station.findById(req.params.id)
+    .exec((err, station) => {
+      if(err){
+        utils.sendJSONresponse(res, 404, err);
+        return;
+      }else{
+        let emaId = station.idEMA;
+        request.post('http://srvbioinf1.utalca.cl/heladas/consulta/index.php?id_est='+emaId,
+          (error, response, body) => {
+            if(error){
+              console.log(error);
+              utils.sendJSONresponse(res, 404, {
+                message: "EMA List not found."
+              });
+              return;
+            }else{
+              body = JSON.parse(body);
+              let prediction = {
+                emaId: emaId,
+                stationId: req.params.id,
+                station: station.name,
+                date: body.fecha_pred,
+                time: body.horario_prediccion
+              };
+              if(body.nom_estado=="n"){
+                prediction.frost = false;
+              }else if(body.nom_estado=="y"){
+                prediction.frost = true;
+              }else{
+                prediction.frost = null;
+              }
+              utils.sendJSONresponse(res, 200, {
+                links: {
+                  self: hostname+'/api/v1/day-prediction/'+req.params.id
+                },
+                data: prediction
+              })
+              return;
+            }
+          }
+        );
+      }
+    });
+  }else{
+    sendJSONresponse(res, 404, {
+      "message": "No se encontró la estación."
+    })
+    return;
+  }
+}
+
+module.exports.readStationDayBeforePrediction = (req, res) => {
+  var hostname    = req.headers.host;
+  if(req.params.id){
+    Station.findById(req.params.id)
+    .exec((err, station) => {
+      if(err){
+        utils.sendJSONresponse(res, 404, err);
+        return;
+      }else{
+        let emaId = station.idEMA;
+        request.post('http://srvbioinf1.utalca.cl/heladas/consulta/index_dia_anterior.php?id_est='+emaId,
+          (error, response, body) => {
+            if(error){
+              console.log(error);
+              utils.sendJSONresponse(res, 404, {
+                message: "EMA List not found."
+              });
+              return;
+            }else{
+              body = JSON.parse(body);
+              let prediction = {
+                emaId: emaId,
+                stationId: req.params.id,
+                station: station.name,
+                date: body.fecha_pred,
+                time: body.horario_prediccion
+              };
+              if(body.nom_estado=="n"){
+                prediction.frost = false;
+              }else if(body.nom_estado=="y"){
+                prediction.frost = true;
+              }else{
+                prediction.frost = null;
+              }
+              utils.sendJSONresponse(res, 200, {
+                links: {
+                  self: hostname+'/api/v1/day-before-prediction/'+req.params.id
+                },
+                data: prediction
+              })
+              return;
+            }
+          }
+        );
+      }
+    });
+  }else{
+    sendJSONresponse(res, 404, {
+      "message": "No se encontró la estación."
+    })
+    return;
+  }
+}
+
+mixArrays = (history15, history18, history21) => {
+  let newArray = history15.map(
+    item => {
+      let p18 = history18.filter(
+        otherItem => {
+          return otherItem.date === item.date
+        }
+      )[0];
+      let pred18 = (p18) ? p18.prediction : 'null';
+      let p21 = history21.filter(
+        otherItem => {
+          return otherItem.date === item.date
+        }
+      )[0];
+      let pred21 = (p21) ? p21.prediction : 'null';
+      return {
+        date   : item.date,
+        pred15 : item.prediction,
+        pred18 : pred18,
+        pred21 : pred21
+      }
+    }
+  )
+  return newArray;
+}
+
+parsePrediction = (value) => {
+  if(value=='n') return false;
+  if(value=='y') return true;
+  if(value=='sd') return null;
+  return null;
+}
+
+module.exports.getPredictionsHistory = (req, res) => {
+  var hostname    = req.headers.host;
+  var year        = req.query.year || new Date().getFullYear();
+  var month       = req.query.month || new Date().getMonth()+1;
+  if(req.params.id){
+    Station.findById(req.params.id)
+    .exec((err, station) => {
+      if(err){
+        utils.sendJSONresponse(res, 404, err);
+        return;
+      }else{
+        // Aquí pasa la magia
+        let emaId = station.idEMA;
+        let history15 = [];
+        let history18 = [];
+        let history21 = [];
+        request.post('http://srvbioinf1.utalca.cl/heladas//monitor/acciones.php?acc=1'+'&id_est='+emaId+'&id_hor=15'+'&anno='+year+'&mes='+month,
+          (error, response, body) => {
+            if(error){
+              console.log(error);
+              utils.sendJSONresponse(res, 404, {
+                message: "EMA List not found."
+              });
+              return;
+            }else{
+              history15 = JSON.parse(body).data.map(
+      					val => {
+      						return {
+      							date: val.fecha_pred,
+      							prediction: parsePrediction(val.nom_estado)
+      						}
+      					}
+      				)
+              request.post('http://srvbioinf1.utalca.cl/heladas//monitor/acciones.php?acc=1'+'&id_est='+emaId+'&id_hor=18'+'&anno='+year+'&mes='+month,
+                (error, response, body) => {
+                  if(error){
+                    console.log(error);
+                    utils.sendJSONresponse(res, 404, {
+                      message: "EMA List not found."
+                    });
+                    return;
+                  }else{
+                    history18 = JSON.parse(body).data.map(
+            					val => {
+            						return {
+            							date: val.fecha_pred,
+            							prediction: parsePrediction(val.nom_estado)
+            						}
+            					}
+            				)
+                    request.post('http://srvbioinf1.utalca.cl/heladas//monitor/acciones.php?acc=1'+'&id_est='+emaId+'&id_hor=21'+'&anno='+year+'&mes='+month,
+                      (error, response, body) => {
+                        if(error){
+                          console.log(error);
+                          utils.sendJSONresponse(res, 404, {
+                            message: "EMA List not found."
+                          });
+                          return;
+                        }else{
+                          history21 = JSON.parse(body).data.map(
+                  					val => {
+                  						return {
+                  							date: val.fecha_pred,
+                  							prediction: parsePrediction(val.nom_estado)
+                  						}
+                  					}
+                  				)
+                          utils.sendJSONresponse(res, 200, {
+                            links: {
+                              self: hostname+'/api/v1/predictions-history/'+req.params.id
+                            },
+                            data: mixArrays(history15, history18, history21)
+                          })
+                          return;
+                        }
+                      }
+                    )
+                  }
+                }
+              )
+            }
+          }
+        )
+      }
+    });
   }else{
     sendJSONresponse(res, 404, {
       "message": "No se encontró la estación."

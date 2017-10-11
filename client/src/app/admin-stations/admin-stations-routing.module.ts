@@ -11,7 +11,7 @@ const routes: Routes = [
   {
     path: '',
     data: {
-      title: 'Administración de Usuarios'
+      title: 'Gestionar Estaciones'
     },
     component: AdminStationsComponent,
     children: [
@@ -40,7 +40,7 @@ const routes: Routes = [
         path: 'station/:id',
         component: StationDetailsComponent,
         data: {
-          title: 'Detalles de Usuario'
+          title: 'Detalles de Estación'
         }
       }
     ]

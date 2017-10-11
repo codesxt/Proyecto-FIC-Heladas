@@ -62,7 +62,7 @@ export class StationDetailsComponent implements OnInit {
     this.stationsService.getStation(this.stationId)
     .subscribe(
       data => {
-        this.notificationsService.success("Éxito", "Datos de la estación.");
+        this.notificationsService.success("Éxito", "Datos de la estación cargados correctamente.");
         this.stationData = {
           _id   : data._id,
           name  : data.attributes.name,

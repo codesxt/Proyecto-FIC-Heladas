@@ -31,6 +31,10 @@ export const routes: Routes = [
         loadChildren: './admin-stations/admin-stations.module#AdminStationsModule'
       },
       {
+        path: 'admin-predictions',
+        loadChildren: './admin-predictions/admin-predictions.module#AdminPredictionsModule'
+      },
+      {
         path: 'station/:id',
         loadChildren: './station/station.module#StationModule'
       },

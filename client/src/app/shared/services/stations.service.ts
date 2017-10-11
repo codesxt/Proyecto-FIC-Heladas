@@ -32,6 +32,22 @@ export class StationsService {
   }
 
   getStations(pageNumber: number = 0, pageSize: number = 1): any{
+    let headers = new Headers({
+      'Authorization': 'Bearer ' + this.authenticationService.getToken()
+    });
+    let params = new URLSearchParams();
+    params.append('page[number]', pageNumber+"");
+    params.append('page[size]', pageSize+"");
+    let options = new RequestOptions({
+      headers: headers,
+      params: params
+    });
+    return this.http.get(this.baseURL+'/api/v1/stations', options).map(
+      (response: Response) => response.json()
+    );
+  }
+
+  getPublicStations(pageNumber: number = 0, pageSize: number = 1): any{
     let headers = new Headers({ });
     let params = new URLSearchParams();
     params.append('page[number]', pageNumber+"");
@@ -77,6 +93,46 @@ export class StationsService {
       headers: headers
     });
     return this.http.delete(this.baseURL+'/api/v1/stations/' + stationId, options).map(
+      (response: Response) => response.json()
+    );
+  }
+
+  getStationDayPrediction(stationId: string){
+    let headers = new Headers({
+      'Authorization': 'Bearer ' + this.authenticationService.getToken()
+    });
+    let options = new RequestOptions({
+      headers: headers
+    });
+    return this.http.get(this.baseURL+'/api/v1/day-prediction/' + stationId, options).map(
+      (response: Response) => response.json()
+    );
+  }
+
+  getStationDayBeforePrediction(stationId: string){
+    let headers = new Headers({
+      'Authorization': 'Bearer ' + this.authenticationService.getToken()
+    });
+    let options = new RequestOptions({
+      headers: headers
+    });
+    return this.http.get(this.baseURL+'/api/v1/day-before-prediction/' + stationId, options).map(
+      (response: Response) => response.json()
+    );
+  }
+
+  getStationPredictionHistory(stationId: string, year: number, month: number){
+    let headers = new Headers({
+      'Authorization': 'Bearer ' + this.authenticationService.getToken()
+    });
+    let params = new URLSearchParams();
+    params.append('year', year+"");
+    params.append('month', month+"");
+    let options = new RequestOptions({
+      headers: headers,
+      params: params
+    });
+    return this.http.get(this.baseURL+'/api/v1/predictions-history/' + stationId, options).map(
       (response: Response) => response.json()
     );
   }

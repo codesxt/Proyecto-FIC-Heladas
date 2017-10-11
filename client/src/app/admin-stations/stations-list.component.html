@@ -6,17 +6,33 @@
       <th>Pública</th>
       <th>Latitud</th>
       <th>Longitud</th>
-      <th>Opciones</th>
+      <th class="col-2">Opciones</th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let station of stations">
       <td><a href="#/admin-stations/station/{{station._id}}">{{ station.name }}</a></td>
       <td>{{ station.idEMA }}</td>
-      <td>{{ station.public }}</td>
+      <td>
+        <span *ngIf="station.public">
+          Sí
+        </span>
+        <span *ngIf="!station.public">
+          No
+        </span>
+      </td>
       <td>{{ station.location.coordinates[1] }}</td>
       <td>{{ station.location.coordinates[0] }}</td>
-      <td><button type="button" class="btn btn-sm btn-danger" (click)="deleteStation(station._id)">Eliminar</button></td>
+      <td>
+        <button type="button" class="btn btn-sm btn-danger" (click)="deleteStation(station._id)">
+          <i class="fa fa-trash"></i>
+          Eliminar
+        </button>
+        <a href="#/admin-stations/station/{{station._id}}" class="btn btn-sm btn-warning text-white">
+          <i class="fa fa-edit"></i>
+          Editar
+        </a>
+      </td>
     </tr>
   </tbody>
 </table>

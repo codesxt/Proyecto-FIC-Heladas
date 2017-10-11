@@ -1,0 +1,25 @@
+<table class="table table-hover table-sm">
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th class="col-2">Opciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let station of stations">
+      <td><a href="#/admin-predictions/view/{{station._id}}">{{ station.name }}</a></td>
+      <td><a href="#/admin-predictions/view/{{station._id}}" class="btn btn-sm btn-primary">
+        <i class="fa fa-thermometer-empty"></i>
+        Ver Predicciones
+      </a></td>
+    </tr>
+  </tbody>
+</table>
+<ngb-pagination
+  [collectionSize]="total"
+  [(page)]="page"
+  [pageSize]="pageSize"
+  (pageChange)="onPageChange($event)"
+  aria-label="Pagination">
+</ngb-pagination>
+<p>Total de estaciones: {{ meta['total-items'] }}</p>
