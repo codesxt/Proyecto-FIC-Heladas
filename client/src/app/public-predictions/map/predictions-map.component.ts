@@ -6,19 +6,29 @@ import { StationsService } from '../../shared/services/stations.service';
 import * as moment from 'moment';
 moment.locale('es-cl');
 
+interface marker {
+	lat: number;
+	lng: number;
+	stationID: string;
+	label?: string;
+	draggable: boolean;
+  iconUrl: string;
+	stationData?: any;
+	prediction?: any;
+}
+
 @Component({
-  selector: 'app-admin-predictions-list',
-  templateUrl: './predictions-list.component.html'
+  selector: 'app-admin-predictions-map',
+  templateUrl: './predictions-map.component.html',
+  styleUrls: ['./predictions-map.component.scss']
 })
-export class PredictionsListComponent implements OnInit {
+export class PredictionsMapComponent implements OnInit {
   stations : any = [];
-  meta     : any = [];
-
-  total    : number = 1;
-  page     : number = 1;
-  pageSize : number = 10;
-
-  predictionDate : Date;
+  mapLat : number = -35.4422115171564;
+  mapLng : number = -71.63749692030251;
+  zoom: number = 8;
+  markers   : marker[] = [];
+	predictionDate : Date;
   constructor(
     private notificationsService : NotificationsService,
     private authenticationService: AuthenticationService,
@@ -26,7 +36,7 @@ export class PredictionsListComponent implements OnInit {
   ) {  }
 
   ngOnInit() {
-    let hour = new Date().getHours();
+		let hour = new Date().getHours();
 		if(hour < 15){
 			this.predictionDate = moment().toDate();
 		}else{
@@ -36,7 +46,7 @@ export class PredictionsListComponent implements OnInit {
   }
 
   loadData(){
-    this.stationsService.getStations(this.page-1, this.pageSize)
+    this.stationsService.getPublicStations(0, 0)
     .subscribe(
       data => {
         this.notificationsService.success(
@@ -44,9 +54,7 @@ export class PredictionsListComponent implements OnInit {
           'Los datos de estaciones se leyeron exitosamente.'
         )
         this.stations = data.data;
-        this.meta     = data.meta;
-        this.total    = this.meta['total-items'];
-        this.getStationsPredictions();
+				this.getStationsPredictions();
       },
       error => {
         this.notificationsService.error(
@@ -57,7 +65,8 @@ export class PredictionsListComponent implements OnInit {
     );
   }
 
-  getStationsPredictions(){
+	getStationsPredictions(){
+		this.markers = [];
 		let hour = new Date().getHours();
 		let index = 0;
 
@@ -67,7 +76,17 @@ export class PredictionsListComponent implements OnInit {
 	      this.stationsService.getStationDayBeforePrediction(station._id)
 	      .subscribe(
 	        data => {
-            station.prediction = false;
+						let iconUrl = this.getIconUrl(data.data.frost);
+						this.markers.push({
+							stationID: station._id,
+	            lat: station.location.coordinates[1],
+	            lng: station.location.coordinates[0],
+	            draggable: false,
+	            iconUrl: iconUrl,
+	            label: '',
+							stationData: station,
+							prediction: data.data.frost
+	          });
 	        },
 	        error => {
 	          console.log(error);
@@ -78,7 +97,17 @@ export class PredictionsListComponent implements OnInit {
 				this.stationsService.getStationDayPrediction(station._id)
 	      .subscribe(
 	        data => {
-            station.prediction = data.data.frost;
+						let iconUrl = this.getIconUrl(data.data.frost);
+						this.markers.push({
+							stationID: station._id,
+	            lat: station.location.coordinates[1],
+	            lng: station.location.coordinates[0],
+	            draggable: false,
+	            iconUrl: iconUrl,
+	            label: '',
+							stationData: station,
+							prediction: data.data.frost
+	          });
 	        },
 	        error => {
 	          console.log(error);
@@ -88,29 +117,13 @@ export class PredictionsListComponent implements OnInit {
 		}
 	}
 
-  onPageChange(event: Event){
-    console.log(event);
-    this.loadData();
-  }
-
-  deleteStation(stationId: any){
-    let conf = confirm("¿Deseas eliminar la estación?");
-    if(conf) {
-      this.stationsService.deleteStation(stationId)
-      .subscribe(
-        data => {
-          this.notificationsService.success("Estación Eliminada", "La estación fue eliminada exitosamente.");
-          this.loadData();
-        },
-        error => {
-          this.notificationsService.error("Error", "Se produjo un error en la eliminación de la estación.");
-        }
-      )
-    } else {
-      // NO
-    }
-    /*
-
-    */
-  }
+	getIconUrl(status: boolean): string{
+		if(status==true){
+			return 'assets/img/map-info.png';
+		}else if(status==false){
+			return 'assets/img/map-success.png';
+		}else{
+			return 'assets/img/map-warning.png';
+		}
+	}
 }

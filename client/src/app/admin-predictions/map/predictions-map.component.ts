@@ -83,7 +83,7 @@ export class PredictionsMapComponent implements OnInit {
 	            lng: station.location.coordinates[0],
 	            draggable: false,
 	            iconUrl: iconUrl,
-	            label: station.name,
+	            label: '',
 							stationData: station,
 							prediction: data.data.frost
 	          });
@@ -104,7 +104,7 @@ export class PredictionsMapComponent implements OnInit {
 	            lng: station.location.coordinates[0],
 	            draggable: false,
 	            iconUrl: iconUrl,
-	            label: station.name,
+	            label: '',
 							stationData: station,
 							prediction: data.data.frost
 	          });

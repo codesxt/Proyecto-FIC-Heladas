@@ -70,6 +70,19 @@ export const routes: Routes = [
     ]
   },
   {
+    path: 'public-predictions',
+    component: SimpleLayoutComponent,
+    data: {
+      title: 'Predicciones Públicas'
+    },
+    children: [
+      {
+        path: '',
+        loadChildren: './public-predictions/public-predictions.module#PublicPredictionsModule'
+      }
+    ]
+  },
+  {
     path: 'auth',
     component: SimpleLayoutComponent,
     data: {

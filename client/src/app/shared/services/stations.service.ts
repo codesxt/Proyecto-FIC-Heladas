@@ -56,7 +56,7 @@ export class StationsService {
       headers: headers,
       params: params
     });
-    return this.http.get(this.baseURL+'/api/v1/stations', options).map(
+    return this.http.get(this.baseURL+'/api/v1/public-stations', options).map(
       (response: Response) => response.json()
     );
   }

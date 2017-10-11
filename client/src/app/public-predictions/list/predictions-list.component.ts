@@ -7,7 +7,7 @@ import * as moment from 'moment';
 moment.locale('es-cl');
 
 @Component({
-  selector: 'app-admin-predictions-list',
+  selector: 'app-public-predictions-list',
   templateUrl: './predictions-list.component.html'
 })
 export class PredictionsListComponent implements OnInit {
@@ -36,7 +36,7 @@ export class PredictionsListComponent implements OnInit {
   }
 
   loadData(){
-    this.stationsService.getStations(this.page-1, this.pageSize)
+    this.stationsService.getPublicStations(this.page-1, this.pageSize)
     .subscribe(
       data => {
         this.notificationsService.success(
