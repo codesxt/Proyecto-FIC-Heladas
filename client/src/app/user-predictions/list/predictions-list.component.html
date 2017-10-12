@@ -1,0 +1,39 @@
+<table class="table table-hover table-sm">
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th class="col-3">
+        Predicciones para el día {{ predictionDate | amDateFormat:'DD [de] MMMM [de] YYYY'}}
+      </th>
+      <th class="col-2">Opciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let station of stations">
+      <td><a href="#/user-predictions/view/{{station._id}}">{{ station.name }}</a></td>
+      <td>
+        <span class="text-info" *ngIf="station.prediction==true">
+          Hay probabilidad de heladas.
+        </span>
+        <span class="text-success" *ngIf="station.prediction==false">
+          No hay probabilidad de heladas.
+        </span>
+        <span class="text-warning" *ngIf="station.prediction=='null'">
+          No hay datos de predicción para la estación. <br/>Probablemente se encuentre en mantenimiento.
+        </span>
+      </td>
+      <td><a href="#/user-predictions/view/{{station._id}}" class="btn btn-sm btn-primary">
+        <i class="fa fa-thermometer-empty"></i>
+        Ver Detalles
+      </a></td>
+    </tr>
+  </tbody>
+</table>
+<ngb-pagination
+  [collectionSize]="total"
+  [(page)]="page"
+  [pageSize]="pageSize"
+  (pageChange)="onPageChange($event)"
+  aria-label="Pagination">
+</ngb-pagination>
+<p>Total de estaciones: {{ meta['total-items'] }}</p>
