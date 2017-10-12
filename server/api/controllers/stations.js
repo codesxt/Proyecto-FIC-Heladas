@@ -50,8 +50,6 @@ module.exports.readStationList = (req, res) => {
     // Si el usuario no está autenticado, sólo puede ver las estaciones públicas
     query.public = true;
   }
-  console.log("Query:");
-  console.log(query);
   Station.find(
     query
     ,

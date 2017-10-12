@@ -6,6 +6,8 @@ const http = require('http');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const cors = require('cors');
+const scheduled_tasks = require('./scheduled_tasks');
+scheduled_tasks.run();
 
 // Get Configuration Files
 require('./api/models/db');
