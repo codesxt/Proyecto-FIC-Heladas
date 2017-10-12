@@ -1,26 +1,32 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FrostService } from '../shared/services/frost.service';
+import { SystemService } from '../shared/services/system.service';
+import { AuthenticationService } from '../shared/services/authentication.service';
+import { StationsService } from '../shared/services/stations.service';
 
 @Component({
   templateUrl: 'dashboard.component.html'
 })
 export class DashboardComponent implements OnInit {
-  stations : any[];
+  stations   : any[];
+  statistics : any;
+  user       : any;
   constructor(
-    private frostService : FrostService
+    private systemService : SystemService,
+    private authenticationService : AuthenticationService,
+    private stationsService : StationsService
   ) { }
 
   ngOnInit(){
-    this.frostService.getStations()
-    .subscribe(
-      data => {
-        this.stations = data.data;
-      },
-      error => {
-
-      }
-    )
+    this.user = this.authenticationService.getCurrentUser();
+    if(this.user.role == 'administrator'){
+      this.systemService.getStatistics()
+      .subscribe(
+        data => {
+          this.statistics = data;
+        }
+      )
+    }
   }
 
 }

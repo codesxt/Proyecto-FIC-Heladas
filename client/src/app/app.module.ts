@@ -32,6 +32,7 @@ import { AuthenticationService } from './shared/services/authentication.service'
 import { ProfileService } from './shared/services/profile.service';
 import { UsersService } from './shared/services/users.service';
 import { StationsService } from './shared/services/stations.service';
+import { SystemService } from './shared/services/system.service';
 
 // Shared Module
 import { SharedModule } from './shared/shared.module';
@@ -72,7 +73,8 @@ import { AgmCoreModule } from '@agm/core';
     AuthenticationService,
     ProfileService,
     UsersService,
-    StationsService, {
+    StationsService,
+    SystemService, {
     provide: LocationStrategy,
     useClass: HashLocationStrategy
   }],

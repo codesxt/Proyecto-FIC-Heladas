@@ -4,22 +4,45 @@
       <strong>Sistema de Alerta Temprana y Sectorizada de Heladas</strong>
     </div>
     <div class="card-body">
-      <div class="row">
-        <div class="col-6 col-lg-3" *ngIf="stations">
+      <div class="row" *ngIf="user.role=='administrator' && statistics">
+        <div class="col-6 col-lg-3">
           <div class="card">
             <div class="card-block p-1 clearfix">
               <i class="fa fa-podcast bg-primary p-1 font-2xl mr-1 float-left"></i>
-              <div class="h5 text-primary mb-0 mt-h">{{stations.length}}</div>
+              <div class="h5 text-primary mb-0 mt-h">{{statistics.stations}}</div>
               <div class="text-muted text-uppercase font-weight-bold font-xs">Estaciones Disponibles</div>
             </div>
             <div class="card-footer p-x-1 py-h">
-              <a class="font-weight-bold font-xs btn-block text-muted" href="/#/stations-list">Ver Estaciones <i class="fa fa-angle-right float-right font-lg"></i></a>
+              <a class="font-weight-bold font-xs btn-block text-muted" href="/#/admin-stations">Ver Estaciones <i class="fa fa-angle-right float-right font-lg"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 col-lg-3">
+          <div class="card">
+            <div class="card-block p-1 clearfix">
+              <i class="fa fa-podcast bg-primary p-1 font-2xl mr-1 float-left"></i>
+              <div class="h5 text-primary mb-0 mt-h">{{statistics.publicStations}}</div>
+              <div class="text-muted text-uppercase font-weight-bold font-xs">Estaciones Públicas</div>
+            </div>
+            <div class="card-footer p-x-1 py-h">
+              <a class="font-weight-bold font-xs btn-block text-muted" href="/#/admin-stations">Ver Estaciones <i class="fa fa-angle-right float-right font-lg"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 col-lg-3">
+          <div class="card">
+            <div class="card-block p-1 clearfix">
+              <i class="fa fa-users bg-primary p-1 font-2xl mr-1 float-left"></i>
+              <div class="h5 text-primary mb-0 mt-h">{{statistics.users}}</div>
+              <div class="text-muted text-uppercase font-weight-bold font-xs">Usuarios Registrados</div>
+            </div>
+            <div class="card-footer p-x-1 py-h">
+              <a class="font-weight-bold font-xs btn-block text-muted" href="/#/users">Ver Usuarios <i class="fa fa-angle-right float-right font-lg"></i></a>
             </div>
           </div>
         </div>
       </div>
       <p>Bienvenido al Sistema de Alerta Temprana y Sectorizada de Heladas desarrollado mediante un Proyecto FIC.</p>
-      <p>Para consultar la predicción de heladas disponible, por favor, utilice el link que se le envió.</p>
     </div>
   </div>
 </div>

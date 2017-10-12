@@ -11,6 +11,7 @@ const ctrlProfile         = require('./controllers/profile');
 const ctrlUsers           = require('./controllers/users');
 const ctrlEma             = require('./controllers/ema');
 const ctrlStations        = require('./controllers/stations');
+const ctrlSystem          = require('./controllers/system');
 //const ctrlDocuments       = require('./controllers/documents');
 
 const roleAuth            = ctrlAuthentication.roleAuthorization;
@@ -61,5 +62,8 @@ router.get('/day-prediction/:id', ctrlStations.readStationDayPrediction);
 router.get('/day-before-prediction/:id', ctrlStations.readStationDayBeforePrediction);
 
 router.get('/predictions-history/:id', ctrlStations.getPredictionsHistory);
+
+// =============== System Endpoints ================
+router.get('/stats', auth, roleAuth(['administrator']), ctrlSystem.getStatistics);
 
 module.exports = router;

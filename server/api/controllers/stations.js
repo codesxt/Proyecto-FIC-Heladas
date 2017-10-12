@@ -408,7 +408,7 @@ module.exports.getPredictionsHistory = (req, res) => {
       }
     });
   }else{
-    sendJSONresponse(res, 404, {
+    utils.sendJSONresponse(res, 404, {
       "message": "No se encontró la estación."
     })
     return;

@@ -10,7 +10,7 @@
   </thead>
   <tbody>
     <tr *ngFor="let station of stations">
-      <td><a href="#/admin-predictions/view/{{station._id}}">{{ station.name }}</a></td>
+      <td><a href="#/public-predictions/view/{{station._id}}">{{ station.name }}</a></td>
       <td>
         <span class="text-info" *ngIf="station.prediction==true">
           Hay probabilidad de heladas.

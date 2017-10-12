@@ -67,7 +67,7 @@ export class PredictionsListComponent implements OnInit {
 	      this.stationsService.getStationDayBeforePrediction(station._id)
 	      .subscribe(
 	        data => {
-            station.prediction = false;
+            station.prediction = data.data.frost;
 	        },
 	        error => {
 	          console.log(error);
