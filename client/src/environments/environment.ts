@@ -5,6 +5,6 @@
 
 export const environment = {
   production: false,
-  oldApiUrl: "http://srvbioinf1.utalca.cl/heladas",
+  oldApiUrl: "http://heladas.utalca.cl/heladas",
   apiUrl: 'http://localhost:3000'
 };

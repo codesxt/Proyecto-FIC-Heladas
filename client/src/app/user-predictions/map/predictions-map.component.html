@@ -20,7 +20,7 @@ Predicciones de heladas para el día {{ predictionDate | amDateFormat:'DD [de] M
       <p class="text-success" *ngIf="m.prediction==false">
         No hay probabilidad de heladas para el <br/> día {{ predictionDate | amDateFormat:'DD [de] MMMM [de] YYYY'}}
       </p>
-      <p class="text-warning" *ngIf="m.prediction=='null'">
+      <p class="text-warning" *ngIf="m.prediction==null">
         No hay datos de predicción para la estación. <br/>Probablemente se encuentre en mantenimiento.
       </p>
       <a href="#/user-predictions/view/{{m.stationID}}">
