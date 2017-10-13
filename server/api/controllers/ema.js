@@ -3,7 +3,7 @@ const request = require('request');
 
 module.exports.readEmaList = (req, res) => {
   var hostname    = req.headers.host;
-  request.post('http://srvbioinf1.utalca.cl/heladas/monitor/acciones.php?acc=2',
+  request.post('http://heladas.utalca.cl/heladas/monitor/acciones.php?acc=2',
     (error, response, body) => {
       if(error){
         console.log(error);
@@ -39,7 +39,7 @@ module.exports.readEmaList = (req, res) => {
 module.exports.readEmaPrediction = (req, res) => {
   var hostname    = req.headers.host;
   let emaId = req.params.id;
-  request.post('http://srvbioinf1.utalca.cl/heladas/consulta/index.php?id_est='+emaId,
+  request.post('http://heladas.utalca.cl/heladas/consulta/index.php?id_est='+emaId,
     (error, response, body) => {
       if(error){
         console.log(error);

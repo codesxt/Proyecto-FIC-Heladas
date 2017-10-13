@@ -2,6 +2,7 @@
   <thead>
     <tr>
       <th>Nombre</th>
+      <th class="col-2">Recibir alertas por correo</th>
       <th class="col-3">
         Predicciones para el día {{ predictionDate | amDateFormat:'DD [de] MMMM [de] YYYY'}}
       </th>
@@ -11,6 +12,13 @@
   <tbody>
     <tr *ngFor="let station of stations">
       <td><a href="#/user-predictions/view/{{station._id}}">{{ station.name }}</a></td>
+      <td>
+        <label class="switch switch-text switch-pill switch-info">
+          <input type="checkbox" class="switch-input" (click)="switchClicked($event, station)">
+          <span class="switch-label" data-on="Sí" data-off="No"></span>
+          <span class="switch-handle"></span>
+        </label>
+      </td>
       <td>
         <span class="text-info" *ngIf="station.prediction==true">
           Hay probabilidad de heladas.

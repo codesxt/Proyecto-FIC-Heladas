@@ -15,6 +15,6 @@ export class UserPredictionsComponent implements OnInit {
   ) {  }
 
   ngOnInit() {
-    this.router.navigate(['/user-predictions/map']);
+    this.router.navigate(['/user-predictions/list']);
   }
 }

@@ -35,6 +35,11 @@ export class PredictionsListComponent implements OnInit {
     this.loadData();
   }
 
+  switchClicked($event, station){
+    console.log($event);
+    console.log(station);
+  }
+
   loadData(){
     this.stationsService.getPublicStations(this.page-1, this.pageSize)
     .subscribe(
