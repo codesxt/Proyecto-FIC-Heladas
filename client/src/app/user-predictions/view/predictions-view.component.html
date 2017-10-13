@@ -93,7 +93,7 @@
               bsDatepicker
               [(ngModel)]="dateValue"
               [bsConfig]="bsConfig"
-              (ngModelChange)="dateChanged($event)"
+              (ngModelChange)="dateChanged()"
               readonly>
             <span class="input-group-btn">
               <button type="button" class="btn btn-primary" (click)="dp.toggle()">

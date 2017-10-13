@@ -6,7 +6,7 @@
           <strong>Detalles de usuario</strong>
         </div>
         <div class="card-body">
-          <form class="form-horizontal" [formGroup]="userForm" (ngSubmit)="doLogin()" novalidate>
+          <form class="form-horizontal" [formGroup]="userForm" (ngSubmit)="updateUserData()" novalidate>
             <div class="form-group row">
               <label class="col-md-3 form-control-label" for="name-input">Nombre</label>
               <div class="col-md-9">

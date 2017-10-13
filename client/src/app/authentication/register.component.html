@@ -15,8 +15,8 @@
                   placeholder="Nombre"
                   formControlName="name"
                   [ngClass]="{
-                    'is-invalid': registerForm.controls['name'].errors && !registerForm.controls['name'].pristine,
-                    'is-valid'  : registerForm.controls['name'].valid
+                    'is-invalid': registerForm.get('name').errors && !registerForm.get('name').pristine,
+                    'is-valid'  : registerForm.get('name').valid
                   }"
                 >
               </div>
@@ -29,8 +29,8 @@
                   placeholder="Email"
                   formControlName="email"
                   [ngClass]="{
-                    'is-invalid': registerForm.controls['email'].errors && !registerForm.controls['email'].pristine,
-                    'is-valid'  : registerForm.controls['email'].valid
+                    'is-invalid': registerForm.get('email').errors && !registerForm.get('email').pristine,
+                    'is-valid'  : registerForm.get('email').valid
                   }"
                 >
               </div>
@@ -44,8 +44,8 @@
                   placeholder="Contraseña"
                   formControlName="password"
                   [ngClass]="{
-                    'is-invalid': registerForm.controls['passwords'].controls['password'].errors && !registerForm.controls['passwords'].controls['password'].pristine,
-                    'is-valid'  : registerForm.controls['passwords'].controls['password'].valid
+                    'is-invalid': registerForm.get('passwords').get('password').errors && !registerForm.get('passwords').get('password').pristine,
+                    'is-valid'  : registerForm.get('passwords').get('password').valid
                   }"
                 >
               </div>
@@ -58,8 +58,8 @@
                   placeholder="Repetir Contraseña"
                   formControlName="repeat"
                   [ngClass]="{
-                    'is-invalid': registerForm.controls['passwords'].errors && !registerForm.controls['passwords'].controls['repeat'].pristine,
-                    'is-valid'  : registerForm.controls['passwords'].valid
+                    'is-invalid': registerForm.get('passwords').errors && !registerForm.get('passwords').get('repeat').pristine,
+                    'is-valid'  : registerForm.get('passwords').valid
                   }"
                 >
               </div>
