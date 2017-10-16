@@ -14,6 +14,7 @@ var mailGenerator = new Mailgen({
     }
 });
 
+/*
 const transporter = nodemailer.createTransport({
     host: 'smtp.ethereal.email',
     port: 587,
@@ -22,6 +23,16 @@ const transporter = nodemailer.createTransport({
         pass: 'W7JPKGrHKwpfb1bDp4'
     }
 });
+*/
+
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'notificaciones.heladas@gmail.com',
+    pass: 'proyectoficheladas'
+  }
+});
+
 
 module.exports.sendFrostsEmail = (emailAddress, frosts) => {
   let frostData = [];
