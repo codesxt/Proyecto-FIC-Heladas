@@ -2,10 +2,39 @@ const schedule = require('node-schedule');
 const request = require('request');
 const Q = require('q');
 const rp = require('request-promise');
+const nodemailer = require('nodemailer');
+const mailer = require('./mailer');
 
 const host = 'http://localhost:3000';
 
-var notifyFrosts = () => {
+const mongoose = require('mongoose');
+const db = require('./api/models/db');
+const User = mongoose.model('User');
+const Station = mongoose.model('Station');
+
+sendFrostNotifications = (frosts) => {
+  User.find((err, users) => {
+    if(err){
+      console.log("[Frost Notification] Couldn't find users. Aborting.");
+      return;
+    }else{
+      console.log("[Frost Notification] User list obtained. Sending notifications.");
+      for(let user of users){
+        if(user.subscriptions.length>0){
+          console.log("[Frost Notification] Sending notifications to user: " + user.name);
+          let userFrosts = [];
+          userFrosts = frosts.filter((frost) => {
+            return user.subscriptions.indexOf(frost._id) > -1;
+          })
+
+          mailer.sendFrostsEmail(user.email, userFrosts);
+        }
+      }
+    }
+  })
+}
+
+notifyFrosts = () => {
   // Listar Estaciones
   request.get(host + '/api/v1/public-stations',
     (error, response, body) => {
@@ -38,12 +67,12 @@ var notifyFrosts = () => {
           let frosts = [];
           for(let pred of data){
             frosts.push({
+              _id: pred.data.stationId,
               name: pred.data.station,
               prediction: pred.data.frost
             })
           }
-          console.log("Notificando Heladas.");
-          console.log(frosts);
+          sendFrostNotifications(frosts);
         }
       )
 
@@ -55,6 +84,6 @@ var notifyFrosts = () => {
 
 module.exports.run = () => {
   console.log("[Task Scheduler] Scheduling Tasks...");
-  const notificationJob = schedule.scheduleJob('* 00 * * *', notifyFrosts);
+  const notificationJob = schedule.scheduleJob('5 18 * * *', notifyFrosts);
   console.log("[Task Scheduler] Task Schedule set");
 }
