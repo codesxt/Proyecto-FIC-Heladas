@@ -10,11 +10,11 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let station of stations">
+    <tr *ngFor="let station of stations; let i = index;" >
       <td><a href="#/user-predictions/view/{{station._id}}">{{ station.name }}</a></td>
       <td>
         <label class="switch switch-text switch-pill switch-info">
-          <input type="checkbox" class="switch-input" (click)="switchClicked($event, station)">
+          <input type="checkbox" class="switch-input" (click)="switchClicked($event, station, i)" [(ngModel)]="subscriptions[i]">
           <span class="switch-label" data-on="Sí" data-off="No"></span>
           <span class="switch-handle"></span>
         </label>

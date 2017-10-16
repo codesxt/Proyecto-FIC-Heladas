@@ -55,6 +55,6 @@ var notifyFrosts = () => {
 
 module.exports.run = () => {
   console.log("[Task Scheduler] Scheduling Tasks...");
-  const notificationJob = schedule.scheduleJob('* */1 * * *', notifyFrosts);
+  const notificationJob = schedule.scheduleJob('* 00 * * *', notifyFrosts);
   console.log("[Task Scheduler] Task Schedule set");
 }

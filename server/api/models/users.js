@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var crypto = require('crypto');
 var jwt = require('jsonwebtoken');
+var Schema = mongoose.Schema;
 
 var userSchema = new mongoose.Schema({
   email: {
@@ -18,6 +19,10 @@ var userSchema = new mongoose.Schema({
     enum: ['administrator', 'user'],
     default: 'user'
   },
+  subscriptions: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Station'
+  }],
   hash: String,
   salt: String
 }, {

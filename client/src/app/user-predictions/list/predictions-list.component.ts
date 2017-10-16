@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../../shared/services/authentication.service';
 import { NotificationsService } from 'angular2-notifications';
 import { StationsService } from '../../shared/services/stations.service';
+import { SubscriptionsService } from '../../shared/services/subscriptions.service';
 
 import * as moment from 'moment';
 moment.locale('es-cl');
@@ -19,10 +20,13 @@ export class PredictionsListComponent implements OnInit {
   pageSize : number = 10;
 
   predictionDate : Date;
+
+  subscriptions : any[] = [];
   constructor(
     private notificationsService : NotificationsService,
     private authenticationService: AuthenticationService,
-    private stationsService      : StationsService
+    private stationsService      : StationsService,
+    private subscriptionsService : SubscriptionsService
   ) {  }
 
   ngOnInit() {
@@ -35,9 +39,48 @@ export class PredictionsListComponent implements OnInit {
     this.loadData();
   }
 
-  switchClicked($event, station){
-    console.log($event);
+  switchClicked(event, station, index){
+    console.log(event);
     console.log(station);
+    if(this.subscriptions[index]==false){
+      this.subscriptionsService.subscribeToStation(station._id)
+      .subscribe(
+        data => {
+          console.log(data);
+          this.notificationsService.success(
+            'Suscripción Exitosa',
+            'Se ha suscrito exitosamente a la estación.'
+          )
+        },
+        error => {
+          this.notificationsService.error(
+            'Error en la Suscripción',
+            'Ocurrió un error en la suscripción. Detalles: ' + error.message
+          )
+          this.subscriptions[index] = false;
+        }
+      )
+    }else{
+      // Desuscribir
+      this.subscriptionsService.unsubscribeToStation(station._id)
+      .subscribe(
+        data => {
+          console.log(data);
+          this.notificationsService.success(
+            'Suscripción Cancelada',
+            'Se canceló la suscripción.'
+          )
+        },
+        error => {
+          this.notificationsService.error(
+            'Error en la Suscripción',
+            'Ocurrió un error en la suscripción. Detalles: ' + error.message
+          )
+          this.subscriptions[index] = true;
+        }
+      )
+    }
+
   }
 
   loadData(){
@@ -51,7 +94,9 @@ export class PredictionsListComponent implements OnInit {
         this.stations = data.data;
         this.meta     = data.meta;
         this.total    = this.meta['total-items'];
+
         this.getStationsPredictions();
+        this.getUserSubscriptions();
       },
       error => {
         this.notificationsService.error(
@@ -68,7 +113,7 @@ export class PredictionsListComponent implements OnInit {
 
 		for(let station of this.stations){
 			if(hour < 15){
-	      console.log("Consultando Predicciones del Día Anterior");
+	      //console.log("Consultando Predicciones del Día Anterior");
 	      this.stationsService.getStationDayBeforePrediction(station._id)
 	      .subscribe(
 	        data => {
@@ -79,7 +124,7 @@ export class PredictionsListComponent implements OnInit {
 	        }
 	      )
 	    }else{
-	      console.log("Consultando Predicciones del Día Actual")
+	      //console.log("Consultando Predicciones del Día Actual")
 				this.stationsService.getStationDayPrediction(station._id)
 	      .subscribe(
 	        data => {
@@ -92,6 +137,25 @@ export class PredictionsListComponent implements OnInit {
 	    }
 		}
 	}
+
+  getUserSubscriptions(){
+    this.subscriptionsService.getSubscriptions()
+    .subscribe(
+      data => {
+        let subscriptionsIds = [];
+        for(let subscription of data.subscriptions){
+          subscriptionsIds.push(subscription._id);
+        }
+        this.subscriptions = [];
+        for(let station of this.stations){
+          this.subscriptions.push(subscriptionsIds.indexOf(station._id) > -1);
+        }
+      },
+      error => {
+
+      }
+    )
+  }
 
   onPageChange(event: Event){
     console.log(event);

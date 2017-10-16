@@ -12,6 +12,7 @@ const ctrlUsers           = require('./controllers/users');
 const ctrlEma             = require('./controllers/ema');
 const ctrlStations        = require('./controllers/stations');
 const ctrlSystem          = require('./controllers/system');
+const ctrlSubscriptions   = require('./controllers/subscriptions');
 //const ctrlDocuments       = require('./controllers/documents');
 
 const roleAuth            = ctrlAuthentication.roleAuthorization;
@@ -65,5 +66,10 @@ router.get('/predictions-history/:id', ctrlStations.getPredictionsHistory);
 
 // =============== System Endpoints ================
 router.get('/stats', auth, roleAuth(['administrator']), ctrlSystem.getStatistics);
+
+// ============ Subscription Endpoints =============
+router.get('/subscriptions', auth, ctrlSubscriptions.readUserSubscriptions);
+router.post('/subscriptions/:stationId', auth, ctrlSubscriptions.subscribeToStation);
+router.delete('/subscriptions/:stationId', auth, ctrlSubscriptions.unsubscribeToStation);
 
 module.exports = router;
