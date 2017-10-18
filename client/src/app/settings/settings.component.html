@@ -1,6 +1,6 @@
 <div class="animated fadeIn">
   <div class="row">
-    <div class="col-md-6">
+    <div class="col-12 col-md-6">
       <div class="card">
         <div class="card-header">
           <strong>Configuraciones de Usuario</strong>
@@ -35,6 +35,38 @@
         </div>
         <div class="card-footer">
           <button type="submit" class="btn btn-sm btn-primary" (click)="updateProfile()"><i class="fa fa-dot-circle-o"></i> Actualizar</button>
+          <button type="reset" class="btn btn-sm btn-danger" (click)="loadData()"><i class="fa fa-ban"></i> Reiniciar</button>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="col-12 col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <strong>Configuraciones de Notificaciones</strong>
+        </div>
+        <div class="card-body">
+          <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+            <div class="form-group row">
+              <label class="col-md-6 form-control-label" for="name-input">Recibir informe por correo:</label>
+              <div class="custom-controls-stacked d-block my-3 col-md-6">
+                <label class="custom-control custom-radio">
+                  <input id="radioStacked1" name="radio-stacked" type="radio" class="custom-control-input" [value]="true" [(ngModel)]="settings.dailyEmail">
+                  <span class="custom-control-indicator"></span>
+                  <span class="custom-control-description">Diariamente</span>
+                </label>
+                <label class="custom-control custom-radio">
+                  <input id="radioStacked2" name="radio-stacked" type="radio" class="custom-control-input" [value]="false" [(ngModel)]="settings.dailyEmail">
+                  <span class="custom-control-indicator"></span>
+                  <span class="custom-control-description">Cuando hay heladas</span>
+                </label>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="card-footer">
+          <button type="submit" class="btn btn-sm btn-primary" (click)="updateSettings()"><i class="fa fa-dot-circle-o"></i> Actualizar</button>
           <button type="reset" class="btn btn-sm btn-danger" (click)="loadData()"><i class="fa fa-ban"></i> Reiniciar</button>
         </div>
       </div>

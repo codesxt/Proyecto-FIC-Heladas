@@ -38,3 +38,36 @@ module.exports.updateProfile = (req, res) => {
     }
   });
 }
+
+module.exports.getSettings = (req, res) => {
+  User.findById(req.user._id, (err, user) => {
+    utils.sendJSONresponse(res, 200, {
+      _id  : user._id,
+      settings : user.settings
+    });
+  })
+}
+
+module.exports.updateSettings = (req, res) => {
+  let user = req.user;
+  User.findByIdAndUpdate(req.user._id, {
+    $set: {
+      'settings.dailyEmail' : req.body.dailyEmail
+    }
+  },{
+    new: true
+  }, (err, user) => {
+    if(err){
+      utils.sendJSONresponse(res, 404, {
+        message: "Error al actualizar el documento."
+      });
+      return;
+    }else{
+      utils.sendJSONresponse(res, 200, {
+        _id : user._id,
+        settings : user.settings
+      });
+      return;
+    }
+  });
+}

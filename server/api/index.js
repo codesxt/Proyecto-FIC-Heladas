@@ -31,6 +31,8 @@ router.patch('/profile', auth, ctrlProfile.updateProfile);
 // GET      /profile        Gets user data
 // PATCH    /profile        Updates user data
 // DELETE   /profile        Deletes user account
+router.get('/settings', auth, ctrlProfile.getSettings);
+router.patch('/settings', auth, ctrlProfile.updateSettings);
 
 // =============== User Management =================
 router.get('/users', auth, roleAuth(['administrator']), ctrlUsers.readUserList);

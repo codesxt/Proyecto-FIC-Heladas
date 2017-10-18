@@ -23,11 +23,24 @@ sendFrostNotifications = (frosts) => {
         if(user.subscriptions.length>0){
           console.log("[Frost Notification] Sending notifications to user: " + user.name);
           let userFrosts = [];
+          let dailyEmail = user.settings.dailyEmail;
           userFrosts = frosts.filter((frost) => {
             return user.subscriptions.indexOf(frost._id) > -1;
           })
-
-          mailer.sendFrostsEmail(user.email, userFrosts);
+          if(dailyEmail == false){
+            userFrosts = userFrosts.filter((frost) => {
+              return frost.prediction == true;
+            })
+            if(userFrosts.length==0){
+              console.log("[Frost Notification] There aren't frosts of interest for the user. Not sending email.");
+            }else{
+              console.log("[Frost Notification] Sending email to user: " + user.name);
+              mailer.sendFrostsEmail(user.email, userFrosts);
+            }
+          }else{
+            console.log("[Frost Notification] Sending daily email to user: " + user.name);
+            mailer.sendFrostsEmail(user.email, userFrosts);
+          }
         }
       }
     }
@@ -75,9 +88,6 @@ notifyFrosts = () => {
           sendFrostNotifications(frosts);
         }
       )
-
-      // Listar suscripciones de usuarios
-      // Para cada suscripción, enviar correo con lista de estaciones de interés
     }
   )
 }
@@ -85,5 +95,6 @@ notifyFrosts = () => {
 module.exports.run = () => {
   console.log("[Task Scheduler] Scheduling Tasks...");
   const notificationJob = schedule.scheduleJob('5 18 * * *', notifyFrosts);
+  //const notificationJob = schedule.scheduleJob('*/1 * * * *', notifyFrosts);
   console.log("[Task Scheduler] Task Schedule set");
 }

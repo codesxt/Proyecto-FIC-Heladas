@@ -23,6 +23,12 @@ var userSchema = new mongoose.Schema({
     type: Schema.Types.ObjectId,
     ref: 'Station'
   }],
+  settings: {
+    dailyEmail: {
+      type: Boolean,
+      default: true
+    }
+  },
   hash: String,
   salt: String
 }, {

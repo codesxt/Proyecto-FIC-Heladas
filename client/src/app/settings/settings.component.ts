@@ -8,7 +8,8 @@ import { NotificationsService } from 'angular2-notifications';
   templateUrl: './settings.component.html'
 })
 export class SettingsComponent implements OnInit {
-  profileData: any = {};
+  profileData : any = {};
+  settings    : any = {};
   constructor(
     private profileService       : ProfileService,
     private notificationsService : NotificationsService,
@@ -29,6 +30,18 @@ export class SettingsComponent implements OnInit {
         this.notificationsService.error(
           'Error',
           'Ocurrió un error en la obtención de los datos.'
+        )
+      }
+    );
+    this.profileService.getSettings()
+    .subscribe(
+      data => {
+        this.settings = data.settings;
+      },
+      error => {
+        this.notificationsService.error(
+          'Error',
+          'Ocurrió un error en la obtención de la configuración.'
         )
       }
     );
@@ -56,6 +69,29 @@ export class SettingsComponent implements OnInit {
           'Los datos del usuario no se pudieron actualizar.'
         )
         alert(JSON.stringify(error));
+      }
+    );
+  }
+
+  updateSettings(){
+    let settings = {
+      dailyEmail  : this.settings.dailyEmail
+    }
+    this.profileService.updateSettings(settings)
+    .subscribe(
+      data => {
+        this.notificationsService.success(
+          'Perfil actualizado',
+          'Los datos del usuario se actualizaron exitosamente.'
+        )
+        this.settings = data.settings;
+      },
+      error => {
+        this.notificationsService.error(
+          'Error',
+          'Las configuraciones no se pudieron actualizar.'
+        )
+        console.log(error);
       }
     );
   }

@@ -36,4 +36,28 @@ export class ProfileService {
       (response: Response) => response.json()
     );
   }
+
+  getSettings(): any{
+    let headers = new Headers({
+      'Authorization': 'Bearer ' + this.authenticationService.getToken()
+    });
+    let options = new RequestOptions({
+      headers: headers
+    });
+    return this.http.get(this.baseURL+'/api/v1/settings', options).map(
+      (response: Response) => response.json()
+    );
+  }
+
+  updateSettings(settings): any{
+    let headers = new Headers({
+      'Authorization': 'Bearer ' + this.authenticationService.getToken()
+    });
+    let options = new RequestOptions({
+      headers: headers
+    });
+    return this.http.patch(this.baseURL+'/api/v1/settings', settings, options).map(
+      (response: Response) => response.json()
+    );
+  }
 }
