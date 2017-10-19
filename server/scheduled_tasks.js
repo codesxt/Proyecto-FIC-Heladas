@@ -12,6 +12,8 @@ const db = require('./api/models/db');
 const User = mongoose.model('User');
 const Station = mongoose.model('Station');
 
+//const sms = require('./sms_notification');
+
 sendFrostNotifications = (frosts) => {
   User.find((err, users) => {
     if(err){
@@ -28,6 +30,7 @@ sendFrostNotifications = (frosts) => {
             return user.subscriptions.indexOf(frost._id) > -1;
           })
           if(dailyEmail == false){
+            // Si el usuario desea recibir correos sólo cuando hay alertas
             userFrosts = userFrosts.filter((frost) => {
               return frost.prediction == true;
             })
@@ -38,6 +41,7 @@ sendFrostNotifications = (frosts) => {
               mailer.sendFrostsEmail(user.email, userFrosts);
             }
           }else{
+            // Si el usuario desea recibir reportes diarios
             console.log("[Frost Notification] Sending daily email to user: " + user.name);
             mailer.sendFrostsEmail(user.email, userFrosts);
           }

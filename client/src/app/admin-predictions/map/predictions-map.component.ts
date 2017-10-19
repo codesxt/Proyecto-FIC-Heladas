@@ -26,7 +26,7 @@ export class PredictionsMapComponent implements OnInit {
   stations : any = [];
   mapLat : number = -35.4422115171564;
   mapLng : number = -71.63749692030251;
-  zoom: number = 8;
+  zoom: number = 9;
   markers   : marker[] = [];
 	predictionDate : Date;
   constructor(

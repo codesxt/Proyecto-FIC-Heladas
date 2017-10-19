@@ -27,6 +27,7 @@
     "q": "^1.5.0",
     "request": "^2.83.0",
     "request-promise": "^4.2.2",
+    "twilio": "^3.8.1",
     "validator": "^8.1.0"
   },
   "devDependencies": {
