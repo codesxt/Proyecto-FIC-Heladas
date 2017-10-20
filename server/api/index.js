@@ -13,6 +13,7 @@ const ctrlEma             = require('./controllers/ema');
 const ctrlStations        = require('./controllers/stations');
 const ctrlSystem          = require('./controllers/system');
 const ctrlSubscriptions   = require('./controllers/subscriptions');
+const ctrlAgromet         = require('./controllers/agromet');
 //const ctrlDocuments       = require('./controllers/documents');
 
 const roleAuth            = ctrlAuthentication.roleAuthorization;
@@ -52,6 +53,11 @@ router.get('/user-documents', auth, ctrlDocuments.readUserDocumentList);
 // http://srvbioinf1.utalca.cl/heladas/monitor/index.php
 router.get('/ema', ctrlEma.readEmaList);
 router.get('/prediction/:id', ctrlEma.readEmaPrediction);
+router.get('/agromet/history/:emaId', ctrlAgromet.getEmaHistory);
+router.get('/agromet/variables', ctrlAgromet.getVariables);
+router.get('/agromet/regions', ctrlAgromet.getRegions);
+router.get('/agromet/cities', ctrlAgromet.getCities);
+router.get('/agromet/emas', ctrlAgromet.getFilteredEMAs);
 
 // ===============Station Endpoints ================
 router.get('/stations', auth, ctrlStations.readStationList);

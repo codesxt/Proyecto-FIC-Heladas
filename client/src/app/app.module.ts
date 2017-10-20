@@ -34,6 +34,7 @@ import { UsersService } from './shared/services/users.service';
 import { StationsService } from './shared/services/stations.service';
 import { SystemService } from './shared/services/system.service';
 import { SubscriptionsService } from './shared/services/subscriptions.service';
+import { AgrometService } from './shared/services/agromet.service';
 
 // Shared Module
 import { SharedModule } from './shared/shared.module';
@@ -76,7 +77,8 @@ import { AgmCoreModule } from '@agm/core';
     UsersService,
     StationsService,
     SystemService,
-    SubscriptionsService, {
+    SubscriptionsService,
+    AgrometService, {
     provide: LocationStrategy,
     useClass: HashLocationStrategy
   }],
