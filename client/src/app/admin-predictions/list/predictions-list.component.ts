@@ -63,7 +63,6 @@ export class PredictionsListComponent implements OnInit {
 
 		for(let station of this.stations){
 			if(hour < 15){
-	      console.log("Consultando Predicciones del Día Anterior");
 	      this.stationsService.getStationDayBeforePrediction(station._id)
 	      .subscribe(
 	        data => {
@@ -74,7 +73,6 @@ export class PredictionsListComponent implements OnInit {
 	        }
 	      )
 	    }else{
-	      console.log("Consultando Predicciones del Día Actual")
 				this.stationsService.getStationDayPrediction(station._id)
 	      .subscribe(
 	        data => {

@@ -17,6 +17,9 @@ export class AgrometService {
     });
     let url = this.baseURL+'/api/v1/agromet/history/'+emaId;
     url += '?from=' + from;
+    if(to){
+      url += '&to='+to;
+    }
     return this.http.get(url, options).map(
       (response: Response) => response.json()
     );

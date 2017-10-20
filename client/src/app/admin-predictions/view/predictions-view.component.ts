@@ -14,6 +14,7 @@ import * as moment from 'moment';
 moment.locale('es-cl');
 
 import { AgrometService } from '../../shared/services/agromet.service';
+import * as _ from 'lodash';
 
 interface prediction {
 	station: string;
@@ -41,6 +42,8 @@ export class PredictionsViewComponent implements OnInit {
 	bsConfig  : Partial<BsDatepickerConfig>;
 
 	station   : any = {};
+
+	dailyMinimum : any[] = [];
 
   constructor(
     private stationsService : StationsService,
@@ -144,23 +147,58 @@ export class PredictionsViewComponent implements OnInit {
 				// Cambiar fecha de término
 				endDate = moment().add(1, 'day').hour(23).minute(59);
 			}
-			this.agrometService.getEmaHistory(this.station.idEMA, startDate.format('YYYY-MM-DD'))
+			this.agrometService.getEmaHistory(this.station.idEMA, startDate.format('YYYY-MM-DD'), endDate.format('YYYY-MM-DD'))
 			.subscribe(
 				data => {
-					console.log(data.data);
-					for(let d of data.data){
-						console.log(moment(d.date).startOf('isoWeek').format());
+					let minimumTemperatures = [];
+					// Los resultados de la obtención de mediciones de agromet
+					// se agrupan por fechas
+					var results = _.groupBy(data.data, (item) => {
+						return moment.utc(item.date).format('YYYY-MM-DD');
+					})
+
+					// Se crea un arreglo con la lista de fechas para las que se realizaron
+					// predicciones
+					let predictionDates = [];
+					for(let h of this.history){
+						predictionDates.push(h.date);
 					}
-					// Procesar datos históricos para encontrar las mínimas.
+
+					// Se itera para revisar la temperatura mínima correspondiente a cada día
+					_.forEach(results, (value, key) => {
+						// value es un array con las mediciones de cada uno de los días.
+						// Se debe ignorar el día si la fecha no está en
+						// los días en que se realizaron predicciones
+						if(predictionDates.indexOf(moment(value[0].date).format('YYYY-MM-DD')) == -1){
+							return;
+						}
+						let minValue = null;
+						for(let v of value){
+							// Se prueba cada uno de los valores de temperatura.
+							// Si es un número válido, se compara con la temperatura mínima
+							let candidate = parseFloat(v.temperatureMin);
+							if(!isNaN(candidate)){
+								// El valor de temperatura es un número válido;
+								if(minValue == null){
+									minValue = candidate;
+								}else if(candidate < minValue){
+									minValue = candidate;
+								}
+							}
+						}
+						minimumTemperatures.push(minValue);
+					});
+					this.dailyMinimum = minimumTemperatures;
 				},
 				error => {
-
+					console.log(error);
 				}
 			)
 		}
 	}
 
 	dateChanged(){
+		this.dailyMinimum = null;
 		this.loadHistoryData();
 		this.getMinimumTemperatures();
 	}
