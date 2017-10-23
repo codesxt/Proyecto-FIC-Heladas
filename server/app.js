@@ -6,6 +6,7 @@ const http = require('http');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const cors = require('cors');
+const compression = require('compression');
 const scheduled_tasks = require('./scheduled_tasks');
 scheduled_tasks.run();
 
@@ -20,6 +21,9 @@ const app = express();
 
 // Enable CORS
 app.use(cors());
+
+// Enable GZipping
+app.use(compression());
 
 // Parsers for POST data
 app.use(bodyParser.json());
