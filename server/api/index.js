@@ -14,6 +14,7 @@ const ctrlStations        = require('./controllers/stations');
 const ctrlSystem          = require('./controllers/system');
 const ctrlSubscriptions   = require('./controllers/subscriptions');
 const ctrlAgromet         = require('./controllers/agromet');
+const ctrlHoboStations    = require('./controllers/hobostations');
 //const ctrlDocuments       = require('./controllers/documents');
 
 const roleAuth            = ctrlAuthentication.roleAuthorization;
@@ -47,6 +48,34 @@ router.delete('/documents/:id', auth, ctrlDocuments.deleteDocument);
 router.post('/documents', auth, ctrlDocuments.createDocument);
 router.get('/user-documents', auth, ctrlDocuments.readUserDocumentList);
 */
+// ========== HoboStations Endpoints ===============
+router.post('/hoboupload', ctrlHoboStations.uploadFile);
+router.get(
+  '/hobostations',
+  ctrlHoboStations.readStationList
+)
+router.post(
+  '/hobostations',
+  auth,
+  roleAuth(['administrator']),
+  ctrlHoboStations.createStation
+);
+router.delete(
+  '/hobostations/:id',
+  auth,
+  roleAuth(['administrator']),
+  ctrlHoboStations.deleteStation
+);
+router.get(
+  '/hobostations/:id',
+  ctrlHoboStations.readStation
+);
+router.patch(
+  '/hobostations/:id',
+  auth,
+  roleAuth(['administrator']),
+  ctrlHoboStations.updateStation
+)
 
 // ================ Ema Endpoints ==================
 // Queries data from legacy API at:

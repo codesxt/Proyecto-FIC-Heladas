@@ -1,0 +1,31 @@
+<form class="form-horizontal" [formGroup]="stationForm" (ngSubmit)="doCreate()" novalidate>
+  <div class="form-group row">
+    <label class="col-md-2 form-control-label" for="name-input">Nombre</label>
+    <div class="col-md-10">
+      <input
+        class="form-control"
+        formControlName="stationDisplayName"
+        placeholder="Nombre de la Estación"
+        [ngClass]="{
+          'is-invalid': stationForm.controls['stationDisplayName'].errors && !stationForm.controls['stationDisplayName'].pristine,
+          'is-valid'  : stationForm.controls['stationDisplayName'].valid
+        }"
+      >
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-md-2 form-control-label" for="name-input">Nombre Interno</label>
+    <div class="col-md-10">
+      <input
+        class="form-control"
+        formControlName="stationName"
+        placeholder="Nombre interno de la Estación"
+        [ngClass]="{
+          'is-invalid': stationForm.controls['stationName'].errors && !stationForm.controls['stationName'].pristine,
+          'is-valid'  : stationForm.controls['stationName'].valid
+        }"
+      >
+    </div>
+  </div>
+  <button type="submit" class="btn btn-sm btn-primary" [disabled]="!stationForm.valid"><i class="fa fa-save"></i> Registrar Estación</button>
+</form>

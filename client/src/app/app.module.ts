@@ -32,6 +32,7 @@ import { AuthenticationService } from './shared/services/authentication.service'
 import { ProfileService } from './shared/services/profile.service';
 import { UsersService } from './shared/services/users.service';
 import { StationsService } from './shared/services/stations.service';
+import { HoboStationsService } from './shared/services/hobostations.service';
 import { SystemService } from './shared/services/system.service';
 import { SubscriptionsService } from './shared/services/subscriptions.service';
 import { AgrometService } from './shared/services/agromet.service';
@@ -76,6 +77,7 @@ import { AgmCoreModule } from '@agm/core';
     ProfileService,
     UsersService,
     StationsService,
+    HoboStationsService,
     SystemService,
     SubscriptionsService,
     AgrometService, {

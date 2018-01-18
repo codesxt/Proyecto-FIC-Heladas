@@ -1,0 +1,19 @@
+<agm-map
+  [latitude]="mapLat"
+  [longitude]="mapLng"
+  [zoom]="zoom"
+  [zoomControl]="true">
+  <agm-marker
+    *ngFor="let m of markers; let i = index"
+    [latitude]="m.lat"
+    [longitude]="m.lng"
+    [label]="m.label"
+    [markerDraggable]="m.draggable"
+    [iconUrl]="m.iconUrl"
+    (dragEnd)="markerDragEnd(m, $event)">
+    <agm-info-window>
+      <h6 class="text-center">{{ m.label }}</h6>
+      <a href="#/admin-stations/station/{{m.stationData._id}}">Editar</a>
+    </agm-info-window>
+  </agm-marker>
+</agm-map>

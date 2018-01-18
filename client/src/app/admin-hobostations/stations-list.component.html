@@ -1,0 +1,33 @@
+<table class="table table-responsive table-hover table-sm">
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Nombre Interno</th>
+      <th class="col-2">Opciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let station of stations">
+    <td>{{ station.displayName }}</td>
+      <td><a href="#/admin-hobostations/station/{{station._id}}">{{ station.name }}</a></td>
+      <td>
+        <button type="button" class="btn btn-sm btn-danger" (click)="deleteStation(station._id)">
+          <i class="fa fa-trash"></i>
+          Eliminar
+        </button>
+        <a href="#/admin-hobostations/station/{{station._id}}" class="btn btn-sm btn-warning text-white">
+          <i class="fa fa-edit"></i>
+          Editar
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<ngb-pagination
+  [collectionSize]="total"
+  [(page)]="page"
+  [pageSize]="pageSize"
+  (pageChange)="onPageChange($event)"
+  aria-label="Pagination">
+</ngb-pagination>
+<p>Total de estaciones: {{ meta['total-items'] }}</p>

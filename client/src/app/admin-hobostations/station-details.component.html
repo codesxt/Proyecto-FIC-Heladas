@@ -1,0 +1,34 @@
+<h6> Editar Estación </h6>
+<form class="form-horizontal" [formGroup]="stationForm" (ngSubmit)="updateStationData()" novalidate>
+  <div class="form-group row">
+    <label class="col-md-2 form-control-label" for="name-input">Nombre</label>
+    <div class="col-md-10">
+      <input
+        class="form-control"
+        formControlName="displayName"
+        placeholder="Nombre de la Estación"
+        [ngClass]="{
+          'is-invalid': stationForm.controls['displayName'].errors && !stationForm.controls['displayName'].pristine,
+          'is-valid'  : stationForm.controls['displayName'].valid
+        }"
+      >
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-md-2 form-control-label" for="name-input">Nombre Interno</label>
+    <div class="col-md-10">
+      <input
+        class="form-control"
+        formControlName="name"
+        placeholder="Nombre Interno de la Estación"
+        [ngClass]="{
+          'is-invalid': stationForm.controls['name'].errors && !stationForm.controls['name'].pristine,
+          'is-valid'  : stationForm.controls['name'].valid
+        }"
+      >
+    </div>
+  </div>
+
+  <button type="submit" class="btn btn-sm btn-primary" [disabled]="!stationForm.valid"><i class="fa fa-dot-circle-o"></i> Actualizar Estación</button>
+  <button type="reset" class="btn btn-sm btn-danger" (click)="loadStationData()"><i class="fa fa-ban"></i> Reiniciar</button>
+</form>

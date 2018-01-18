@@ -46,3 +46,5 @@ process.on('SIGTERM', function() {
 require('./users');
 require('./documents');
 require('./stations');
+require('./hobodata');
+require('./hobostation')
