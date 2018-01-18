@@ -57,10 +57,9 @@ export class StationHistoryComponent implements OnInit {
     });
 
 
-		this.bsConfig = {
-			locale: 'es',
-			showWeekNumbers: false
-		}
+		this.bsConfig = new BsDatepickerConfig();
+		this.bsConfig.locale = 'es';
+		this.bsConfig.showWeekNumbers = false;
   }
 
 	loadHistoryData(){

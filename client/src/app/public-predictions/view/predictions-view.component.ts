@@ -63,10 +63,9 @@ export class PredictionsViewComponent implements OnInit {
        this.stationId = params['id'];
     });
 
-		this.bsConfig = {
-			locale: 'es',
-			showWeekNumbers: false
-		}
+		this.bsConfig = new BsDatepickerConfig();
+		this.bsConfig.locale = 'es';
+		this.bsConfig.showWeekNumbers = false;
 
     let now = new Date();
     let hour = now.getHours();
