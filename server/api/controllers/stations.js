@@ -189,7 +189,7 @@ module.exports.readStationDayPrediction = (req, res) => {
         return;
       }else{
         let emaId = station.idEMA;
-        request.post('http://heladas.utalca.cl/heladas/consulta/index.php?id_est='+emaId,
+        request.post('https://heladas.utalca.cl/heladas/consulta/index.php?id_est='+emaId,
           (error, response, body) => {
             if(error){
               console.log(error);
@@ -243,7 +243,7 @@ module.exports.readStationDayBeforePrediction = (req, res) => {
         return;
       }else{
         let emaId = station.idEMA;
-        request.post('http://heladas.utalca.cl/heladas/consulta/index_dia_anterior.php?id_est='+emaId,
+        request.post('https://heladas.utalca.cl/heladas/consulta/index_dia_anterior.php?id_est='+emaId,
           (error, response, body) => {
             if(error){
               console.log(error);
@@ -336,7 +336,7 @@ module.exports.getPredictionsHistory = (req, res) => {
         let history15 = [];
         let history18 = [];
         let history21 = [];
-        request.post('http://heladas.utalca.cl/heladas//monitor/acciones.php?acc=1'+'&id_est='+emaId+'&id_hor=15'+'&anno='+year+'&mes='+month,
+        request.post('https://heladas.utalca.cl/heladas//monitor/acciones.php?acc=1'+'&id_est='+emaId+'&id_hor=15'+'&anno='+year+'&mes='+month,
           (error, response, body) => {
             if(error){
               console.log(error);
@@ -353,7 +353,7 @@ module.exports.getPredictionsHistory = (req, res) => {
       						}
       					}
       				)
-              request.post('http://heladas.utalca.cl/heladas//monitor/acciones.php?acc=1'+'&id_est='+emaId+'&id_hor=18'+'&anno='+year+'&mes='+month,
+              request.post('https://heladas.utalca.cl/heladas//monitor/acciones.php?acc=1'+'&id_est='+emaId+'&id_hor=18'+'&anno='+year+'&mes='+month,
                 (error, response, body) => {
                   if(error){
                     console.log(error);
@@ -370,7 +370,7 @@ module.exports.getPredictionsHistory = (req, res) => {
             						}
             					}
             				)
-                    request.post('http://heladas.utalca.cl/heladas//monitor/acciones.php?acc=1'+'&id_est='+emaId+'&id_hor=21'+'&anno='+year+'&mes='+month,
+                    request.post('https://heladas.utalca.cl/heladas//monitor/acciones.php?acc=1'+'&id_est='+emaId+'&id_hor=21'+'&anno='+year+'&mes='+month,
                       (error, response, body) => {
                         if(error){
                           console.log(error);

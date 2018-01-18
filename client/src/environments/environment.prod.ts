@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  oldApiUrl: "http://heladas.utalca.cl/heladas",
+  oldApiUrl: "https://heladas.utalca.cl/heladas",
   apiUrl: ''
 };
