@@ -4,7 +4,7 @@ import { FrostService } from '../shared/services/frost.service';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
-import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import { BsDatepickerConfig, BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { defineLocale } from 'ngx-bootstrap/bs-moment';
 import { es } from 'ngx-bootstrap/locale';
 defineLocale('es', es);
@@ -47,7 +47,8 @@ export class StationHistoryComponent implements OnInit {
   constructor(
     private frostService : FrostService,
     private route        : ActivatedRoute,
-		private location     : Location
+		private location     : Location,
+		private localeService: BsLocaleService
   ) { }
 
   ngOnInit(){
@@ -58,8 +59,8 @@ export class StationHistoryComponent implements OnInit {
 
 
 		this.bsConfig = new BsDatepickerConfig();
-		this.bsConfig.locale = 'es';
 		this.bsConfig.showWeekNumbers = false;
+		this.localeService.use('es');
   }
 
 	loadHistoryData(){

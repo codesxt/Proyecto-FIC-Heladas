@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
 // Dependencies of the datepicker
-import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import { BsDatepickerConfig, BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { defineLocale } from 'ngx-bootstrap/bs-moment';
 import { es } from 'ngx-bootstrap/locale';
 defineLocale('es', es);
@@ -41,7 +41,8 @@ export class PredictionsViewComponent implements OnInit {
   constructor(
     private stationsService : StationsService,
     private route        : ActivatedRoute,
-		private location     : Location
+		private location     : Location,
+		private localeService: BsLocaleService
   ) { }
 
 	setNextPredictionTime(){
@@ -64,8 +65,8 @@ export class PredictionsViewComponent implements OnInit {
     });
 
 		this.bsConfig = new BsDatepickerConfig();
-		this.bsConfig.locale = 'es';
 		this.bsConfig.showWeekNumbers = false;
+		this.localeService.use('es');
 
     let now = new Date();
     let hour = now.getHours();
