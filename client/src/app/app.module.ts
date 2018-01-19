@@ -41,6 +41,7 @@ import { AgrometService } from './shared/services/agromet.service';
 import { SharedModule } from './shared/shared.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AgmCoreModule } from '@agm/core';
+import { NgUploaderModule } from 'ngx-uploader';
 
 @NgModule({
   imports: [
@@ -60,7 +61,8 @@ import { AgmCoreModule } from '@agm/core';
     NgbModule.forRoot(),
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyBpS9EB53vYadB4EB_bcooT8_e4tK25-Gw'
-    })
+    }),
+    NgUploaderModule
   ],
   declarations: [
     AppComponent,

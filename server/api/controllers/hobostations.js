@@ -213,7 +213,7 @@ module.exports.uploadFile = (req, res) => {
                     output[i][10]!=''){
                   let doc = {
                     station        : station,
-                    date           : moment.utc(output[i][1], 'MM/DD/YY HH:mm:ss').toDate(),
+                    date           : moment(output[i][1], 'MM/DD/YY HH:mm:ss').toDate(),
                     pressure       : output[i][2],
                     rain           : output[i][3],
                     temperature    : output[i][4],
@@ -233,7 +233,7 @@ module.exports.uploadFile = (req, res) => {
               console.log(labels);
               console.log("Documents:");
               console.log(documents);
-              /*
+
               HoboData.collection.insertMany(
                 documents,
                 {ordered: true},
@@ -243,7 +243,7 @@ module.exports.uploadFile = (req, res) => {
                   }
                   console.log(docs);
                 }
-              )*/
+              )
 
               res.json({
                 message:"Archivo subido exitosamente."
@@ -255,4 +255,28 @@ module.exports.uploadFile = (req, res) => {
       }
     }
   )
+}
+
+module.exports.getSensorDataByDate = (req, res) => {
+  let station = req.params.station;
+  HoboData.aggregate([
+    {
+      $match: {
+        station: station
+      }
+    },
+    {
+      $sort:{
+        date: 1
+      }
+    }
+  ], (err, result) => {
+    if (err) {
+      console.log(err);
+      utils.sendJSONresponse(res, 404, err);
+      return;
+    }else {
+      utils.sendJSONresponse(res, 200, result);
+    }
+  })
 }

@@ -76,6 +76,10 @@ router.patch(
   roleAuth(['administrator']),
   ctrlHoboStations.updateStation
 )
+router.get(
+  '/hobodata/:station',
+  ctrlHoboStations.getSensorDataByDate
+)
 
 // ================ Ema Endpoints ==================
 // Queries data from legacy API at:

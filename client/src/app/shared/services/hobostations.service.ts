@@ -82,4 +82,16 @@ export class HoboStationsService {
       (response: Response) => response.json()
     );
   }
+
+  getStationData(station: string): any{
+    let headers = new Headers({
+      'Authorization': 'Bearer ' + this.authenticationService.getToken()
+    });
+    let options = new RequestOptions({
+      headers: headers
+    });
+    return this.http.get(this.baseURL+'/api/v1/hobodata/' + station, options).map(
+      (response: Response) => response.json()
+    );
+  }
 }
