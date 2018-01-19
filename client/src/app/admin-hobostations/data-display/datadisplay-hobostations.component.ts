@@ -4,6 +4,15 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HoboStationsService } from '../../shared/services/hobostations.service';
 
+// Dependencies of the datepicker
+import { BsDatepickerConfig, BsLocaleService } from 'ngx-bootstrap/datepicker';
+import { defineLocale } from 'ngx-bootstrap/bs-moment';
+import { es } from 'ngx-bootstrap/locale';
+defineLocale('es', es);
+
+import * as moment from 'moment';
+moment.locale('es-cl');
+
 @Component({
   selector: 'app-admin-hobostations-datadisplay',
   templateUrl: './datadisplay-hobostations.component.html'
@@ -83,6 +92,12 @@ export class AdminHoboStationsDataDisplayComponent implements OnInit {
   ];
   lineChartLegend = true;
   lineChartType = 'line';
+
+  // DatePicker Variables
+	minDate   : Date = new Date(2013, 1, 1);
+	maxDate   : Date = new Date();
+	dateValue : Date = new Date();
+	bsConfig  : Partial<BsDatepickerConfig>;
   constructor(
     private notificationsService : NotificationsService,
     private router               : Router,
@@ -99,18 +114,23 @@ export class AdminHoboStationsDataDisplayComponent implements OnInit {
       category : this.plotCategories[0].name
     })
     this.loadStations();
-    setTimeout(()=>{
-      console.log("Reloading...");
-      this.loadStationData();
-    }, 1000)
+  }
+
+  onStationChanged($event){
+    this.loadStationData();
   }
 
   onCategoryChanged($event){
     this.plotData($event.target.value);
   }
 
+  dateChanged(){
+    this.loadStationData();
+  }
+
   loadStationData(){
-    this.stationsService.getStationData(this.stationForm.get('station').value)
+    let date = moment(this.dateValue).format('YYYY-MM-DD');
+    this.stationsService.getStationDataByDate(this.stationForm.get('station').value, date)
     .subscribe(
       data => {
         this.stationData = data;
@@ -147,7 +167,7 @@ export class AdminHoboStationsDataDisplayComponent implements OnInit {
   }
 
   loadStations(){
-    this.stationsService.getStations(this.page-1, this.pageSize)
+    this.stationsService.getStations(this.page-1, 0)
     .subscribe(
       data => {
         this.notificationsService.success(

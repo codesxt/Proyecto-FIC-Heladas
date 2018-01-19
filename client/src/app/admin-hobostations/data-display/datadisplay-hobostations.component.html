@@ -1,15 +1,15 @@
 <form class="form-horizontal" [formGroup]="stationForm" novalidate *ngIf="stations.length>0" class="mt-3">
   <div class="form-group row">
-    <label class="col-md-2 form-control-label" for="station">Estación Hobo</label>
+    <label class="col-md-2 form-control-label" for="station">Estación Hobo:</label>
     <div class="col-md-10">
-      <select class="form-control" formControlName="station">
+      <select class="form-control" formControlName="station" (change)="onStationChanged($event)">
         <option *ngFor="let station of stations" [value]="station.name">{{station.displayName}}</option>
       </select>
     </div>
   </div>
   <hr/>
   <div class="form-group row">
-    <label class="col-md-2 form-control-label" for="category">Categoría</label>
+    <label class="col-md-2 form-control-label" for="category">Categoría:</label>
     <div class="col-md-10">
       <select class="form-control" formControlName="category" (change)="onCategoryChanged($event)">
         <option *ngFor="let item of plotCategories" [value]="item.name">{{item.displayName}}</option>
@@ -18,6 +18,30 @@
   </div>
   <hr/>
 </form>
+
+<div class="form-group row">
+  <label for="example-text-input" class="col-md-2 form-control-label">Fecha:</label>
+  <div class="col-md-4">
+    <div class="input-group">
+      <input
+        type="text"
+        [minDate]="minDate"
+        [maxDate]="maxDate"
+        #dp="bsDatepicker"
+        bsDatepicker
+        [(ngModel)]="dateValue"
+        [bsConfig]="bsConfig"
+        (ngModelChange)="dateChanged()"
+        readonly>
+      <span class="input-group-btn">
+        <button type="button" class="btn btn-primary" (click)="dp.toggle()">
+          <i class="fa fa-calendar"></i>
+        </button>
+      </span>
+    </div>
+  </div>
+</div>
+<hr/>
 
 <div class="animated fadeIn">
   <div class="card">
@@ -96,4 +120,6 @@
   </tbody>
 </table>
 
+<!--
 <pre>{{stationData | json}}</pre>
+-->

@@ -2,5 +2,5 @@ export const environment = {
   production : true,
   oldApiUrl  : "https://heladas.utalca.cl/heladas",
   apiUrl     : '',
-  hoboUpload : 'https://heladas.utalca.cl/heladas/api/v1/hoboupload'
+  hoboUpload : 'https://heladas.utalca.cl/predicciones/api/v1/hoboupload'
 };

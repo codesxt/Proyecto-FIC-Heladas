@@ -18,6 +18,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AgmCoreModule } from '@agm/core';
 import { NgUploaderModule } from 'ngx-uploader';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 @NgModule({
   imports: [
@@ -29,7 +30,8 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
     NgbModule,
     AgmCoreModule,
     NgUploaderModule,
-    ChartsModule
+    ChartsModule,
+    BsDatepickerModule
   ],
   declarations: [
     AdminHoboStationsComponent,

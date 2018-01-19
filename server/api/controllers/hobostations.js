@@ -171,9 +171,9 @@ module.exports.deleteStation = (req, res) => {
 module.exports.uploadFile = (req, res) => {
   upload(req, res, (err) => {
       if(err){
-        res.json({
-          error: "Error al subir archivo de datos.",
-          errorDetails: err
+        utils.sendJSONresponse(res, 400, {
+          message:"Ocurrió un error al subir el archivo.",
+          error  : err
         });
         return;
       }else{
@@ -184,10 +184,11 @@ module.exports.uploadFile = (req, res) => {
           },
           (error, output) => {
             if(error){
-              res.json({
-                error: "Error al subir archivo de datos.",
-                errorDetails: err
+              utils.sendJSONresponse(res, 400, {
+                message:"Ocurrió un error al subir el archivo.",
+                error  : error
               });
+              return;
               return;
             }else{
               // Características del archivo
@@ -228,11 +229,13 @@ module.exports.uploadFile = (req, res) => {
                   documents.push(doc);
                 }
               }
+              /*
               console.log("Station: " + station);
               console.log("Labels:");
               console.log(labels);
               console.log("Documents:");
               console.log(documents);
+              */
 
               HoboData.collection.insertMany(
                 documents,
@@ -240,15 +243,19 @@ module.exports.uploadFile = (req, res) => {
                 (error, docs) => {
                   if(error){
                     console.log(error);
+                    utils.sendJSONresponse(res, 400, {
+                      message:"Ocurrió un error al subir el archivo.",
+                      error  : error
+                    });
+                    return;
                   }
                   console.log(docs);
+                  utils.sendJSONresponse(res, 200, {
+                    message:"Archivo subido exitosamente."
+                  });
+                  return;
                 }
               )
-
-              res.json({
-                message:"Archivo subido exitosamente."
-              });
-              return;
             }
           }
         )
@@ -259,11 +266,21 @@ module.exports.uploadFile = (req, res) => {
 
 module.exports.getSensorDataByDate = (req, res) => {
   let station = req.params.station;
+  let query = {
+    station  : station
+  }
+
+  if(req.query.from){
+    let fromData = moment(req.query.from, 'YYYY-MM-DD').toDate();
+    let toDate   = moment(req.query.from, 'YYYY-MM-DD').add(1, 'day').toDate();
+    query.date = {
+      $gte : fromData,
+      $lt  : toDate
+    }
+  }
   HoboData.aggregate([
     {
-      $match: {
-        station: station
-      }
+      $match: query
     },
     {
       $sort:{

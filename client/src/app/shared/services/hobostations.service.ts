@@ -94,4 +94,19 @@ export class HoboStationsService {
       (response: Response) => response.json()
     );
   }
+
+  getStationDataByDate(station: string, from: string): any{
+    let headers = new Headers({
+      'Authorization': 'Bearer ' + this.authenticationService.getToken()
+    });
+    let params = new URLSearchParams();
+    params.append('from', from);
+    let options = new RequestOptions({
+      headers : headers,
+      params  : params
+    });
+    return this.http.get(this.baseURL+'/api/v1/hobodata/' + station, options).map(
+      (response: Response) => response.json()
+    );
+  }
 }
