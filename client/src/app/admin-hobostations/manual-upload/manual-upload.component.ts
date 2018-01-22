@@ -53,7 +53,7 @@ export class AdminHoboStationsManualUploadComponent implements OnInit {
         type: 'uploadAll',
         url: this.uploadUrl,
         method: 'POST',
-        data: { station: 'station1' }
+        data: { station: this.stationForm.get('station').value }
       };
       this.uploadInput.emit(event);
     } else if (output.type === 'addedToQueue'  && typeof output.file !== 'undefined') { // add file to array when added
