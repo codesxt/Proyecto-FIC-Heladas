@@ -34,7 +34,7 @@ export class AdminHoboStationsDataDisplayComponent implements OnInit {
       name        : 'temperature'
     },
     {
-      displayName : 'Lluvia',
+      displayName : 'Precipitaciones',
       name        : 'rain'
     },
     {
