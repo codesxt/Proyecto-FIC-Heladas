@@ -135,6 +135,9 @@ export class AdminHoboStationsDataDisplayComponent implements OnInit {
       data => {
         this.stationData = data;
         this.plotData('temperature')
+        this.stationForm.patchValue({
+          category : this.plotCategories[0].name
+        })
         //console.log(new Date(data[0].date).toLocaleString())
       },
       error => {
