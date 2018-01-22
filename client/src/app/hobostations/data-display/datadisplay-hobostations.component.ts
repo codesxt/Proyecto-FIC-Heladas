@@ -17,7 +17,7 @@ moment.locale('es-cl');
   selector: 'app-admin-hobostations-datadisplay',
   templateUrl: './datadisplay-hobostations.component.html'
 })
-export class AdminHoboStationsDataDisplayComponent implements OnInit {
+export class HoboStationsDataDisplayComponent implements OnInit {
   stations : any = [];
   meta     : any = [];
 

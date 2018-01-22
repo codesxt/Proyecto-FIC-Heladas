@@ -102,6 +102,19 @@ export const routes: Routes = [
         loadChildren: './authentication/authentication.module#AuthenticationModule'
       }
     ]
+  },
+  {
+    path: 'hobostations',
+    component: SimpleLayoutComponent,
+    data: {
+      title: 'Estaciones Hobo'
+    },
+    children: [
+      {
+        path: '',
+        loadChildren: './hobostations/public-hobostations.module#PublicHobostationsModule'
+      }
+    ]
   }
 ];
 
