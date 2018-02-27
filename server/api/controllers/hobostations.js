@@ -270,9 +270,17 @@ module.exports.getSensorDataByDate = (req, res) => {
     station  : station
   }
 
-  if(req.query.from){
+  if(req.query.from && !req.query.to){
     let fromData = moment(req.query.from, 'YYYY-MM-DD').toDate();
     let toDate   = moment(req.query.from, 'YYYY-MM-DD').add(1, 'day').toDate();
+    query.date = {
+      $gte : fromData,
+      $lt  : toDate
+    }
+  }
+  if(req.query.from && req.query.to){
+    let fromData = moment(req.query.from, 'YYYY-MM-DD').toDate();
+    let toDate   = moment(req.query.to, 'YYYY-MM-DD').add(1, 'day').toDate();
     query.date = {
       $gte : fromData,
       $lt  : toDate

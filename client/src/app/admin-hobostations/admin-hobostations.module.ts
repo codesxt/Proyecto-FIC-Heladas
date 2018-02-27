@@ -9,6 +9,7 @@ import { StationDetailsComponent } from './station-details.component';
 import { StationsAdminMapComponent } from './stations-map.component';
 import { AdminHoboStationsManualUploadComponent } from './manual-upload/manual-upload.component';
 import { AdminHoboStationsDataDisplayComponent } from './data-display/datadisplay-hobostations.component';
+import { AdminHoboStationsIntegrationsComponent } from './integrations/integrations.component';
 
 import { AdminHoboStationsRoutingModule } from './admin-hobostations-routing.module';
 
@@ -40,7 +41,8 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
     StationDetailsComponent,
     StationsAdminMapComponent,
     AdminHoboStationsManualUploadComponent,
-    AdminHoboStationsDataDisplayComponent
+    AdminHoboStationsDataDisplayComponent,
+    AdminHoboStationsIntegrationsComponent
   ]
 })
 export class AdminHoboStationsModule { }

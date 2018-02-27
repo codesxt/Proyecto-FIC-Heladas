@@ -1,0 +1,210 @@
+<h1>Integración con otras aplicaciones</h1>
+<p> Los datos de las estaciones HOBO se pueden integrar con otras aplicaciones mediante la
+  <a href="https://es.wikipedia.org/wiki/Interfaz_de_programaci%C3%B3n_de_aplicaciones" target="_blank">
+    API
+  </a>
+  descrita a continuación.
+</p>
+<p>La API se organiza en <i>Endpoints</i> (URLs) que deben ser consultados mediante HTTP.</p>
+
+<h2>1. Obtener datos de un día específico</h2>
+<p>Para obtener datos de una estación HOBO en un día específico se debe consultar la
+  siguiente ruta.</p>
+
+  <table class="table table-sm table-inverse table-bordered">
+    <thead>
+      <tr>
+        <th>
+          Método
+        </th>
+        <th>
+          Ruta
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          GET
+        </td>
+        <td>
+          https://heladas.utalca.cl/api/v1/hobodata/ESTACIÓN?from=YYYY-MM-DD
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+<p>Las letras en mayúscula indican parámetros de la URL. Los parámetros se describen
+  a continuación.</p>
+
+  <table class="table table-sm table-inverse table-bordered">
+    <thead>
+      <tr>
+        <th>
+          Parámetro
+        </th>
+        <th>
+          Significado
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          ESTACIÓN
+        </td>
+        <td>
+          Nombre interno de la estación. Cada estación se registra con un nombre interno que es
+          el que se usa dentro de la base de datos.
+        </td>
+      </tr>
+      <tr>
+        <td>
+          from=YYYY-MM-DD
+        </td>
+        <td>
+          Fecha que se está consultando. A los dígitos de una cifra se les debe anteponer un 0
+          (ej. 3 de enero de 2018 = 2018-01-03)
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+<h3>Valores retornados</h3>
+<p>Una llamada exitosa a la URL devolverá un arreglo de objetos JSON con todas las mediciones
+  realizadas durante el día consultado. Cada registro corresponde a 15 minutos de medición.</p>
+<p>Cada objeto retornado tendrá la siguiente forma estructura.</p>
+<code>
+{{ '{' }}
+  _id            : 'Un identificador único asignado a cada registro en la base de datos.',
+  station        : 'El nombre interno asignado a la estación.',
+  date           : 'La fecha del registro. La fecha viene en zona horaria UTC-0 por lo que tendrá algunas horas de diferencia con la hora chilena.',
+  pressure       : 'Presión atmosférica (mbar)',
+  rain           : 'Precipitaciones (mm)',
+  temperature    : 'Temperatura (°C)',
+  rh             : 'Humedad Relativa (%)',
+  dewPoint       : 'Punto de Rocío (°C),'
+  solarRadiation : 'Radiación Solar (W/m²)',
+  windDirection  : 'Dirección del viento (ángulo con respecto al Norte)',
+  windSpeed      : 'Velocidad del viento (m/s)',
+  gustSpeed      : 'Velocidad de ráfaga (m/s)',
+  battery        : 'Batería (V)'
+{{ '}' }}
+</code>
+
+<h3>Ejemplo de uso</h3>
+<p>En python se pueden hacer consultas por HTTP utilizando la biblioteca requests.
+  Una llamada a la API quedaría así:</p>
+<code>
+import requests
+response = requests.get('https://heladas.utalca.cl/api/v1/hobodata/colbun?from=2018-02-25')
+data = response.json()
+print(data)
+</code>
+
+<br/>
+<h2>2. Consultar datos de un rango de fechas</h2>
+
+<p>Para obtener datos de una estación HOBO en un rango de fechas se debe consultar la
+  siguiente ruta.</p>
+
+<table class="table table-sm table-inverse table-bordered">
+  <thead>
+    <tr>
+      <th>
+        Método
+      </th>
+      <th>
+        Ruta
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        GET
+      </td>
+      <td>
+        https://heladas.utalca.cl/api/v1/hobodata/ESTACIÓN?from=YYYY-MM-DD&to=YYYY-MM-DD
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Las letras en mayúscula indican parámetros de la URL. Los parámetros se describen
+  a continuación.</p>
+
+<table class="table table-sm table-inverse table-bordered">
+  <thead>
+    <tr>
+      <th>
+        Parámetro
+      </th>
+      <th>
+        Significado
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        ESTACIÓN
+      </td>
+      <td>
+        Nombre interno de la estación. Cada estación se registra con un nombre interno que es
+        el que se usa dentro de la base de datos.
+      </td>
+    </tr>
+    <tr>
+      <td>
+        from=YYYY-MM-DD
+      </td>
+      <td>
+        Fecha de inicio que se está consultando. A los dígitos de una cifra se les debe anteponer un 0
+        (ej. 3 de enero de 2018 = 2018-01-03)
+      </td>
+    </tr>
+    <tr>
+      <td>
+        to=YYYY-MM-DD
+      </td>
+      <td>
+        Fecha de término que se está consultando. Esta fecha se incluye en los resultados.
+        A los dígitos de una cifra se les debe anteponer un 0
+        (ej. 3 de enero de 2018 = 2018-01-03)
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>Valores retornados</h3>
+<p>Una llamada exitosa a la URL devolverá un arreglo de objetos JSON con todas las mediciones
+  realizadas durante el día consultado. Cada registro corresponde a 15 minutos de medición.</p>
+<p>Cada objeto retornado tendrá la siguiente forma estructura.</p>
+<code>
+{{ '{' }}
+  _id            : 'Un identificador único asignado a cada registro en la base de datos.',
+  station        : 'El nombre interno asignado a la estación.',
+  date           : 'La fecha del registro. La fecha viene en zona horaria UTC-0 por lo que tendrá algunas horas de diferencia con la hora chilena.',
+  pressure       : 'Presión atmosférica (mbar)',
+  rain           : 'Precipitaciones (mm)',
+  temperature    : 'Temperatura (°C)',
+  rh             : 'Humedad Relativa (%)',
+  dewPoint       : 'Punto de Rocío (°C),'
+  solarRadiation : 'Radiación Solar (W/m²)',
+  windDirection  : 'Dirección del viento (ángulo con respecto al Norte)',
+  windSpeed      : 'Velocidad del viento (m/s)',
+  gustSpeed      : 'Velocidad de ráfaga (m/s)',
+  battery        : 'Batería (V)'
+{{ '}' }}
+</code>
+
+<h3>Ejemplo de uso</h3>
+<p>En python se pueden hacer consultas por HTTP utilizando la biblioteca requests.
+  Una llamada a la API quedaría así:</p>
+<code>
+import requests
+response = requests.get('https://heladas.utalca.cl/api/v1/hobodata/colbun?from=2018-02-25&to=2018-02-27')
+data = response.json()
+print(data)
+</code>
