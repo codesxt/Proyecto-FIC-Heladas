@@ -51,12 +51,73 @@ export class AgrometService {
     );
   }
 
+  getHistoryV2(stationID: number, fromDate: string, toDate?: string): any{
+    let headers = new Headers({  });
+    headers.append('Content-Type', 'application/json');
+    let params = new URLSearchParams();
+    params.append('from', fromDate);
+    if(toDate){
+      params.append('to', toDate);
+    }
+    let options = new RequestOptions({
+      headers : headers,
+      params  : params
+    });
+    let url = this.baseURL+'/api/v1/agromet/history/'+stationID;
+    return this.http.get(url, options).map(
+      (response: Response) => response.json()
+    );
+  }
+
   getStations(): any{
     let headers = new Headers({  });
     let options = new RequestOptions({
       headers: headers
     });
     return this.http.post(this.baseURL+'/monitor/acciones.php?acc=2', { acc: 2 }, options).map(
+      (response: Response) => response.json()
+    );
+  }
+
+  getRegions(): any{
+    let headers = new Headers({  });
+    headers.append('Content-Type', 'application/json');
+    let options = new RequestOptions({
+      headers: headers
+    });
+    let url = this.baseURL+'/api/v1/agromet/regions';
+    return this.http.get(url, options).map(
+      (response: Response) => response.json()
+    );
+  }
+
+  getCities(region: number): any{
+    let headers = new Headers({  });
+    headers.append('Content-Type', 'application/json');
+    let params = new URLSearchParams();
+    params.append('region', region+"");
+    let options = new RequestOptions({
+      headers: headers,
+      params: params
+    });
+    let url = this.baseURL+'/api/v1/agromet/cities';
+    return this.http.get(url, options).map(
+      (response: Response) => response.json()
+    );
+  }
+
+  getStationsV2(region: number, city: number): any{
+    let headers = new Headers({  });
+    headers.append('Content-Type', 'application/json');
+    let params = new URLSearchParams();
+    params.append('region', region+"");
+    params.append('city', city+"");
+    let options = new RequestOptions({
+      headers: headers,
+      params: params
+    });
+    let url = this.baseURL+'/api/v1/agromet/emas';
+    return this.http.get(url, options).map(
       (response: Response) => response.json()
     );
   }

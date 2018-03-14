@@ -5,6 +5,11 @@ const moment = require('moment');
 
 module.exports.getEmaHistory = (req, res) => {
   let emaId = req.params.emaId;
+  if(!emaId){
+    utils.sendJSONresponse(res, 400, {
+      message: "EMA no especificada."
+    });
+  }
   if(moment(req.query.from).isValid()){
     let from  = moment(req.query.from);
     let to    = req.query.to;
@@ -62,8 +67,10 @@ module.exports.getEmaHistory = (req, res) => {
               for(let d of result.estacion.dato){
                 //labels.push(d.split("|")[1]);
                 let spl = d.split("|");
+                // Se asume que la fecha está en zona horaria local.
+                // Si estuviera en UTC sería moment.utc()
                 measurements.push({
-                  date                : moment.utc(spl[1]),
+                  date                : moment(spl[1]),
                   airTemperatureAvg   : spl[3],
                   hourlyRainfall      : spl[5],
                   relativeHumidityAvg : spl[7],
@@ -114,7 +121,14 @@ module.exports.getVariables = (req, res) => {
         });
         return;
       }else{
-        body = JSON.parse(body);
+        try {
+          body = JSON.parse(body);
+        } catch(e) {
+          utils.sendJSONresponse(res, 503, {
+            message: 'No se pudieron obtener los datos de Agromet. Intente más tarde.'
+          })
+          return;
+        }
         let variables = [];
         for(let v of body){
           variables.push({
@@ -140,7 +154,14 @@ module.exports.getRegions = (req, res) => {
         });
         return;
       }else{
-        body = JSON.parse(body);
+        try {
+          body = JSON.parse(body);
+        } catch(e) {
+          utils.sendJSONresponse(res, 503, {
+            message: 'No se pudieron obtener los datos de Agromet. Intente más tarde.'
+          })
+          return;
+        }
         let regions = [];
         for(let v of body){
           regions.push({
@@ -173,16 +194,23 @@ module.exports.getCities = (req, res) => {
         });
         return;
       }else{
-        body = JSON.parse(body);
-        let regions = [];
+        try {
+          body = JSON.parse(body);
+        } catch(e) {
+          utils.sendJSONresponse(res, 503, {
+            message: 'No se pudieron obtener los datos de Agromet. Intente más tarde.'
+          })
+          return;
+        }
+        let cities = [];
         for(let v of body){
-          regions.push({
+          cities.push({
             id    : v[0],
             name  : v[1]
           })
         }
         utils.sendJSONresponse(res, 200, {
-          regions: regions
+          cities: cities
         })
       }
     }
@@ -213,7 +241,14 @@ module.exports.getFilteredEMAs = (req, res) => {
         });
         return;
       }else{
-        body = JSON.parse(body);
+        try {
+          body = JSON.parse(body);
+        } catch(e) {
+          utils.sendJSONresponse(res, 503, {
+            message: 'No se pudieron obtener los datos de Agromet. Intente más tarde.'
+          })
+          return;
+        }
         let emas = [];
         for(let v of body){
           emas.push({

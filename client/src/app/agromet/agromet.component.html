@@ -1,0 +1,36 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <strong>Agromet</strong>
+        </div>
+        <div class="card-body p-2 p-md-4">
+          Agromet
+          <ul class="nav nav-tabs">
+            <li class="nav-item">
+              <a class="nav-link" routerLinkActive="active" [routerLink]="['/agromet/agromet-registered']"><i class="icon-notebook"></i> Estaciones Registradas</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLinkActive="active" [routerLink]="['/agromet/agromet-stations']"><i class="icon-notebook"></i> Estaciones en Agromet</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLinkActive="active" [routerLink]="['/admin-stations/create']"><i class="icon-plus"></i> Registrar Estación</a>
+            </li>
+            <!--
+            <li class="nav-item">
+              <a class="nav-link" routerLinkActive="active" [routerLink]="['/admin-stations/map']"><i class="icon-map"></i> Mapa de Estaciones</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLinkActive="active" [routerLink]="['/admin-stations/create']"><i class="icon-plus"></i> Crear Estación</a>
+            </li>
+            -->
+          </ul>
+          <div class="p-2">
+            <router-outlet></router-outlet>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

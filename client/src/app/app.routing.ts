@@ -61,6 +61,10 @@ export const routes: Routes = [
       {
         path: 'settings',
         loadChildren: './settings/settings.module#SettingsModule'
+      },
+      {
+        path: 'agromet',
+        loadChildren: './agromet/agromet.module#AgrometModule'
       }
     ]
   },
