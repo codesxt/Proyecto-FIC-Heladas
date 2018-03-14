@@ -65,6 +65,9 @@
 </form>
 
 <div *ngIf="agrometData">
+  <button class="btn btn-primary my-1" (click)="downloadData()">
+    <i class="fa fa-download fa-fw"></i> Descargar Datos
+  </button>
   <table class="table table-hover table-sm table-responsive table-bordered table-stripped">
     <caption>Datos consultados de Agromet</caption>
     <thead>

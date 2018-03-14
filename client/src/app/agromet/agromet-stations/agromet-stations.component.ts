@@ -3,6 +3,7 @@ import { AuthenticationService } from '../../shared/services/authentication.serv
 import { NotificationsService } from 'angular2-notifications';
 import { StationsService } from '../../shared/services/stations.service';
 import { AgrometService } from '../../shared/services/agromet.service';
+import { Angular2Csv } from 'angular2-csv/Angular2-csv';
 
 import * as zpad from 'zpad';
 
@@ -121,5 +122,24 @@ export class AgrometStationsListComponent implements OnInit {
         }
       )
     }
+  }
+
+  downloadData(){
+    let data = this.agrometData.data;
+    let stationName = this.stations.filter((item) => {
+      return item.id = this.selectedStation;
+    })[0].name;
+    let date = this.date.year + '-' + zpad(this.date.month) + '-' + zpad(this.date.day);
+    let labels = this.agrometData.labels;
+    let options = {
+      headers : labels,
+      useBom  : false
+    }
+
+    new Angular2Csv(
+      data,
+      'Datos Agromet - Estación ' + stationName + ' (' + this.selectedStation + ') - ' + date,
+      options
+    );
   }
 }
