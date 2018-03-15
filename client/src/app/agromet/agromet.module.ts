@@ -11,6 +11,7 @@ import { SharedModule } from '../shared/shared.module';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AgmCoreModule } from '@agm/core';
+import { ChartsModule } from 'ng2-charts/ng2-charts';
 
 @NgModule({
   imports: [
@@ -20,7 +21,8 @@ import { AgmCoreModule } from '@agm/core';
     AgrometRoutingModule,
     SharedModule,
     NgbModule,
-    AgmCoreModule
+    AgmCoreModule,
+    ChartsModule
   ],
   declarations: [
     AgrometComponent,

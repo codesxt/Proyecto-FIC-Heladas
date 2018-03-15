@@ -78,6 +78,38 @@
   </div>
 </form>
 
+<form *ngIf="agrometData">
+  <div class="form-row">
+    <div class="col-12 col-sm-2">
+      <label for="categoryselect">Categoría a graficar:</label>
+      <select
+        class="form-control"
+        id="categoryselect"
+        [(ngModel)]="selectedCategory"
+        name="selectedRegion"
+        (change)="onRegionUpdate()">
+        <option *ngFor="let category of categories" value="{{category.value}}">
+          {{ category.name }}
+        </option>
+      </select>
+    </div>
+  </div>
+</form>
+
+<div *ngIf="agrometData">
+  <div class="chart-wrapper">
+    <canvas baseChart class="chart"
+    [datasets]="lineChartData"
+    [labels]="lineChartLabels"
+    [options]="lineChartOptions"
+    [colors]="lineChartColours"
+    [legend]="lineChartLegend"
+    [chartType]="lineChartType"
+    (chartHover)="chartHovered($event)"
+    (chartClick)="chartClicked($event)"></canvas>
+  </div>
+</div>
+
 <div *ngIf="agrometData">
   <button class="btn btn-primary my-1" (click)="downloadData()">
     <i class="fa fa-download fa-fw"></i> Descargar Datos

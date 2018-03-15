@@ -23,6 +23,41 @@ export class AgrometStationsListComponent implements OnInit {
   date : any = null;
   toDate : any = null;
   agrometData : any = null;
+
+  lineChartData: Array<any> = [
+    {data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A'}
+  ];
+  lineChartLabels: Array<any> = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+  lineChartOptions: any = {
+    animation: false,
+    responsive: true
+  };
+  lineChartColours: Array<any> = [
+    {
+      backgroundColor: 'rgba(148,159,177,0.2)',
+      borderColor: 'rgba(148,159,177,1)',
+      pointBackgroundColor: 'rgba(148,159,177,1)',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: 'rgba(148,159,177,0.8)'
+    }
+  ];
+  lineChartLegend = true;
+  lineChartType = 'line';
+  categories : any = [
+    {value: 'airTemperatureAvg',      name: 'Temperatura Promedio del Aire (°C)'},
+    {value: 'hourlyRainfall',         name: 'Precipitación Horaria (mm)'},
+    {value: 'relativeHumidityAvg',    name: 'Humedad Relativa Promedio (%)'},
+    {value: 'atmosphericPressure',    name: 'Presión Atmosférica (mbar)'},
+    {value: 'solarRadiationMax',      name: 'Radiación Solar Máxima (W/m²)'},
+    {value: 'windSpeedMax',           name: 'Velocidad Máxima del Viento (m/s)'},
+    {value: 'temperatureMin',         name: 'Temperatura Mínima Horaria (°C)'},
+    {value: 'temperatureMax',         name: 'Temperatura Máxima Horaria (°C)'},
+    {value: 'windDirection',          name: 'Dirección del Viento (°)'},
+    {value: 'degreeDay',              name: 'Grados Día (base 10)'},
+    {value: 'coldHours',              name: 'Horas de Frío (base 7)'}
+  ]
+  selectedCategory = this.categories[0].value;
   constructor(
     private notificationsService  : NotificationsService,
     private authenticationService : AuthenticationService,
@@ -41,7 +76,6 @@ export class AgrometStationsListComponent implements OnInit {
         }
         this.agrometService.getCities(this.selectedRegion).subscribe(
           (response) => {
-            console.log(response);
             this.cities = response.cities;
             if(!this.selectedCity){
               this.selectedCity = this.cities[0].id;
@@ -136,6 +170,8 @@ export class AgrometStationsListComponent implements OnInit {
         response => {
           console.log(response);
           this.agrometData = response;
+
+          this.updateChart();
         },
         error    => {
           this.agrometData = null;
@@ -162,5 +198,22 @@ export class AgrometStationsListComponent implements OnInit {
       'Datos Agromet - Estación ' + stationName + ' (' + this.selectedStation + ') - ' + date,
       options
     );
+  }
+
+  updateChart(){
+    let data  = this.agrometData.data.map(item => item[this.selectedCategory]);
+    let dates = this.agrometData.data.map(item => moment(item.date).format('YYYY-MM-DD HH:mm'));
+    let category = this.categories.filter((item) => {
+      return item.value == this.selectedCategory;
+    })[0].name;
+    this.lineChartData[0] = {
+      data  : data,
+      label : category
+    }
+    this.lineChartLabels = dates;
+  }
+
+  onCategoryChanged(){
+    this.updateChart();
   }
 }
