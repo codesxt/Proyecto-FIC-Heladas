@@ -15,7 +15,7 @@ module.exports.getEmaHistory = (req, res) => {
     let to    = req.query.to;
 
     if(to){
-      to = moment(to);
+      to = moment(to).add(1, 'day').subtract(1, 'minute');
     }else{
       to = from.clone().add(1, 'day').subtract(1, 'minute');
     }

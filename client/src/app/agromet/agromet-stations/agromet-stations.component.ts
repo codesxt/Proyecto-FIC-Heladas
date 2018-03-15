@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { AuthenticationService } from '../../shared/services/authentication.service';
 import { NotificationsService } from 'angular2-notifications';
 import { StationsService } from '../../shared/services/stations.service';
@@ -6,6 +6,7 @@ import { AgrometService } from '../../shared/services/agromet.service';
 import { Angular2Csv } from 'angular2-csv/Angular2-csv';
 
 import * as zpad from 'zpad';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-agromet-stations',
@@ -20,12 +21,14 @@ export class AgrometStationsListComponent implements OnInit {
   selectedStation : number = null;
   stationsLoaded  : boolean = false;
   date : any = null;
+  toDate : any = null;
   agrometData : any = null;
   constructor(
     private notificationsService  : NotificationsService,
     private authenticationService : AuthenticationService,
     private stationsService       : StationsService,
-    private agrometService        : AgrometService
+    private agrometService        : AgrometService,
+    @Inject('moment') private moment
   ) {  }
 
   ngOnInit(){
@@ -114,11 +117,29 @@ export class AgrometStationsListComponent implements OnInit {
   loadData(){
     if(this.selectedStation && this.date){
       let fromDate = this.date.year + '-' + zpad(this.date.month) + '-' + zpad(this.date.day);
-      this.agrometService.getHistoryV2(this.selectedStation, fromDate)
+      let toDate = undefined;
+      if(this.toDate){
+        toDate = this.toDate.year + '-' + zpad(this.toDate.month) + '-' + zpad(this.toDate.day);
+
+
+        let toMoment   = moment(toDate);
+        let fromMoment = moment(fromDate);
+        let monthDiff  = toMoment.diff(fromMoment, 'month');
+        if(monthDiff>=3){
+          alert('Agromet no permite realizar consultas en intervalos mayores a 3 meses.')
+          this.agrometData = null;
+          return;
+        }
+      }
+      this.agrometService.getHistoryV2(this.selectedStation, fromDate, toDate)
       .subscribe(
         response => {
           console.log(response);
           this.agrometData = response;
+        },
+        error    => {
+          this.agrometData = null;
+          this.notificationsService.error('Error', 'Error al obtener los datos');
         }
       )
     }

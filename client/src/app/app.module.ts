@@ -42,6 +42,7 @@ import { SharedModule } from './shared/shared.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AgmCoreModule } from '@agm/core';
 import { NgUploaderModule } from 'ngx-uploader';
+import * as moment from 'moment';
 
 @NgModule({
   imports: [
@@ -82,10 +83,15 @@ import { NgUploaderModule } from 'ngx-uploader';
     HoboStationsService,
     SystemService,
     SubscriptionsService,
-    AgrometService, {
-    provide: LocationStrategy,
-    useClass: HashLocationStrategy
-  }],
+    AgrometService,
+    {
+      provide: LocationStrategy,
+      useClass: HashLocationStrategy
+    },
+    {
+      provide: 'moment', useFactory: (): any => moment
+    }
+  ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }
