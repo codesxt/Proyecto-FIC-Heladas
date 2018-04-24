@@ -3,12 +3,12 @@
     <div class="container text-center">
       <h1 class="display-3">Predicción de Heladas</h1>
       <p class="lead">Proyecto FIC, Transferencia Sistema de Alerta Temprana y Sectorizada de Heladas</p>
-      <a type="button" class="btn btn-primary" href="#content" pageScroll pageScrollDuration="300">¡Conoce el proyecto!</a>
+      <a type="button" class="btn btn-primary" href="#content" pageScroll [pageScrollDuration]="300">¡Conoce el proyecto!</a>
 
       <div class="animated fadeIn m-1 m-lg-5">
         <div class="card">
-          <div class="card-body" id="content">
-            <h1 class="display-4 text-primary text-center">Heladas</h1>
+          <div class="card-body">
+            <h1 class="display-4 text-primary text-center" id="content">Sobre el Proyecto</h1>
             <div class="row">
               <div class="col-lg-6 col-12 text-justify">
                 <p>Una de las variables térmicas de más riesgo que los agricultores enfrentan son las heladas de invierno y las primaverales. Un evento de heladas puede hacer perder la cosecha de un año entero y comprometer los ingresos del siguiente, sobre todo para fruticultores y viticultores.</p>
@@ -20,6 +20,42 @@
               </div>
             </div>
             <p class="text-center text-primary"><i class="fa fa-snowflake-o fa-5x"></i></p>
+
+            <h1 class="display-4 text-primary text-center mt-3" id="services">Servicios</h1>
+            <div class="row">
+              <div class="col-lg-6 col-12 text-justify">
+                <h4 class="text-center text-primary">Información Georeferenciada sobre Heladas</h4>
+                <p>Mediante esta plataforma se pueden obtener predicciones sectorizadas de heladas en la Región del Maule.</p>
+                <p>Estas predicciones pueden alertar hasta con 12 horas de anticipación la ocurrencia de episodios de heladas.</p>
+              </div>
+              <div class="col-lg-6 col-12 text-justify">
+                <img class="img-fluid img-thumbnail mx-auto d-block" src="assets/img/maps.png"/>
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-lg-6 col-12 text-justify">
+                <h4 class="text-center text-primary">Recepción de Alertas por Correo Electrónico</h4>
+                <p>A través de la plataforma se pueden recibir alertas diarias sobre la ocurrencia de episodios de heladas
+                  en la zona.</p>
+                <p>Para esto basta registrarse en la plataforma y suscribirse a las estaciones de interés.</p>
+              </div>
+              <div class="col-lg-6 col-12 text-justify">
+                <img class="img-fluid img-thumbnail mx-auto d-block" src="assets/img/email.png" style="width:80%;"/>
+              </div>
+            </div>
+
+            <h1 class="display-4 text-primary text-center mt-3">Auspiciador</h1>
+            <div class="row">
+              <div class="col-lg-6 col-12 text-justify">
+                <h4 class="text-center text-primary">FIC</h4>
+                <p>Esta plataforma es desarrollada mediante el proyecto FIC Código BIP 30.481.998-0, financiado por el Fondo
+                  de Innovación para la Competitividad a través del Gobierno Regional del Maule.</p>
+              </div>
+              <div class="col-lg-6 col-12 text-justify">
+                <img class="img-fluid img-thumbnail mx-auto d-block m-1" src="assets/img/logo-fic.png"/>
+                <img class="img-fluid img-thumbnail mx-auto d-block m-1" src="assets/img/logo-gore.png" style="width:60%;"/>
+              </div>
+            </div>
         </div>
       </div>
 
