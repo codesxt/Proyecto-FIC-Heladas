@@ -92,6 +92,32 @@ router.get('/agromet/regions', ctrlAgromet.getRegions);
 router.get('/agromet/cities', ctrlAgromet.getCities);
 router.get('/agromet/emas', ctrlAgromet.getFilteredEMAs);
 
+// ============ Agromet Backup System ==============
+router.post(
+  '/agrometstations',
+  auth,
+  roleAuth(['administrator']),
+  ctrlAgromet.createAgrometStation
+)
+router.get(
+  '/agrometstations',
+  auth,
+  roleAuth(['administrator']),
+  ctrlAgromet.listAgrometStations
+)
+router.patch(
+  '/agrometstations/:id',
+  auth,
+  roleAuth(['administrator']),
+  ctrlAgromet.editAgrometStation
+)
+router.get(
+  '/agrometstations/:id',
+  auth,
+  roleAuth(['administrator']),
+  ctrlAgromet.getAgrometStation
+)
+
 // ===============Station Endpoints ================
 router.get('/stations', auth, ctrlStations.readStationList);
 router.get('/public-stations', ctrlStations.readStationList);

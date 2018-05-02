@@ -4,6 +4,9 @@ import { CommonModule } from '@angular/common';
 
 import { AgrometComponent } from './agromet.component';
 import { AgrometStationsListComponent } from './agromet-stations/agromet-stations.component';
+import { AgrometRegisterComponent } from './register/register.component';
+import { AgrometListComponent } from './list/list.component';
+import { AgrometEditComponent } from './edit/edit.component';
 
 import { AgrometRoutingModule } from './agromet-routing.module';
 
@@ -26,7 +29,10 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
   ],
   declarations: [
     AgrometComponent,
-    AgrometStationsListComponent
+    AgrometStationsListComponent,
+    AgrometRegisterComponent,
+    AgrometListComponent,
+    AgrometEditComponent
   ]
 })
 export class AgrometModule { }

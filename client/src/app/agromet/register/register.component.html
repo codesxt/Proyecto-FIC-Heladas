@@ -1,0 +1,98 @@
+<div class="text-center" *ngIf="!stationsLoaded">
+  <i class="fa fa-spinner fa-spin fa-5x fa-fw text-primary"></i><br/>
+  Cargando datos de estaciones...
+</div>
+
+<form *ngIf="stationsLoaded">
+  <h3 class="mt-5">1. Cargue datos de estación Agromet</h3>
+  <div class="form-row">
+    <div class="col-12 col-sm-2">
+      <label for="regionselect">Seleccione Región:</label>
+      <select
+        class="form-control"
+        id="regionselect"
+        [(ngModel)]="selectedRegion"
+        name="selectedRegion"
+        (change)="onRegionUpdate()">
+        <option *ngFor="let region of regions" value="{{region.id}}">
+          {{ region.name }}
+        </option>
+      </select>
+    </div>
+    <div class="col-12 col-sm-2">
+      <label for="cityselect">Seleccione Ciudad:</label>
+      <select
+        class="form-control"
+        id="cityselect"
+        [(ngModel)]="selectedCity"
+        name="selectedCity"
+        (change)="onCityUpdate()">
+        <option *ngFor="let city of cities" value="{{city.id}}">
+          {{ city.name }}
+        </option>
+      </select>
+    </div>
+    <div class="col-12 col-sm-2">
+      <label for="stationselect">Seleccione Estación:</label>
+      <select
+        class="form-control"
+        id="stationselect"
+        [(ngModel)]="selectedStation"
+        name="selectedStation"
+        (change)="onStationUpdate()">
+        <option *ngFor="let station of stations" value="{{station.id}}">
+          {{ station.name }}
+        </option>
+        <option *ngIf="stations.length==0" value="null">
+          No hay estaciones
+        </option>
+      </select>
+    </div>
+    <div class="col-12 pt-2">
+      <button class="btn btn-primary" (click)="startRegister()">Cargar Datos de Estación Agromet</button>
+    </div>
+  </div>
+</form>
+
+<div *ngIf="formEnabled">
+  <h3 class="mt-5">2. Verifique los datos y registre estación</h3>
+  <div class="form-group row">
+    <label class="col-md-2 form-control-label" for="name-input">Nombre</label>
+    <div class="col-md-10">
+      <input
+        [(ngModel)]="newRegister.name"
+        class="form-control"
+        placeholder="Nombre de la Estación"
+      >
+    </div>
+  </div>
+  <div class="form-group row" *ngIf="newRegister.station">
+    <label class="col-md-2 form-control-label" for="name-input">Estación</label>
+    <div class="col-md-10">
+      id: {{newRegister.station.id}}, nombre: {{newRegister.station.name}}
+    </div>
+  </div>
+  <div class="form-group row" *ngIf="newRegister.region">
+    <label class="col-md-2 form-control-label" for="name-input">Región</label>
+    <div class="col-md-10">
+      id: {{newRegister.region.id}}, nombre: {{newRegister.region.name}}
+    </div>
+  </div>
+  <div class="form-group row" *ngIf="newRegister.city">
+    <label class="col-md-2 form-control-label" for="name-input">Ciudad</label>
+    <div class="col-md-10">
+      id: {{newRegister.city.id}}, nombre: {{newRegister.city.name}}
+    </div>
+  </div>
+  <div class="form-group row" *ngIf="newRegister.settings">
+    <label class="col-md-2 form-control-label" for="name-input">Respaldo Automático</label>
+    <div class="col-md-10">
+      <label class="switch switch-text switch-pill switch-info">
+        <input type="checkbox" class="switch-input" [(ngModel)]="newRegister.settings.autobackup">
+        <span class="switch-label" data-on="Sí" data-off="No"></span>
+        <span class="switch-handle"></span>
+      </label>
+    </div>
+  </div>
+  <button class="btn btn-primary" (click)="doRegister()">Registrar Estación</button>
+</div>

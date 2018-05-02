@@ -1,0 +1,52 @@
+<div class="text-center" *ngIf="!stations">
+  <i class="fa fa-spinner fa-spin fa-5x fa-fw text-primary"></i><br/>
+  Cargando datos de estaciones...
+</div>
+
+<table class="table table-responsive table-hover table-sm" *ngIf="stations">
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>ID EMA</th>
+      <th>Región</th>
+      <th>Ciudad</th>
+      <th>Autorespaldo</th>
+      <th class="col-2">Opciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let station of stations">
+      <td>{{station.name}}</td>
+      <td>{{station.station.id}}</td>
+      <td>{{station.region.name}}</td>
+      <td>{{station.city.name}}</td>
+      <td>
+        <span *ngIf="station.settings.autobackup">
+          Sí
+        </span>
+        <span *ngIf="!station.settings.autobackup">
+          No
+        </span>
+      </td>
+      <td>
+        <button class="btn btn-warning btn-sm" title="Explorar Datos">
+          <i class="fa fa-database"></i>
+        </button>
+        <a class="btn btn-warning btn-sm" title="Editar Estación" href="#/agromet/edit/{{station._id}}">
+          <i class="fa fa-edit"></i>
+        </a>
+        <button class="btn btn-danger btn-sm" title="Eliminar Estación" (click)="removeStation(station._id)">
+          <i class="fa fa-trash"></i>
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<ngb-pagination
+  [collectionSize]="total"
+  [(page)]="page"
+  [pageSize]="pageSize"
+  (pageChange)="onPageChange($event)"
+  aria-label="Pagination">
+</ngb-pagination>
+<p>Total de estaciones: {{ totalItems }}</p>

@@ -87,7 +87,7 @@
         id="categoryselect"
         [(ngModel)]="selectedCategory"
         name="selectedRegion"
-        (change)="onRegionUpdate()">
+        (change)="onCategoryChanged()">
         <option *ngFor="let category of categories" value="{{category.value}}">
           {{ category.name }}
         </option>

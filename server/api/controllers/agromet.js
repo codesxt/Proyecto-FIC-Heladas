@@ -2,6 +2,10 @@ const utils = require('./utils');
 const request = require('request');
 const parseString = require('xml2js').parseString;
 const moment = require('moment');
+const mongoose    = require('mongoose');
+const AgrometStation = mongoose.model('AgrometStation');
+const JsonApiQueryParserClass = require('jsonapi-query-parser');
+const JsonApiQueryParser = new JsonApiQueryParserClass();
 
 module.exports.getEmaHistory = (req, res) => {
   let emaId = req.params.emaId;
@@ -44,6 +48,12 @@ module.exports.getEmaHistory = (req, res) => {
                 console.log(err);
                 console.log("Error parsing body:");
                 console.log(body);
+                utils.sendJSONresponse(res, 404, {
+                  message: "Ocurrió un error al procesar los datos de Agromet."
+                });
+                return;
+              }
+              if(!result){
                 utils.sendJSONresponse(res, 404, {
                   message: "Ocurrió un error al procesar los datos de Agromet."
                 });
@@ -228,7 +238,6 @@ module.exports.getFilteredEMAs = (req, res) => {
   let url = 'https://www.agromet.cl/ext/aux/getFilteredEMAS.php?';
   url += 'reg_ia_id='+regionId;
   let cityId = req.query.city;
-  console.log(cityId);
   if(cityId){
     url += '&com_ia_id=' + cityId;
   }
@@ -258,6 +267,142 @@ module.exports.getFilteredEMAs = (req, res) => {
         }
         utils.sendJSONresponse(res, 200, {
           stations: emas
+        })
+      }
+    }
+  )
+}
+
+module.exports.createAgrometStation = (req, res) => {
+  let stationData = req.body;
+  if(stationData.name && stationData.station && stationData.city && stationData.region && stationData.settings){
+    // store
+    let station      = new AgrometStation();
+    station.name     = stationData.name;
+    station.station  = stationData.station;
+    station.city     = stationData.city;
+    station.region   = stationData.region;
+    station.settings = stationData.settings;
+    station.save((err, result) => {
+      if(err){
+        console.log(err);
+        utils.sendJSONresponse(res, 500, {
+          message: 'Ocurrió un error al registrar la estación. Detalles: ' + err.message
+        })
+        return;
+      }else{
+        utils.sendJSONresponse(res, 200, {
+          message: 'Estación creada exitosamente.'
+        })
+      }
+    })
+  }else{
+    utils.sendJSONresponse(res, 400, {
+      message: 'Faltan datos en la solicitud.'
+    })
+  }
+}
+
+module.exports.listAgrometStations = (req, res) => {
+  var hostname    = req.headers.host;
+  let requestData = JsonApiQueryParser.parseRequest(req.url);
+  let pageNumber  = requestData.queryData.page.number  || 0;
+  let pageSize    = requestData.queryData.page.size    || 10;
+  let query = { };
+  AgrometStation.find(
+    query
+    ,
+    '',
+    {
+      sort:{ },
+      skip:pageNumber*pageSize,
+      limit:pageSize*1
+    },
+    function(err, stations){
+      if(err){
+        console.log(err);
+        utils.sendJSONresponse(res, 400, err);
+      }else{
+        //console.log(events);
+        AgrometStation.count(query, (err, count) => {
+          utils.sendJSONresponse(res, 201, {
+            meta: {
+              "total-pages": count/pageSize,
+              "total-items": count
+            },
+            links: {
+              self: hostname+'/api/v1/hobostations'
+            },
+            data: stations
+          });
+        });
+      }
+    }
+  );
+}
+
+module.exports.getAgrometStation = (req, res) => {
+  AgrometStation.findById(req.params.id, (err, station) => {
+    if(err){
+      console.log(err);
+      utils.sendJSONresponse(res, 400, err);
+    }else{
+      var resObject = {
+        type: "agrometstations",
+        id: station._id,
+        attributes: {
+          name     : station.name,
+          station  : station.station,
+          region   : station.region,
+          city     : station.city,
+          settings : station.settings
+        },
+        links: {
+          self: req.headers.host+'/api/v1/agrometstations/'+station._id
+        }
+      };
+      utils.sendJSONresponse(res, 200, resObject);
+    }
+  });
+}
+
+module.exports.editAgrometStation = (req, res) => {
+  if (!req.params.id) {
+    utils.sendJSONresponse(res, 404, {
+      "message": "Estación no encontrada. Se requiere especificar un ID."
+    });
+    return;
+  }
+  AgrometStation.findById(req.params.id)
+  .exec(
+    (err, station) => {
+      if(!station){
+        utils.sendJSONresponse(res, 404, {
+          "message": "Estación no encontrada."
+        });
+        return;
+      }else if (err) {
+        utils.sendJSONresponse(res, 400, {
+          message: "Ocurrió un error al actualizar la estación.",
+          error: err
+        });
+        return;
+      }else{
+        station.name = req.body.name;
+        station.settings = req.body.settings;
+        station.save((err) => {
+          if (err){
+            utils.sendJSONresponse(res, 400, {
+              "message": "Ha ocurrido un error en la actualización de los datos."
+            })
+            return;
+          }else{
+            utils.sendJSONresponse(res, 200, {
+              "message": "Estación actualizada exitosamente.",
+              station: station
+            })
+            return;
+          }
         })
       }
     }

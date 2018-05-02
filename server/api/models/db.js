@@ -47,4 +47,5 @@ require('./users');
 require('./documents');
 require('./stations');
 require('./hobodata');
-require('./hobostation')
+require('./hobostation');
+require('./agrometstation');

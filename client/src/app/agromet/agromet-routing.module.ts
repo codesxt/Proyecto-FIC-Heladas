@@ -3,6 +3,9 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { AgrometComponent } from './agromet.component';
 import { AgrometStationsListComponent } from './agromet-stations/agromet-stations.component';
+import { AgrometRegisterComponent } from './register/register.component';
+import { AgrometListComponent } from './list/list.component';
+import { AgrometEditComponent } from './edit/edit.component';
 
 const routes: Routes = [
   {
@@ -19,6 +22,27 @@ const routes: Routes = [
           title: 'Estaciones de Agromet'
         }
       },
+      {
+        path: 'register',
+        component: AgrometRegisterComponent,
+        data: {
+          title: 'Registrar estación de Agromet'
+        }
+      },
+      {
+        path: 'list',
+        component: AgrometListComponent,
+        data: {
+          title: 'Estaciones de Agromet Registradas'
+        }
+      },
+      {
+        path: 'edit/:id',
+        component: AgrometEditComponent,
+        data: {
+          title: 'Editar Estación'
+        }
+      }
     ]
   }
 ];
