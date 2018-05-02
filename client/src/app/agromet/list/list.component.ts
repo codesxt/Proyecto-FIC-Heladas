@@ -52,4 +52,9 @@ export class AgrometListComponent implements OnInit {
   removeStation(){
     alert('Va a eliminar una estación, oiga.');
   }
+
+  onPageChange(event: Event){
+    console.log(event);
+    this.loadData();
+  }
 }
