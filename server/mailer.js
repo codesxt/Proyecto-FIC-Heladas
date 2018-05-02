@@ -49,18 +49,27 @@ module.exports.sendFrostsEmail = (emailAddress, frosts) => {
         table: {
           data: frostData
         },
-        action: {
-            instructions: 'Para revisar el detalle de las predicciones, haga click aquí:',
-            button: {
-                color: '#22BC66',
-                text: 'Ver Predicciones',
-                link: 'http://heladas.utalca.cl/predicciones/'
+        action: [
+          {
+              instructions: 'Para revisar el detalle de las predicciones, haga click aquí:',
+              button: {
+                  color: '#22BC66',
+                  text: 'Ver Predicciones',
+                  link: 'https://heladas.utalca.cl/predicciones/#/user-predictions/list'
+              }
+          },
+          {
+                instructions: 'Para modificar la frecuencia con la que se reciben notificaciones, haga click aquí:',
+                button: {
+                    text: 'Configuraciones',
+                    link: 'https://heladas.utalca.cl/predicciones/#/settings'
+                }
             }
-        }
+        ]
     }
   };
   let mailOptions = {
-    from: '"Notificaciones Heladas" <foo@blurdybloop.com>',
+    from: '"Notificaciones Heladas" <notificaciones.heladas@gmail.com>',
     to: emailAddress,
     subject: 'Predicciones de Heladas para el día ' + moment().add(1, 'days').format('LL') +" ❄",
     text: mailGenerator.generatePlaintext(email),
