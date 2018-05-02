@@ -49,8 +49,20 @@ export class AgrometListComponent implements OnInit {
     );
   }
 
-  removeStation(){
-    alert('Va a eliminar una estación, oiga.');
+  removeStation(stationId){
+    let conf = confirm("¿Deseas eliminar la estación?");
+    if(conf) {
+      this.agrometService.deleteAgrometStation(stationId)
+      .subscribe(
+        data => {
+          this.notificationsService.success("Estación Eliminada", "La estación fue eliminada exitosamente.");
+          this.loadData();
+        },
+        error => {
+          this.notificationsService.error("Error", "Se produjo un error en la eliminación de la estación.");
+        }
+      )
+    }
   }
 
   onPageChange(event: Event){

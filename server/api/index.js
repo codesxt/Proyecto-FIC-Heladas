@@ -117,6 +117,12 @@ router.get(
   roleAuth(['administrator']),
   ctrlAgromet.getAgrometStation
 )
+router.delete(
+  '/agrometstations/:id',
+  auth,
+  roleAuth(['administrator']),
+  ctrlAgromet.removeAgrometStation
+)
 
 // ===============Station Endpoints ================
 router.get('/stations', auth, ctrlStations.readStationList);

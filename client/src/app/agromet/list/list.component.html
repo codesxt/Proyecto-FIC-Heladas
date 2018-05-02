@@ -3,7 +3,12 @@
   Cargando datos de estaciones...
 </div>
 
-<table class="table table-responsive table-hover table-sm" *ngIf="stations">
+<div class="alert alert-info" role="alert" *ngIf="stations.length==0">
+  <strong>Estaciones:</strong> No se han registrado estaciones de agromet para ser administradas. Puede registrar estaciones
+  <a href="#/agromet/register">aquí</a>.
+</div>
+
+<table class="table table-responsive table-hover table-sm" *ngIf="stations.length>0">
   <thead>
     <tr>
       <th>Nombre</th>
@@ -31,6 +36,9 @@
       <td>
         <button class="btn btn-warning btn-sm" title="Explorar Datos">
           <i class="fa fa-database"></i>
+        </button>
+        <button class="btn btn-warning btn-sm" title="Cargar Datos Manualmente">
+          <i class="fa fa-upload"></i>
         </button>
         <a class="btn btn-warning btn-sm" title="Editar Estación" href="#/agromet/edit/{{station._id}}">
           <i class="fa fa-edit"></i>

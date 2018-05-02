@@ -408,3 +408,19 @@ module.exports.editAgrometStation = (req, res) => {
     }
   )
 }
+
+module.exports.removeAgrometStation = (req, res) => {
+  // Verificar que no hayan más datos en la estación.
+  // Si hay datos, lanzar error Unauthorized.  
+  AgrometStation.findByIdAndRemove(req.params.id)
+  .exec(
+    function(err, station){
+      if(err){
+        utils.sendJSONresponse(res, 404, err);
+        return;
+      }
+      utils.sendJSONresponse(res, 204, null);
+      return;
+    }
+  )
+}

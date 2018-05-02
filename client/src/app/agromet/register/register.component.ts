@@ -117,7 +117,6 @@ export class AgrometRegisterComponent implements OnInit {
       return item.id == this.selectedCity;
     })[0];
 
-    // TODO : Modificar modelo para que la estación sea un sub objeto
     this.newRegister = {
       name   : name,
       station: {
@@ -145,7 +144,7 @@ export class AgrometRegisterComponent implements OnInit {
     .subscribe(
       data => {
         this.notificationsService.success('Error', 'Estación registrada exitosamente');
-        this.router.navigate(['/agromet']);
+        this.router.navigate(['/agromet/list']);
       },
       error => {
         this.notificationsService.error('Error', error.json().message);

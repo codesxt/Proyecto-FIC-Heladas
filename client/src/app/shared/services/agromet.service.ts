@@ -175,4 +175,16 @@ export class AgrometService {
       (response: Response) => response.json()
     );
   }
+
+  deleteAgrometStation(stationId: string): any{
+    let headers = new Headers({
+      'Authorization': 'Bearer ' + this.authenticationService.getToken()
+    });
+    let options = new RequestOptions({
+      headers: headers
+    });
+    return this.http.delete(this.baseURL+'/api/v1/agrometstations/' + stationId, options).map(
+      (response: Response) => response.json()
+    );
+  }
 }
