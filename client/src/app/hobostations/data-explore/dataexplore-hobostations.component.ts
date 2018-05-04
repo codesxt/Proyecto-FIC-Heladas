@@ -235,7 +235,7 @@ export class HoboStationsDataExploreComponent implements OnInit {
     let title = 'Datos Exportados ' + station + " - " + moment(this.dateValue).format('YYYY-MM-DD') + " - " + moment(this.dateValue2).format('YYYY-MM-DD');;
     this.stationData.forEach((item) => {
       data.push({
-        date           : item.date,
+        date           : moment(item.date).format('YYYY-MM-DD HH:mm:ss'),
         pressure       : item.pressure,
         rain           : item.rain,
         temperature    : item.temperature,
