@@ -9,6 +9,7 @@ import { StationsAdminMapComponent } from './stations-map.component';
 import { AdminHoboStationsManualUploadComponent } from './manual-upload/manual-upload.component';
 import { AdminHoboStationsDataDisplayComponent } from './data-display/datadisplay-hobostations.component';
 import { AdminHoboStationsIntegrationsComponent } from './integrations/integrations.component';
+import { AdminHoboStationsDataExploreComponent } from './data-explore/dataexplore-hobostations.component';
 
 const routes: Routes = [
   {
@@ -58,6 +59,13 @@ const routes: Routes = [
         component: AdminHoboStationsDataDisplayComponent,
         data: {
           title: 'Visualizar Datos'
+        }
+      },
+      {
+        path: 'dataexplore',
+        component: AdminHoboStationsDataExploreComponent,
+        data: {
+          title: 'Explorar Datos'
         }
       },
       {

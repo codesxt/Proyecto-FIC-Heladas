@@ -95,12 +95,15 @@ export class HoboStationsService {
     );
   }
 
-  getStationDataByDate(station: string, from: string): any{
+  getStationDataByDate(station: string, from: string, to?: string): any{
     let headers = new Headers({
       'Authorization': 'Bearer ' + this.authenticationService.getToken()
     });
     let params = new URLSearchParams();
     params.append('from', from);
+    if(to){
+      params.append('to', to);
+    }
     let options = new RequestOptions({
       headers : headers,
       params  : params

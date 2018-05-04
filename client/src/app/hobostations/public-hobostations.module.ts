@@ -5,6 +5,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 import { PublicHobostationsComponent } from './public-hobostations.component';
 import { HoboStationsDataDisplayComponent } from './data-display/datadisplay-hobostations.component';
+import { HoboStationsDataExploreComponent } from './data-explore/dataexplore-hobostations.component';
 
 import { PublicHobostationsRoutingModule } from './public-hobostations-routing.module';
 
@@ -30,7 +31,8 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
   ],
   declarations: [
     PublicHobostationsComponent,
-    HoboStationsDataDisplayComponent
+    HoboStationsDataDisplayComponent,
+    HoboStationsDataExploreComponent
   ]
 })
 export class PublicHobostationsModule { }

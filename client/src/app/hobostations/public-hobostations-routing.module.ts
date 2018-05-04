@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { PublicHobostationsComponent } from './public-hobostations.component';
 import { HoboStationsDataDisplayComponent } from './data-display/datadisplay-hobostations.component';
+import { HoboStationsDataExploreComponent } from './data-explore/dataexplore-hobostations.component';
 
 const routes: Routes = [
   {
@@ -14,7 +15,7 @@ const routes: Routes = [
     children: [
       {
         path: 'data',
-        component: HoboStationsDataDisplayComponent,
+        component: HoboStationsDataExploreComponent,
         data: {
           title: 'Datos de las estaciones'
         }
