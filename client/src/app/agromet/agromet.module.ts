@@ -7,6 +7,7 @@ import { AgrometStationsListComponent } from './agromet-stations/agromet-station
 import { AgrometRegisterComponent } from './register/register.component';
 import { AgrometListComponent } from './list/list.component';
 import { AgrometEditComponent } from './edit/edit.component';
+import { AgrometDataManagementComponent } from './data-management/data-management.component';
 
 import { AgrometRoutingModule } from './agromet-routing.module';
 
@@ -15,6 +16,7 @@ import { SharedModule } from '../shared/shared.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AgmCoreModule } from '@agm/core';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
+import { CalendarModule } from 'angular-calendar';
 
 @NgModule({
   imports: [
@@ -25,14 +27,16 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
     SharedModule,
     NgbModule,
     AgmCoreModule,
-    ChartsModule
+    ChartsModule,
+    CalendarModule.forRoot()
   ],
   declarations: [
     AgrometComponent,
     AgrometStationsListComponent,
     AgrometRegisterComponent,
     AgrometListComponent,
-    AgrometEditComponent
+    AgrometEditComponent,
+    AgrometDataManagementComponent
   ]
 })
 export class AgrometModule { }

@@ -42,7 +42,12 @@ import { SharedModule } from './shared/shared.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AgmCoreModule } from '@agm/core';
 import { NgUploaderModule } from 'ngx-uploader';
+import { CalendarModule } from 'angular-calendar';
 import * as moment from 'moment';
+
+import { registerLocaleData } from '@angular/common';
+import localeEsCL from '@angular/common/locales/es-CL';
+registerLocaleData(localeEsCL);
 
 @NgModule({
   imports: [
@@ -63,7 +68,8 @@ import * as moment from 'moment';
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyBpS9EB53vYadB4EB_bcooT8_e4tK25-Gw'
     }),
-    NgUploaderModule
+    NgUploaderModule,
+    CalendarModule.forRoot()
   ],
   declarations: [
     AppComponent,

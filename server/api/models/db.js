@@ -49,3 +49,4 @@ require('./stations');
 require('./hobodata');
 require('./hobostation');
 require('./agrometstation');
+require('./agrometdata');

@@ -123,6 +123,24 @@ router.delete(
   roleAuth(['administrator']),
   ctrlAgromet.removeAgrometStation
 )
+router.put(
+  '/agrometdata/:id',
+  auth,
+  roleAuth(['administrator']),
+  ctrlAgromet.backupAgrometData
+)
+router.get(
+  '/agrometdata/count/:id',
+  auth,
+  roleAuth(['administrator']),
+  ctrlAgromet.getAgrometDataCount
+)
+router.delete(
+  '/agrometdata/:id',
+  auth,
+  roleAuth(['administrator']),
+  ctrlAgromet.removeAgrometData
+)
 
 // ===============Station Endpoints ================
 router.get('/stations', auth, ctrlStations.readStationList);
