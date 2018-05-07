@@ -50,7 +50,7 @@ export class AgrometListComponent implements OnInit {
   }
 
   removeStation(stationId){
-    let conf = confirm("¿Deseas eliminar la estación?");
+    let conf = confirm("¿Deseas eliminar la estación? Esto eliminará todos los datos almacenados de la estación.");
     if(conf) {
       this.agrometService.deleteAgrometStation(stationId)
       .subscribe(

@@ -4,6 +4,7 @@ const Q = require('q');
 const rp = require('request-promise');
 const nodemailer = require('nodemailer');
 const mailer = require('./mailer');
+const moment = require('moment');
 
 const host = 'http://localhost:3000';
 
@@ -11,6 +12,7 @@ const mongoose = require('mongoose');
 const db = require('./api/models/db');
 const User = mongoose.model('User');
 const Station = mongoose.model('Station');
+const AgrometStation = mongoose.model('AgrometStation');
 
 //const sms = require('./sms_notification');
 
@@ -96,9 +98,33 @@ notifyFrosts = () => {
   )
 }
 
+executeAutomatedBackup = () => {
+  let startDate = moment().subtract(1, 'days').set('hour', 0).set('minute', 0).set('millisecond', 0);
+  let from      = startDate.format('YYYY-MM-DD');
+  AgrometStation.find({
+    'settings.autobackup' : true
+  }, (error, result) => {
+    for(let station of result){
+      request.put(host + '/api/v1/agrometdata/auto/'+station._id+'?from='+from,
+        (error, response, body) => {
+          if(error){
+            console.log('Ocurrió un error al respaldar automáticamente los datos de la estación ' + station.name);
+            console.log(error);
+          }
+          if(body){
+            console.log('Datos respaldados automáticamente para la estación ' + station.name);
+            console.log(body);
+          }
+        }
+      )
+    }
+  })
+}
+
 module.exports.run = () => {
   console.log("[Task Scheduler] Scheduling Tasks...");
   const notificationJob = schedule.scheduleJob('5 18 * * *', notifyFrosts);
+  const backupJob       = schedule.scheduleJob('0 1 * * *', executeAutomatedBackup);
   //const notificationJob = schedule.scheduleJob('*/1 * * * *', notifyFrosts);
   console.log("[Task Scheduler] Task Schedule set");
 }

@@ -412,8 +412,6 @@ module.exports.editAgrometStation = (req, res) => {
 }
 
 module.exports.removeAgrometStation = (req, res) => {
-  // Verificar que no hayan más datos en la estación.
-  // Si hay datos, lanzar error Unauthorized.
   AgrometStation.findByIdAndRemove(req.params.id)
   .exec(
     function(err, station){
@@ -421,6 +419,9 @@ module.exports.removeAgrometStation = (req, res) => {
         utils.sendJSONresponse(res, 404, err);
         return;
       }
+      AgrometSensorData.remove({
+        station: station._id
+      }, (error, data) => { })
       utils.sendJSONresponse(res, 204, null);
       return;
     }
@@ -431,6 +432,16 @@ module.exports.backupAgrometData = (req, res) => {
   // 1. Cargar estación
   // 2. Cargar datos de agromet usando id de EMA
   // 3. Upsertar datos de agromet en la bd local
+  if(req.route.path=='/agrometdata/auto/:id'){
+    // Excepción para asegurar el endpoint que no lleva autenticación
+    // y que es llamado desde la tarea de respaldo automatizado
+    if(!(req.headers.host == 'localhost:3000' || req.headers.host == 'heladas.utalca.cl')){
+      utils.sendJSONresponse(res, 401, {
+        message: "No tiene autorización para realizar esta acción."
+      });
+      return;
+    }
+  }
   AgrometStation.findOne({
     _id: req.params.id
   })

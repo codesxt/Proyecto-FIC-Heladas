@@ -129,6 +129,11 @@ router.put(
   roleAuth(['administrator']),
   ctrlAgromet.backupAgrometData
 )
+// Endpoint utilizado para el respaldo automatizado de datos
+router.put(
+  '/agrometdata/auto/:id',
+  ctrlAgromet.backupAgrometData
+)
 router.get(
   '/agrometdata/count/:id',
   auth,
