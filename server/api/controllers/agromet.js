@@ -500,6 +500,7 @@ module.exports.backupAgrometData = (req, res) => {
                 .upsert()
                 .update({
                   $set : {
+                    date                : new Date(item.date),
                     airTemperatureAvg   : item.airTemperatureAvg,
                     hourlyRainfall      : item.hourlyRainfall,
                     relativeHumidityAvg : item.relativeHumidityAvg,
