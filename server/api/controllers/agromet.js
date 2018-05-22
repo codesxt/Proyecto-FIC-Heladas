@@ -584,7 +584,9 @@ module.exports.getAgrometDataCount = (req, res) => {
     }
   ], {
     cursor: {}
-  }, (error, result) => {
+  })
+  .exec(
+    (error, result) => {
     if(error){
       utils.sendJSONresponse(res, 500, {
         message : "Ocurrió un error al contar los datos existentes en el sistema.",
