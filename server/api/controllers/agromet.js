@@ -583,7 +583,7 @@ module.exports.getAgrometDataCount = (req, res) => {
       }
     }
   ])
-  .cursor({})
+  .cursor({batchSize: 1000})
   .exec(
     (error, result) => {
     if(error){
