@@ -491,6 +491,12 @@ module.exports.backupAgrometData = (req, res) => {
                   result.push(item);
                 }
               })
+              if(result.length == 0){
+                utils.sendJSONresponse(res, 404, {
+                  message: 'No se encontraron datos que guardar en la base de datos.'
+                });
+                return;
+              }
               let bulkOp = AgrometSensorData.collection.initializeOrderedBulkOp();
               result.forEach((item) => {
                 bulkOp.find({
@@ -576,7 +582,9 @@ module.exports.getAgrometDataCount = (req, res) => {
         date: { $first: "$date" }
       }
     }
-  ], (error, result) => {
+  ], {
+    cursor: {}
+  }, (error, result) => {
     if(error){
       utils.sendJSONresponse(res, 500, {
         message : "Ocurrió un error al contar los datos existentes en el sistema.",

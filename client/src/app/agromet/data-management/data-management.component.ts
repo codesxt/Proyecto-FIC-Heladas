@@ -206,6 +206,7 @@ export class AgrometDataManagementComponent implements OnInit {
         error    => {
           console.log(error);
           this.notificationsService.error('Error', 'Error al obtener los datos.');
+          modalRef.close();
         }
       )
     }
