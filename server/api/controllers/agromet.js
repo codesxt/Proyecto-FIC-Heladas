@@ -582,9 +582,8 @@ module.exports.getAgrometDataCount = (req, res) => {
         date: { $first: "$date" }
       }
     }
-  ], {
-    cursor: {}
-  })
+  ])
+  .cursor({})
   .exec(
     (error, result) => {
     if(error){
