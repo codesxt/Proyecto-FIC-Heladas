@@ -264,12 +264,12 @@ module.exports.uploadFile = (req, res) => {
               bulkOp.execute((error, result) => {
                 if(error){
                   console.log(JSON.stringify(error, null, "\t"));
-                  sendJSONresponse(res, 400, {
+                  utils.sendJSONresponse(res, 400, {
                     message: "Se ha producido un error en la inserción de los datos. Probablemente se hayan subido datos que ya estaban en el sistema."
                   });
                   return;
                 }else{
-                  sendJSONresponse(res, 201, {
+                  utils.sendJSONresponse(res, 201, {
                     message   : "Inserción exitosa de datos.",
                     nInserted : Math.max(result.toJSON().nUpserted, result.toJSON().nMatched)
                   });
