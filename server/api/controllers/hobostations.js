@@ -236,26 +236,46 @@ module.exports.uploadFile = (req, res) => {
               console.log("Documents:");
               console.log(documents);
               */
+              let bulkOp = HoboData.collection.initializeOrderedBulkOp();
+              documents.forEach((item) => {
+                bulkOp.find({
+                  station         : station,
+                  date            : item.date
+                })
+                .upsert()
+                .update({
+                  $set : {
+                    station        : station,
+                    date           : item.date,
+                    pressure       : item.pressure,
+                    rain           : item.rain,
+                    temperature    : item.temperature,
+                    rh             : item.rh,
+                    dewPoint       : item.dewPoint,
+                    solarRadiation : item.solarRadiation,
+                    windDirection  : item.windDirection,
+                    windSpeed      : item.windSpeed,
+                    gustSpeed      : item.gustSpeed,
+                    battery        : item.battery
 
-              HoboData.collection.insertMany(
-                documents,
-                {ordered: true},
-                (error, docs) => {
-                  if(error){
-                    console.log(error);
-                    utils.sendJSONresponse(res, 400, {
-                      message:"Ocurrió un error al subir el archivo.",
-                      error  : error
-                    });
-                    return;
                   }
-                  console.log(docs);
-                  utils.sendJSONresponse(res, 200, {
-                    message:"Archivo subido exitosamente."
+                })
+              })
+              bulkOp.execute((error, result) => {
+                if(error){
+                  console.log(JSON.stringify(error, null, "\t"));
+                  sendJSONresponse(res, 400, {
+                    message: "Se ha producido un error en la inserción de los datos. Probablemente se hayan subido datos que ya estaban en el sistema."
+                  });
+                  return;
+                }else{
+                  sendJSONresponse(res, 201, {
+                    message   : "Inserción exitosa de datos.",
+                    nInserted : Math.max(result.toJSON().nUpserted, result.toJSON().nMatched)
                   });
                   return;
                 }
-              )
+              });
             }
           }
         )
