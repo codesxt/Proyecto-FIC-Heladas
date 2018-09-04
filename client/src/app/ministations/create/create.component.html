@@ -1,0 +1,64 @@
+<div class="row">
+  <form class="col-12" *ngIf="controllerNode">
+    <div class="form-row mx-3 mt-3">
+      <div class="form-group col-12">
+        <label for="name"><b>Nombre Nodo Controlador:</b></label>
+        <input
+          class="form-control"
+          type="text"
+          name="name"
+          [(ngModel)]="controllerNode.name"
+          placeholder="Ingrese un nombre para el controlador..."/>
+      </div>
+    </div>
+
+    <div class="mx-3 mt-3">
+      <label for="name"><b>Ubicación del Controlador:</b></label>
+      <div style="height: 400px;"
+         leaflet
+         [leafletOptions]="options"
+         [leafletLayers]="layers"
+         [(leafletZoom)]="zoom"
+         (leafletMapReady)="onMapReady($event)"
+         (leafletClick)="onLeafletClick($event)"
+         (leafletMapZoom)="onZoomChange($event)">
+      </div>
+      <span>Lat.: {{ controllerNode.location.coordinates[1] | number:'2.1-8' }}, Lng.: {{ controllerNode.location.coordinates[0] | number:'2.1-8' }}</span>
+    </div>
+
+    <div class="mx-3 mt-3">
+      <label for="name"><b>Mini Estaciones asociadas:</b></label><br/>
+      <button class="btn btn-primary" (click)="addStation()">
+        Añadir Mini Estación
+        <i class="icon-plus"></i>
+      </button>
+      <div style="width:100%;display:block;" class="mt-2">
+        <div style="width:20%;display:inline-block;" class="p-2" *ngFor="let s of stations">
+          <div class="station-item">
+            <div class="station-content">
+              {{s.name}}<br/>
+              Lat.:{{s.location.coordinates[1] | number:'2.1-8'}}<br/>
+              Lng.:{{s.location.coordinates[0] | number:'2.1-8'}}
+            </div>
+            <div class="station-options">
+              <button type="button" class="btn btn-outline-light btn-sm btn-block" (click)="editStation(s)">
+                <i class="fa fa-edit"></i>
+              </button>
+              <button type="button" class="btn btn-outline-light btn-sm btn-block" (click)="deleteStation(s)">
+                <i class="fa fa-trash-o"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mx-3 mt-3">
+      <hr/>
+      <button class="btn btn-primary" (click)="save()">
+        <i class="fa fa-save"></i>
+        Guardar Nodo Controlador
+      </button>
+    </div>
+  </form>
+</div>

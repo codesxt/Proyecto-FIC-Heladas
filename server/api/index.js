@@ -15,7 +15,7 @@ const ctrlSystem          = require('./controllers/system');
 const ctrlSubscriptions   = require('./controllers/subscriptions');
 const ctrlAgromet         = require('./controllers/agromet');
 const ctrlHoboStations    = require('./controllers/hobostations');
-//const ctrlDocuments       = require('./controllers/documents');
+const ctrlMiniStations    = require('./controllers/mini-stations');
 
 const roleAuth            = ctrlAuthentication.roleAuthorization;
 
@@ -145,6 +145,32 @@ router.delete(
   auth,
   roleAuth(['administrator']),
   ctrlAgromet.removeAgrometData
+)
+
+// ================ Mini Stations ==================
+router.get(
+  '/controller-nodes',
+  auth,
+  roleAuth(['administrator']),
+  ctrlMiniStations.getControllerNodes
+)
+router.get(
+  '/controller-nodes/:id',
+  auth,
+  roleAuth(['administrator']),
+  ctrlMiniStations.readControllerNode
+)
+router.post(
+  '/controller-nodes',
+  auth,
+  roleAuth(['administrator']),
+  ctrlMiniStations.createControllerNode
+)
+router.patch(
+  '/controller-nodes/:id',
+  auth,
+  roleAuth(['administrator']),
+  ctrlMiniStations.updateControllerNode
 )
 
 // ===============Station Endpoints ================

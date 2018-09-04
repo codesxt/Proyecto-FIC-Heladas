@@ -1,0 +1,27 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <strong>Estaciones</strong>
+        </div>
+        <div class="card-body p-2 p-md-4">
+          <ul class="nav nav-tabs">
+            <li class="nav-item">
+              <a class="nav-link" routerLinkActive="active" [routerLink]="['list']"><i class="icon-notebook"></i> Lista de Controladores</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLinkActive="active" [routerLink]="['/admin-stations/map']"><i class="icon-map"></i> Mapa de Controladores</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLinkActive="active" [routerLink]="['create']"><i class="icon-plus"></i> Crear Controlador</a>
+            </li>
+          </ul>
+          <div class="p-2">
+            <router-outlet></router-outlet>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -36,6 +36,7 @@ import { HoboStationsService } from './shared/services/hobostations.service';
 import { SystemService } from './shared/services/system.service';
 import { SubscriptionsService } from './shared/services/subscriptions.service';
 import { AgrometService } from './shared/services/agromet.service';
+import { MiniStationsService } from './shared/services/ministations.service';
 
 // Shared Module
 import { SharedModule } from './shared/shared.module';
@@ -44,10 +45,13 @@ import { AgmCoreModule } from '@agm/core';
 import { NgUploaderModule } from 'ngx-uploader';
 import { CalendarModule } from 'angular-calendar';
 import * as moment from 'moment';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
 import { registerLocaleData } from '@angular/common';
 import localeEsCL from '@angular/common/locales/es-CL';
 registerLocaleData(localeEsCL);
+
+import { MinistationModalComponent } from './ministations/ministation-modal/ministation-modal.component';
 
 @NgModule({
   imports: [
@@ -69,7 +73,8 @@ registerLocaleData(localeEsCL);
       apiKey: 'AIzaSyBpS9EB53vYadB4EB_bcooT8_e4tK25-Gw'
     }),
     NgUploaderModule,
-    CalendarModule.forRoot()
+    CalendarModule.forRoot(),
+    LeafletModule.forRoot()
   ],
   declarations: [
     AppComponent,
@@ -78,7 +83,11 @@ registerLocaleData(localeEsCL);
     NAV_DROPDOWN_DIRECTIVES,
     BreadcrumbsComponent,
     SIDEBAR_TOGGLE_DIRECTIVES,
-    AsideToggleDirective
+    AsideToggleDirective,
+    MinistationModalComponent
+  ],
+  entryComponents: [
+    MinistationModalComponent
   ],
   providers: [
     FrostService,
@@ -90,6 +99,7 @@ registerLocaleData(localeEsCL);
     SystemService,
     SubscriptionsService,
     AgrometService,
+    MiniStationsService,
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy

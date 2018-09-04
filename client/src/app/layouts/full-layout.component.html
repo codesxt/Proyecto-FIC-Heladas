@@ -45,6 +45,9 @@
         <li class="nav-item" *ngIf="isAdmin()">
           <a class="nav-link" routerLinkActive="active" [routerLink]="['/stations-list']"><i class="icon-list"></i> Lista de EMAs </a>
         </li>
+        <li class="nav-item" *ngIf="isAdmin()">
+          <a class="nav-link" routerLinkActive="active" [routerLink]="['/ministations']"><i class="icon-list"></i> Mini Estaciones </a>
+        </li>
         <li class="nav-title">
           Secciones
         </li>

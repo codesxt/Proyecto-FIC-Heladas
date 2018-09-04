@@ -1,0 +1,49 @@
+<div class="modal-header">
+  <h2 class="modal-title pull-left">Ingrese los datos de la Mini Estación</h2>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="activeModal.dismiss('close')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="row">
+    <form class="col-12" *ngIf="station">
+      <div class="form-row mx-3 mt-3">
+        <div class="form-group col-12">
+          <label for="name"><b>Nombre Mini Estación:</b></label>
+          <input
+            class="form-control"
+            type="text"
+            name="name"
+            [(ngModel)]="station.name"
+            placeholder="Ingrese un nombre para la Estación..."/>
+        </div>
+      </div>
+
+      <div class="mx-3 mt-3">
+        <label for="name"><b>Ubicación de la Mini Estación:</b></label>
+        <div style="height: 400px;"
+           leaflet
+           [leafletOptions]="options"
+           [leafletLayers]="layers"
+           [(leafletZoom)]="zoom"
+           (leafletMapReady)="onMapReady($event)"
+           (leafletClick)="onLeafletClick($event)"
+           (leafletMapZoom)="onZoomChange($event)">
+        </div>
+        <span>Lat.: {{ station.location.coordinates[1] }}, Lng.: {{ station.location.coordinates[0] }}</span>
+      </div>
+
+      <div class="mx-3 mt-3">
+        <button class="btn btn-success" (click)="addMiniStation()">
+          <i class="fa fa-save"></i>
+          <span *ngIf="!data.station">
+            Añadir Mini Estación
+          </span>
+          <span *ngIf="data.station">
+            Actualizar Mini Estación
+          </span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

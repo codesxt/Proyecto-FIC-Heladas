@@ -189,7 +189,6 @@ module.exports.uploadFile = (req, res) => {
                 error  : error
               });
               return;
-              return;
             }else{
               // Características del archivo
               // * La primera línea trae las etiquetas

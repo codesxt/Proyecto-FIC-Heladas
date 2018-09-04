@@ -1,0 +1,46 @@
+<table class="table table-responsive table-hover table-sm" *ngIf="nodes.length>0">
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Latitud</th>
+      <th>Longitud</th>
+      <th>Estaciones asociadas</th>
+      <th>Opciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let n of nodes">
+      <td>
+        {{ n.name }}
+      </td>
+      <td>
+        {{ n.location.coordinates[1] }}
+      </td>
+      <td>
+        {{ n.location.coordinates[0] }}
+      </td>
+      <td>
+        {{ n.stations.length }}
+      </td>
+      <td>
+        <button class="btn btn-warning" (click)="edit(n)">
+          <i class="fa fa-edit"></i>
+          Editar
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<ngb-pagination
+  *ngIf="nodes.length>0"
+  [collectionSize]="total"
+  [(page)]="page"
+  [pageSize]="pageSize"
+  (pageChange)="onPageChange($event)"
+  aria-label="Pagination">
+</ngb-pagination>
+
+<p *ngIf="nodes.length==0">
+  No se encontraron nodos controladores creados.
+</p>
