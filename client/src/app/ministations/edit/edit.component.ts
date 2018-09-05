@@ -54,7 +54,7 @@ export class EditComponent implements OnInit {
               attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
               maxZoom: 16,
               id: 'mapbox.streets',
-              accessToken: 'pk.eyJ1IjoiY29kZXN4dCIsImEiOiJjamlrcHo2d3EyNmdhM3BvY3R1azJteG5kIn0.i8ptPl7Jl1I06oDoPgeZYA'
+              accessToken: 'pk.eyJ1IjoiY29kZXN4dCIsImEiOiJjamxvNmRia2kwM3pwM3BxanYwa3Fha21iIn0.Rva9tK3ZY_XobZhaoyWIJg'
             })
           ],
           zoom: 11,

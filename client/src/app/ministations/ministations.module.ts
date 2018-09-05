@@ -7,7 +7,7 @@ import { MinistationsComponent } from './ministations.component';
 import { CreateComponent } from './create/create.component';
 import { ListComponent } from './list/list.component';
 import { EditComponent } from './edit/edit.component';
-//import { StationsAdminMapComponent } from './stations-map.component';
+import { MapComponent } from './map/map.component';
 
 import { MinistationsRoutingModule } from './ministations-routing.module';
 
@@ -32,8 +32,7 @@ import { AgmCoreModule } from '@agm/core';
     CreateComponent,
     ListComponent,
     EditComponent,
-    //StationDetailsComponent,
-    //StationsAdminMapComponent
+    MapComponent
   ]
 })
 export class MinistationsModule { }

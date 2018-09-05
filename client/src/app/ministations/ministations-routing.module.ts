@@ -5,8 +5,7 @@ import { MinistationsComponent } from './ministations.component';
 import { CreateComponent } from './create/create.component';
 import { ListComponent } from './list/list.component';
 import { EditComponent } from './edit/edit.component';
-//import { StationDetailsComponent } from './station-details.component';
-//import { StationsAdminMapComponent } from './stations-map.component';
+import { MapComponent } from './map/map.component';
 
 const routes: Routes = [
   {
@@ -33,6 +32,13 @@ const routes: Routes = [
         component: ListComponent,
         data: {
           title: 'Nodos controladores'
+        }
+      },
+      {
+        path: 'map',
+        component: MapComponent,
+        data: {
+          title: 'Mapa de codos controladores'
         }
       },
       {

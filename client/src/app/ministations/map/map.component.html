@@ -1,0 +1,9 @@
+<div style="height: 60vh;"
+   leaflet
+   [leafletOptions]="options"
+   [leafletLayers]="layers"
+   [(leafletZoom)]="zoom"
+   (leafletMapReady)="onMapReady($event)"
+   (leafletClick)="onLeafletClick($event)"
+   (leafletMapZoom)="onZoomChange($event)">
+</div>
