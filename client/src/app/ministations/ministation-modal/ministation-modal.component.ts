@@ -59,6 +59,13 @@ export class MinistationModalComponent implements OnInit {
     this.setMarker(this.options.center.lat, this.options.center.lng);
   }
 
+  inputChange(){
+    this.setMarker(
+      this.station.location.coordinates[1],
+      this.station.location.coordinates[0]
+    )
+  }
+
   onMapReady(map: Map) {
     this.map = map;
     this.map.on('click', (e) => this.onLeafletClick(e));

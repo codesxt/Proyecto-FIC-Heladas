@@ -56,6 +56,13 @@ export class CreateComponent implements OnInit {
     this.setMarker(this.options.center.lat, this.options.center.lng);
   }
 
+  inputChange(){
+    this.setMarker(
+      this.controllerNode.location.coordinates[1],
+      this.controllerNode.location.coordinates[0]
+    )
+  }
+
   onMapReady(map: Map) {
     this.map = map;
     this.map.on('click', (e) => this.onLeafletClick(e));

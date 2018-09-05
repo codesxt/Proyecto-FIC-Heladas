@@ -23,7 +23,23 @@
          (leafletClick)="onLeafletClick($event)"
          (leafletMapZoom)="onZoomChange($event)">
       </div>
-      <span>Lat.: {{ controllerNode.location.coordinates[1] | number:'2.1-8' }}, Lng.: {{ controllerNode.location.coordinates[0] | number:'2.1-8' }}</span>
+
+      <span>
+        Lat.:
+        <input
+          type="number"
+          name="lat"
+          step="0.0001"
+          [(ngModel)]="controllerNode.location.coordinates[1]"
+          (ngModelChange)="inputChange($event)"/>,
+        Lng.:
+        <input
+          type="number"
+          name="lng"
+          step="0.0001"
+          [(ngModel)]="controllerNode.location.coordinates[0]"
+          (ngModelChange)="inputChange($event)"/>
+      </span>
     </div>
 
     <div class="mx-3 mt-3">
