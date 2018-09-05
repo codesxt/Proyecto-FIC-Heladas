@@ -46,12 +46,12 @@ export class MinistationModalComponent implements OnInit {
       layers: [
         tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
           attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-          maxZoom: 16,
+          maxZoom: 18,
           id: 'mapbox.streets',
           accessToken: 'pk.eyJ1IjoiY29kZXN4dCIsImEiOiJjamxvNmRia2kwM3pwM3BxanYwa3Fha21iIn0.Rva9tK3ZY_XobZhaoyWIJg'
         })
       ],
-      zoom: 11,
+      zoom: 16,
       center: latLng(this.station.location.coordinates[1], this.station.location.coordinates[0])
     };
     this.zoom = this.options.zoom;
