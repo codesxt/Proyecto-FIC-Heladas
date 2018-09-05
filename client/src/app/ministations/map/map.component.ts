@@ -11,6 +11,7 @@ import * as L from 'leaflet';
 })
 export class MapComponent implements OnInit {
   options : any = null;
+  layersControl : any = null;
   layers  : any[] = [];
   map: Map = null;
   zoom : number = null;
@@ -37,6 +38,22 @@ export class MapComponent implements OnInit {
       zoom: 11,
       center: latLng(-35.426550, -71.665928)
     };
+    this.layersControl = {
+    	baseLayers: {
+    		'Calles': tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+          attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+          maxZoom: 18,
+          id: 'mapbox.streets',
+          accessToken: 'pk.eyJ1IjoiY29kZXN4dCIsImEiOiJjamlrcHo2d3EyNmdhM3BvY3R1azJteG5kIn0.i8ptPl7Jl1I06oDoPgeZYA'
+        }),
+        'Satelital': tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+          attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+          maxZoom: 18,
+          id: 'mapbox.satellite',
+          accessToken: 'pk.eyJ1IjoiY29kZXN4dCIsImEiOiJjamlrcHo2d3EyNmdhM3BvY3R1azJteG5kIn0.i8ptPl7Jl1I06oDoPgeZYA'
+        })
+    	}
+    }
     this.zoom = this.options.zoom;
   }
 
@@ -63,7 +80,7 @@ export class MapComponent implements OnInit {
                 shadowUrl: 'assets/img/marker-shadow.png'
              })
           });
-          mkr.bindPopup('<b>Controlador: '+item.name+'</b>').openPopup();
+          mkr.bindPopup('<b>Coordinador: '+item.name+'</b>').openPopup();
           this.layers.push(mkr);
           item.stations.forEach(station => {
             let mkr = marker([ station.location.coordinates[1], station.location.coordinates[0] ], {
@@ -74,7 +91,7 @@ export class MapComponent implements OnInit {
                   shadowUrl: 'assets/img/marker-shadow.png'
                })
             });
-            mkr.bindPopup('<b>Estación: '+station.name+'</b>').openPopup();
+            mkr.bindPopup('<b>Estación: '+station.name+'</b><br/><b>Coordinador: ' +item.name+ '</b>').openPopup();
             this.layers.push(mkr);
           })
           this.zone.run(() => {
