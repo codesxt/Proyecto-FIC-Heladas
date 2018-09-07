@@ -41,7 +41,7 @@ export class MeasurementsComponent implements OnInit {
 	dateValue : Date = moment().subtract(1, 'days').toDate();
   dateValue2: Date = new Date();
 	bsConfig  : Partial<BsDatepickerConfig> = {
-    dateInputFormat : 'DD MMM YYYY';
+    dateInputFormat : 'DD MMM YYYY'
   };
 
   // Chart Variables

@@ -106,8 +106,8 @@
   </div>
 </div>
 
-<div *ngIf="measurementData.length>0">
-  <b>No hay datos en la estación seleccionada.</b>
+<div *ngIf="measurementData.length==0">
+  <b>No se encontraron datos para la estación seleccionada en el período indicado.</b>
 </div>
 
 <hr *ngIf="selection.station!=null"/>
