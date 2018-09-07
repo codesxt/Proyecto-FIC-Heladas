@@ -29,7 +29,7 @@ export class MeasurementsComponent implements OnInit {
 
   // Fields related to file upload
   uploadUrl : string = environment.miniStationUpload;
-  options: UploaderOptions;
+  uploadOptions: UploaderOptions;
   files: UploadFile[];
   uploadInput: EventEmitter<UploadInput>;
   humanizeBytes: Function;
