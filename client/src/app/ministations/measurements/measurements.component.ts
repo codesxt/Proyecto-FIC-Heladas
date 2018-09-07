@@ -15,6 +15,8 @@ defineLocale('es', es);
 import * as moment from 'moment';
 moment.locale('es-cl');
 
+import { Angular2Csv } from 'angular2-csv/Angular2-csv';
+
 @Component({
   templateUrl: 'measurements.component.html'
 })
@@ -227,5 +229,44 @@ export class MeasurementsComponent implements OnInit {
         }
       )
     }
+  }
+
+  downloadData(){
+    let data = [];
+    let labels = [
+      'Fecha',
+      'Coordinador',
+      'Estación',
+      'Temperatura',
+      'Humedad',
+      'Radiación'
+    ]
+    let node = this.nodes.filter((item) => {
+      return item._id == this.selection.node
+    })[0].name;
+    let station = this.stations.filter((item) => {
+      return item._id == this.selection.station
+    })[0].name;
+    let title = 'Datos Exportados ' + station + " - " + moment(this.dateValue).format('YYYY-MM-DD') + " - " + moment(this.dateValue2).format('YYYY-MM-DD');;
+    this.measurementData.forEach((item) => {
+      data.push({
+        date           : moment(item.date).format('YYYY-MM-DD HH:mm:ss'),
+        node           : node,
+        station        : station,
+        temperature    : item.temperature,
+        humidity       : item.humidity,
+        radiation      : item.radiation
+      })
+    })
+    let options = {
+      fieldSeparator   : ',',
+      quoteStrings     : '"',
+      decimalseparator : '.',
+      showLabels       : true,
+      showTitle        : false,
+      headers          : labels,
+      useBom           : true
+    };
+    new Angular2Csv(data, title, options);
   }
 }
