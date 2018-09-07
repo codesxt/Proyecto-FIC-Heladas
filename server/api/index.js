@@ -172,6 +172,14 @@ router.patch(
   roleAuth(['administrator']),
   ctrlMiniStations.updateControllerNode
 )
+router.post(
+  '/ministationupload',
+  ctrlMiniStations.uploadFile
+)
+router.get(
+  '/ministationdata/:node/:station',
+  ctrlMiniStations.getSensorDataByDate
+)
 
 // ===============Station Endpoints ================
 router.get('/stations', auth, ctrlStations.readStationList);

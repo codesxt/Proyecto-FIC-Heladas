@@ -1,10 +1,18 @@
+const multer      = require('multer');
 const moment      = require('moment');
 const mongoose    = require('mongoose');
 const ControllerNode = mongoose.model('ControllerNode');
+const MiniStationData = mongoose.model('MiniStationData');
 const utils       = require('./utils');
 
 const JsonApiQueryParserClass = require('jsonapi-query-parser');
 const JsonApiQueryParser = new JsonApiQueryParserClass();
+
+const memoryStorage = multer.memoryStorage();
+
+const upload = multer({
+  storage: memoryStorage
+}).single('file');
 
 module.exports.createControllerNode = (req, res) => {
   let controllerNode      = new ControllerNode();
@@ -125,4 +133,114 @@ module.exports.updateControllerNode = (req, res) => {
       }
     }
   )
+}
+
+module.exports.uploadFile = (req, res) => {
+  upload(req, res, (err) => {
+      if(err){
+        utils.sendJSONresponse(res, 400, {
+          message:"Ocurrió un error al subir el archivo.",
+          error  : err
+        });
+        return;
+      }else{
+        let fileText = req.file.buffer.toString();
+        let stringArray = fileText.split('\n');
+        let jsonArray = [];
+        console.log(req.body)
+        stringArray.forEach(item => {
+          if(item!=''){
+            let jsonItem = JSON.parse(item);
+            jsonArray.push({
+              node        : mongoose.Types.ObjectId(req.body.node),
+              station     : mongoose.Types.ObjectId(req.body.station),
+              date        : new Date(jsonItem.date),
+              temperature : jsonItem.temperature,
+              humidity    : jsonItem.humidity,
+              radiation   : jsonItem.radiation
+            });
+          }
+        })
+        let bulkOp = MiniStationData.collection.initializeOrderedBulkOp();
+        jsonArray.forEach((item) => {
+          bulkOp.find({
+            node            : item.node,
+            station         : item.station,
+            date            : item.date
+          })
+          .upsert()
+          .update({
+            $set : {
+              node           : item.node,
+              station        : item.station,
+              date           : item.date,
+              temperature    : item.temperature,
+              humidity       : item.humidity,
+              radiation      : item.radiation
+            }
+          })
+        })
+        bulkOp.execute((error, result) => {
+          if(error){
+            console.log(JSON.stringify(error, null, "\t"));
+            utils.sendJSONresponse(res, 400, {
+              message: "Se ha producido un error en la inserción de los datos.",
+              error  : error
+            });
+            return;
+          }else{
+            utils.sendJSONresponse(res, 201, {
+              message   : "Inserción exitosa de datos.",
+              nInserted : Math.max(result.toJSON().nUpserted, result.toJSON().nMatched)
+            });
+            return;
+          }
+        });
+      }
+    }
+  )
+}
+
+module.exports.getSensorDataByDate = (req, res) => {
+  let node    = req.params.node;
+  let station = req.params.station;
+  let query = {
+    station  : mongoose.Types.ObjectId(station),
+    node     : mongoose.Types.ObjectId(node)
+  }
+
+  if(req.query.from && !req.query.to){
+    let fromData = moment(req.query.from, 'YYYY-MM-DD').toDate();
+    let toDate   = moment(req.query.from, 'YYYY-MM-DD').add(1, 'day').toDate();
+    query.date = {
+      $gte : fromData,
+      $lt  : toDate
+    }
+  }
+  if(req.query.from && req.query.to){
+    let fromData = moment(req.query.from, 'YYYY-MM-DD').toDate();
+    let toDate   = moment(req.query.to, 'YYYY-MM-DD').add(1, 'day').toDate();
+    query.date = {
+      $gte : fromData,
+      $lt  : toDate
+    }
+  }
+  MiniStationData.aggregate([
+    {
+      $match: query
+    },
+    {
+      $sort:{
+        date: 1
+      }
+    }
+  ], (err, result) => {
+    if (err) {
+      console.log(err);
+      utils.sendJSONresponse(res, 404, err);
+      return;
+    }else {
+      utils.sendJSONresponse(res, 200, result);
+    }
+  })
 }

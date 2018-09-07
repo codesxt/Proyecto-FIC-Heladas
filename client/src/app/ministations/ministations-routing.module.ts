@@ -6,6 +6,7 @@ import { CreateComponent } from './create/create.component';
 import { ListComponent } from './list/list.component';
 import { EditComponent } from './edit/edit.component';
 import { MapComponent } from './map/map.component';
+import { MeasurementsComponent } from './measurements/measurements.component';
 
 const routes: Routes = [
   {
@@ -39,6 +40,13 @@ const routes: Routes = [
         component: MapComponent,
         data: {
           title: 'Mapa de codos controladores'
+        }
+      },
+      {
+        path: 'measurements',
+        component: MeasurementsComponent,
+        data: {
+          title: 'Datos de las miniestaciones'
         }
       },
       {

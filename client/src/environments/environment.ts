@@ -4,8 +4,9 @@
 // The list of which env maps to which file can be found in `angular-cli.json`.
 
 export const environment = {
-  production : false,
-  oldApiUrl  : "https://heladas.utalca.cl/heladas",
-  apiUrl     : 'http://localhost:3000',
-  hoboUpload : 'http://localhost:3000/api/v1/hoboupload'
+  production        : false,
+  oldApiUrl         : "https://heladas.utalca.cl/heladas",
+  apiUrl            : 'http://localhost:3000',
+  hoboUpload        : 'http://localhost:3000/api/v1/hoboupload',
+  miniStationUpload : 'http://localhost:3000/api/v1/ministationupload'
 };

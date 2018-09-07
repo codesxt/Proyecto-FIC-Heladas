@@ -51,3 +51,4 @@ require('./hobostation');
 require('./agrometstation');
 require('./agrometdata');
 require('./mini-stations');
+require('./ministationdata');

@@ -1,0 +1,167 @@
+<form class="form-horizontal" *ngIf="nodes.length>0" class="mt-3">
+  <div class="form-group row">
+    <label class="col-md-2 form-control-label" for="node">Nodo Coordinador:</label>
+    <div class="col-md-10">
+      <select class="form-control" (change)="onNodeChanged($event)" *ngIf="selection.node!=null">
+        <option *ngFor="let node of nodes" [value]="node._id">{{ node.name }}</option>
+      </select>
+      <p *ngIf="selection.node==null">
+        No hay estaciones disponibles en el nodo coordinador.
+      </p>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-md-2 form-control-label" for="node">Mini Estación:</label>
+    <div class="col-md-10">
+      <select class="form-control" (change)="onStationChanged($event)" *ngIf="selection.station!=null">
+        <option *ngFor="let station of stations" [value]="station._id">{{ station.name }}</option>
+      </select>
+      <p *ngIf="selection.station==null">
+        No hay estaciones disponibles en el nodo coordinador.
+      </p>
+    </div>
+  </div>
+</form>
+
+<hr/>
+
+<div class="form-group row" *ngIf="selection.station!=null">
+  <label for="example-text-input" class="col-md-2 form-control-label">Desde:</label>
+  <div class="col-md-4">
+    <div class="input-group">
+      <input
+        type="text"
+        [minDate]="minDate"
+        [maxDate]="maxDate"
+        #dp="bsDatepicker"
+        bsDatepicker
+        [(ngModel)]="dateValue"
+        [bsConfig]="bsConfig"
+        (ngModelChange)="onDateChanged()"
+        readonly>
+      <span class="input-group-btn">
+        <button type="button" class="btn btn-primary" (click)="dp.toggle()">
+          <i class="fa fa-calendar"></i>
+        </button>
+      </span>
+    </div>
+  </div>
+
+  <label for="example-text-input" class="col-md-2 form-control-label">Hasta:</label>
+  <div class="col-md-4">
+    <div class="input-group">
+      <input
+        type="text"
+        [minDate]="minDate"
+        [maxDate]="maxDate"
+        #dp2="bsDatepicker"
+        bsDatepicker
+        [(ngModel)]="dateValue2"
+        [bsConfig]="bsConfig"
+        (ngModelChange)="onDateChanged()"
+        readonly>
+      <span class="input-group-btn">
+        <button type="button" class="btn btn-primary" (click)="dp2.toggle()">
+          <i class="fa fa-calendar"></i>
+        </button>
+      </span>
+    </div>
+  </div>
+</div>
+
+<form *ngIf="selection.station!=null">
+  <div class="form-group row">
+    <label class="col-md-2 form-control-label" for="node">Categoría:</label>
+    <div class="col-md-10">
+      <select class="form-control" (change)="onCategoryChanged($event)" *ngIf="selection.station!=null">
+        <option *ngFor="let category of plotCategories" [value]="category.name">{{ category.displayName }}</option>
+      </select>
+      <p *ngIf="selection.station==null">
+        No hay estaciones disponibles en el nodo coordinador.
+      </p>
+    </div>
+  </div>
+</form>
+
+<div class="animated fadeIn" *ngIf="measurementData.length>0">
+  <div class="card">
+    <div class="card-header">
+      Mediciones de la Mini Estación
+    </div>
+    <div class="card-body">
+      <div class="chart-wrapper">
+        <canvas
+        baseChart
+        class="chart"
+        height="300px"
+        [datasets]="lineChartData"
+        [labels]="lineChartLabels"
+        [options]="lineChartOptions"
+        [colors]="lineChartColours"
+        [legend]="lineChartLegend"
+        [chartType]="lineChartType"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="measurementData.length>0">
+  <b>No hay datos en la estación seleccionada.</b>
+</div>
+
+<hr *ngIf="selection.station!=null"/>
+
+<b>Subir Datos a la Estación Seleccionada</b>
+<p class="card-text">Seleccione un archivo de datos para subirlo automáticamente</p>
+<label class="upload-button text-muted">
+  <input
+    class="btn btn-primary"
+    type="file"
+    ngFileSelect
+    [options]="uploadOptions"
+    (uploadOutput)="onUploadOutput($event)"
+    [uploadInput]="uploadInput" multiple
+    >
+</label>
+<p>O arrastre y suelte los archivos en el recuadro.</p>
+
+<div
+  class="drop-container"
+  ngFileDrop
+  [options]="options"
+  (uploadOutput)="onUploadOutput($event)"
+  [uploadInput]="uploadInput"
+  [ngClass]="{ 'is-drop-over': dragOver }"
+  >
+  <div class="drop-container-text" id="drop-zone">
+    Arrastre sus archivos aquí
+  </div>
+</div>
+
+<div class="row" *ngFor="let f of files; let i = index;">
+  <div class="col-md-2">
+    <i class="fa fa-file fa-3x m-3 text-primary"></i>
+  </div>
+  <div class="col-md-10 p-2">
+    <div class="row pt-2 px-2">
+      <h6>
+        {{f.name}}
+        <small class="text-muted">({{humanizeBytes(f.size)}})</small>
+      </h6>
+    </div>
+    <div class="row">
+      <div class="col-md-9">
+        <div class="progress">
+          <span class="progress-bar" [style.width]="f.progress.data.percentage + '%'"></span>
+        </div>
+      </div>
+      <div class="col-md-3">
+        {{f.progress.data.percentage}}%
+      </div>
+    </div>
+    <div class="row px-2">
+      {{f.progress.data.speedHuman}}
+    </div>
+  </div>
+</div>
