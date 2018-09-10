@@ -280,7 +280,7 @@ export class MeasurementsComponent implements OnInit {
         .subscribe(
           data => {
             this.loadMeasurements();
-            this.notificationsService.sucess('Datos Eliminados', 'Los datos seleccionados se eliminaron exitosamente.');
+            this.notificationsService.success('Datos Eliminados', 'Los datos seleccionados se eliminaron exitosamente.');
           },
           error => {
             this.notificationsService.error(
