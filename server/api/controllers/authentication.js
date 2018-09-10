@@ -77,6 +77,7 @@ module.exports.login = (req, res) => {
       });
     }else{
       utils.sendJSONresponse(res, 401, info);
+      return;
     }
   })(req, res);
 };
@@ -85,7 +86,7 @@ exports.roleAuthorization = function(roles){
   return function(req, res, next){
     var user = req.user;
     User.findById(user._id, function(err, foundUser){
-      if(err){
+      if(err || foundUser == null){
         utils.sendJSONresponse(res, 404, {
           message: 'Usuario no encontrado.'
         });
