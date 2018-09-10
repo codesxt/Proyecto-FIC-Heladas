@@ -35,7 +35,7 @@ export class MapComponent implements OnInit {
           accessToken: 'pk.eyJ1IjoiY29kZXN4dCIsImEiOiJjamlrcHo2d3EyNmdhM3BvY3R1azJteG5kIn0.i8ptPl7Jl1I06oDoPgeZYA'
         })
       ],
-      zoom: 11,
+      zoom: 16,
       center: latLng(-35.426550, -71.665928)
     };
     this.layersControl = {
