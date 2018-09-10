@@ -23,6 +23,10 @@
         {{ n.stations.length }}
       </td>
       <td>
+        <button class="btn btn-info" (click)="openInMap(n)">
+          <i class="fa fa-map-o"></i>
+          Ver en Mapa
+        </button>
         <button class="btn btn-warning" (click)="edit(n)">
           <i class="fa fa-edit"></i>
           Editar

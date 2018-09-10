@@ -64,6 +64,13 @@ export class MapComponent implements OnInit {
 
     this.loadData();
     L.control.scale().addTo(this.map);
+
+    this.route.queryParams.subscribe(
+      params => {
+        console.log(params)
+        this.map.setView({lat: params.lat, lng: params.lng}, this.zoom, { animation: true })
+      }
+    )
   }
 
   loadData(){

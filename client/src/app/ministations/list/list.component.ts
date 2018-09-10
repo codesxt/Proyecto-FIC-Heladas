@@ -39,7 +39,19 @@ export class ListComponent implements OnInit {
   }
 
   edit(node){
-    this.router.navigate(['../edit/'+node._id], {relativeTo: this.route });
+    this.router.navigate(['../edit/'+node._id], {
+      relativeTo: this.route
+    });
+  }
+
+  openInMap(node){
+    this.router.navigate(['../map/'], {
+      relativeTo: this.route,
+      queryParams : {
+        lat : node.location.coordinates[1],
+        lng : node.location.coordinates[0]
+      }
+    });
   }
 
   onPageChange(event: Event){
