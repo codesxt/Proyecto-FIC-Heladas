@@ -180,6 +180,10 @@ router.get(
   '/ministationdata/:node/:station',
   ctrlMiniStations.getSensorDataByDate
 )
+router.delete(
+  '/ministationdata/:node/:station',
+  ctrlMiniStations.deleteSensorDataByDate
+)
 
 // ===============Station Endpoints ================
 router.get('/stations', auth, ctrlStations.readStationList);

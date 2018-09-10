@@ -269,4 +269,28 @@ export class MeasurementsComponent implements OnInit {
     };
     new Angular2Csv(data, title, options);
   }
+
+  deleteData(){
+    let conf = confirm('¿Desea eliminar los archivos del período seleccionado?');
+    if(conf){
+      if(this.selection.node && this.selection.station){
+        let date = moment(this.dateValue).format('YYYY-MM-DD');
+        let date2 = moment(this.dateValue2).format('YYYY-MM-DD');
+        this.miniStationsService.deleteStationDataByDate(this.selection.station, this.selection.node, date, date2)
+        .subscribe(
+          data => {
+            this.loadMeasurements();
+            this.notificationsService.sucess('Datos Eliminados', 'Los datos seleccionados se eliminaron exitosamente.');
+          },
+          error => {
+            this.notificationsService.error(
+              'Error',
+              'Los datos de la estación no se pudieron leer.\n'
+            )
+            console.log(error);
+          }
+        )
+      }
+    }
+  }
 }

@@ -244,3 +244,38 @@ module.exports.getSensorDataByDate = (req, res) => {
     }
   })
 }
+
+module.exports.deleteSensorDataByDate = (req, res) => {
+  let node    = req.params.node;
+  let station = req.params.station;
+  let query = {
+    station  : mongoose.Types.ObjectId(station),
+    node     : mongoose.Types.ObjectId(node)
+  }
+
+  if(!req.query.from || !req.query.to || !station){
+    utils.sendJSONresponse(res, 400, {
+      message : 'Faltan campos en la consulta.'
+    });
+    return;
+  }
+  if(req.query.from && req.query.to){
+    let fromData = moment(req.query.from, 'YYYY-MM-DD').toDate();
+    let toDate   = moment(req.query.to, 'YYYY-MM-DD').add(1, 'day').toDate();
+    query.date = {
+      $gte : fromData,
+      $lt  : toDate
+    }
+  }
+  MiniStationData.remove(query, (err) => {
+      if (!err) {
+        utils.sendJSONresponse(res, 204, null);
+        return;
+      }
+      else {
+        utils.sendJSONresponse(res, 500, "Ocurrió un error al eliminar los datos.");
+        return;
+      }
+    }
+  )
+}

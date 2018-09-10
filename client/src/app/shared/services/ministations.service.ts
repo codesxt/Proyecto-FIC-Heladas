@@ -64,7 +64,7 @@ export class MiniStationsService {
       (response: Response) => response.json()
     );
   }
-  
+
   getStationDataByDate(station: string, node: string, from: string, to?: string): any{
     let headers = new Headers({
       'Authorization': 'Bearer ' + this.authenticationService.getToken()
@@ -79,6 +79,24 @@ export class MiniStationsService {
       params  : params
     });
     return this.http.get(this.baseURL+'/api/v1/ministationdata/' + node + '/' + station, options).map(
+      (response: Response) => response.json()
+    );
+  }
+
+  deleteStationDataByDate(station: string, node: string, from: string, to: string): any{
+    let headers = new Headers({
+      'Authorization': 'Bearer ' + this.authenticationService.getToken()
+    });
+    let params = new URLSearchParams();
+    params.append('from', from);
+    if(to){
+      params.append('to', to);
+    }
+    let options = new RequestOptions({
+      headers : headers,
+      params  : params
+    });
+    return this.http.delete(this.baseURL+'/api/v1/ministationdata/' + node + '/' + station, options).map(
       (response: Response) => response.json()
     );
   }
