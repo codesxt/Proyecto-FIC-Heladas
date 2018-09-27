@@ -200,6 +200,13 @@ module.exports.uploadFile = (req, res) => {
               if(output.length>=1){
                 labels = output[0];
               }
+              if(output.length<=1){
+                utils.sendJSONresponse(res, 400, {
+                  message : "No se recibieron datos en el archivo.",
+                  error   : output
+                });
+                return;
+              }
               for(let i=1;i<output.length;i++){
                 // Revisar si la fila es válida y añadirla
                 if( output[i][2]!=''&&
