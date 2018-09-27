@@ -200,13 +200,6 @@ module.exports.uploadFile = (req, res) => {
               if(output.length>=1){
                 labels = output[0];
               }
-              if(output.length<=1){
-                utils.sendJSONresponse(res, 400, {
-                  message : "No se recibieron datos en el archivo.",
-                  error   : output
-                });
-                return;
-              }
               for(let i=1;i<output.length;i++){
                 // Revisar si la fila es válida y añadirla
                 if( output[i][2]!=''&&
@@ -242,6 +235,13 @@ module.exports.uploadFile = (req, res) => {
               console.log("Documents:");
               console.log(documents);
               */
+              if(documents.length==0){
+                utils.sendJSONresponse(res, 400, {
+                  message : "No se recibieron datos en el archivo.",
+                  error   : output
+                });
+                return;
+              }
               let bulkOp = HoboData.collection.initializeOrderedBulkOp();
               documents.forEach((item) => {
                 bulkOp.find({
