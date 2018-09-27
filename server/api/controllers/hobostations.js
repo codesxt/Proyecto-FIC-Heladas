@@ -264,7 +264,8 @@ module.exports.uploadFile = (req, res) => {
                 if(error){
                   console.log(JSON.stringify(error, null, "\t"));
                   utils.sendJSONresponse(res, 400, {
-                    message: "Se ha producido un error en la inserción de los datos. Probablemente se hayan subido datos que ya estaban en el sistema."
+                    message : "Se ha producido un error en la inserción de los datos. Probablemente se hayan subido datos que ya estaban en el sistema.",
+                    error   : error
                   });
                   return;
                 }else{

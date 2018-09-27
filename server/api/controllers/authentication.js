@@ -75,6 +75,7 @@ module.exports.login = (req, res) => {
       utils.sendJSONresponse(res, 200, {
         "token": token
       });
+      return;
     }else{
       utils.sendJSONresponse(res, 401, info);
       return;
@@ -87,19 +88,18 @@ exports.roleAuthorization = function(roles){
     var user = req.user;
     User.findById(user._id, function(err, foundUser){
       if(err || foundUser == null){
-        utils.sendJSONresponse(res, 404, {
+        return utils.sendJSONresponse(res, 404, {
           message: 'Usuario no encontrado.'
         });
-        return next(err);
       }
 
       if(roles.indexOf(foundUser.role) > -1){
         return next();
+      }else{
+        return utils.sendJSONresponse(res, 401, {
+          message: 'No tienes autorización para ver este contenido.'
+        });
       }
-      utils.sendJSONresponse(res, 401, {
-        message: 'No tienes autorización para ver este contenido.'
-      });
-      return next('Unauthorized');
     });
   };
 }
