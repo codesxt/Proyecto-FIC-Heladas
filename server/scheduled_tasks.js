@@ -121,10 +121,14 @@ executeAutomatedBackup = () => {
   })
 }
 
+const taskModule = require('./tasks')
+
 module.exports.run = () => {
-  console.log("[Task Scheduler] Scheduling Tasks...");
-  const notificationJob = schedule.scheduleJob('5 18 * * *', notifyFrosts);
-  const backupJob       = schedule.scheduleJob('0 1 * * *', executeAutomatedBackup);
+  console.log("[Task Scheduler] Scheduling Tasks...")
+  // const notificationJob = schedule.scheduleJob('5 18 * * *', notifyFrosts);
+  // const backupJob       = schedule.scheduleJob('0 1 * * *', executeAutomatedBackup);
   //const notificationJob = schedule.scheduleJob('*/1 * * * *', notifyFrosts);
-  console.log("[Task Scheduler] Task Schedule set");
+
+  const agrometBackupJob = schedule.scheduleJob('*/1 * * * *', taskModule.agrometBackupTask);
+  console.log("[Task Scheduler] Task Schedule set")
 }
