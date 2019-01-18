@@ -127,8 +127,11 @@ module.exports.run = () => {
   console.log("[Task Scheduler] Scheduling Tasks...")
   // const notificationJob = schedule.scheduleJob('5 18 * * *', notifyFrosts);
   // const backupJob       = schedule.scheduleJob('0 1 * * *', executeAutomatedBackup);
-  //const notificationJob = schedule.scheduleJob('*/1 * * * *', notifyFrosts);
+  // const notificationJob = schedule.scheduleJob('*/1 * * * *', notifyFrosts);
 
-  const agrometBackupJob = schedule.scheduleJob('*/1 * * * *', taskModule.agrometBackupTask);
+  const agrometPredictionJob = schedule.scheduleJob('*/1 * * * *', taskModule.agrometPredictionTask)
+  const agrometBackupJob     = schedule.scheduleJob('0 * * * *', taskModule.agrometBackupTask)
+
+  // TODO: Crear tarea que haga notificaciones
   console.log("[Task Scheduler] Task Schedule set")
 }

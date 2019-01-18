@@ -10,7 +10,6 @@ task = async () => {
   let stations = await AgrometStation.find({settings:{autobackup:true}})
   let from = moment().subtract(1, 'days').format('YYYY-MM-DD')
   let to   = moment().format('YYYY-MM-DD')
-  console.log(from, to)
   for (let station of stations) {
     _taskLog(station.name, 'Inicio de respaldo.')
     let query = 'http://localhost:3000/api/v1/agromet/history/' +

@@ -16,7 +16,9 @@ module.exports = {
 */
 
 const agrometBackupTask = require('./agromet-backup')
+const agrometPredictionTask = require('./agromet-prediction')
 
 module.exports = {
-  agrometBackupTask
+  agrometBackupTask,
+  agrometPredictionTask
 }
