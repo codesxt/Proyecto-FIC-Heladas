@@ -199,7 +199,12 @@ router.get('/day-before-prediction/:id', ctrlStations.readStationDayBeforePredic
 router.get('/predictions-history/:id', ctrlStations.getPredictionsHistory);
 
 // =============== System Endpoints ================
-router.get('/stats', auth, roleAuth(['administrator']), ctrlSystem.getStatistics);
+router.get(
+  '/stats',
+  auth,
+  roleAuth(['administrator']),
+  ctrlSystem.getStatistics
+);
 
 // ============ Subscription Endpoints =============
 router.get('/subscriptions', auth, ctrlSubscriptions.readUserSubscriptions);

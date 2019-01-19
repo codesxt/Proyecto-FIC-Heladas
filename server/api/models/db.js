@@ -43,12 +43,12 @@ process.on('SIGTERM', function() {
   });
 });
 
-require('./users');
-require('./documents');
-require('./stations');
-require('./hobodata');
-require('./hobostation');
-require('./agrometstation');
-require('./agrometdata');
-require('./mini-stations');
-require('./ministationdata');
+require('./users')
+require('./stations')
+require('./hobodata')
+require('./hobostation')
+require('./agrometstation')
+require('./agrometdata')
+require('./mini-stations')
+require('./ministationdata')
+require('./agromet-prediction')

@@ -4,6 +4,7 @@ const moment          = require('moment')
 const mongoose        = require('mongoose')
 const AgrometStation  = mongoose.model('AgrometStation')
 const AgrometSensorData = mongoose.model('AgrometSensorData')
+const AgrometPrediction = mongoose.model('AgrometPrediction')
 const fs             = require('fs')
 const path           = require('path')
 const _runPrediction = require('./_run-prediction')
@@ -61,6 +62,7 @@ task = async (fireDate, hour) => {
   let to   = moment(date).endOf('day').toDate()
   for (let station of stations) {
     _taskLog(station.name, 'Inicio de predicciones.')
+
     // Obtener mediciones
     let measurements = await AgrometSensorData.find({
       station: station._id,
@@ -80,10 +82,10 @@ task = async (fireDate, hour) => {
     fs.writeFileSync('./data-files/' + filename, csv)
     _taskLog(station.name, 'Archivo de mediciones creado: ' + './data-files/'+filename)
 
-    // TODO: Seleccionar modelo a ejecutar
+    // Seleccionar modelo a ejecutar
     let modelFile = station.station.id + '_' + hour + '.RData'
 
-    // TODO: Ejecutar Script sobre archivo
+    // Ejecutar Script sobre archivo
     let predictionResult = await _runPrediction(
       filename,
       modelFile,
@@ -94,7 +96,13 @@ task = async (fireDate, hour) => {
     let prediction = JSON.parse(resultString)
     _taskLog(station.name, 'Resultado obtenido: ' + JSON.stringify(prediction))
 
-    // TODO: Guardar predicción
+    // Guardar predicción
+    try {
+      let saveResult = await _savePrediction(prediction, station, date, hour)
+      _taskLog(station.name, 'La predicción se guardó en la base de datos')
+    } catch (error) {
+      _taskLog(station.name, 'Error: no se pudo guardar la predicción en la base de datos')
+    }
 
     // Eliminar archivo creado
     _removeFile(filename)
@@ -104,6 +112,23 @@ task = async (fireDate, hour) => {
 
 _taskLog = (station, message) => {
   console.log('[ Predicción '+ station + ' - ' + (new Date()).toISOString() + '] ' + message)
+}
+
+_savePrediction = (prediction, station, date, hour) => {
+  let query = {
+    date: moment(date).startOf('day').hour(hour).toDate(),
+    station: station._id,
+    frost: prediction.frost
+  }
+  return AgrometPrediction.findOneAndUpdate({
+      date: query.date,
+      station: query.station
+    },
+    query,
+    {
+      upsert: true
+    }
+  )
 }
 
 _removeFile = (filename) => {
