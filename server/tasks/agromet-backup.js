@@ -19,17 +19,17 @@ task = async () => {
     let data, storeResult
     try {
       data = await rp.get(query)
-      _taskLog(station.name, 'Datos obtenidos de Agromet.cl.')
+      _taskLog(station.name, 'Datos obtenidos de Agromet.cl')
     } catch (error) {
-      _taskLog(station.name, 'Error al consultar los datos de Agromet.')
+      _taskLog(station.name, 'Error al consultar los datos de Agromet')
       console.log(error)
     }
 
     try {
       data = JSON.parse(data)
-      _taskLog(station.name, 'Datos leídos de la consulta.')
+      _taskLog(station.name, 'Datos leídos de la consulta')
     } catch (error) {
-      _taskLog(station.name, 'Error al parsear los resultados de la consulta.')
+      _taskLog(station.name, 'Error al parsear los resultados de la consulta')
       console.log(error)
     }
 
@@ -37,13 +37,17 @@ task = async () => {
     _taskLog(station.name, 'Datos nulos filtrados')
     _taskLog(station.name, measurements.length + ' datos leídos')
 
-    try {
-      storeResult = await _storeMeasurements(station._id, measurements)
-    } catch (error) {
-      _taskLog(station.name, 'Error al guardar los datos en la base de datos.')
+    if (measurements.length > 0) {
+      try {
+        storeResult = await _storeMeasurements(station._id, measurements)
+        _taskLog(station.name, Math.max(storeResult.nMatched, storeResult.nUpserted) + ' datos guardados en la base de datos.')
+      } catch (error) {
+        _taskLog(station.name, 'Error al guardar los datos en la base de datos')
+        console.log(error)
+      }
+    } else {
+      _taskLog(station.name, 'Error: se leyeron 0 datos de Agromet')
     }
-
-    _taskLog(station.name, Math.max(storeResult.nMatched, storeResult.nUpserted) + ' datos guardados en la base de datos.')
   }
 }
 
