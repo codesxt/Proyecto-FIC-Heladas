@@ -5,6 +5,8 @@
 
 # Server related folders
 /server/node_modules
+/data-files/*.csv
+/model-files/*.RData
 
 # Development Environment Variables
 /server/.env

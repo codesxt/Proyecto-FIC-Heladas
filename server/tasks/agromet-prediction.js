@@ -4,8 +4,9 @@ const moment          = require('moment')
 const mongoose        = require('mongoose')
 const AgrometStation  = mongoose.model('AgrometStation')
 const AgrometSensorData = mongoose.model('AgrometSensorData')
-const fs             = require('fs');
-const path           = require('path');
+const fs             = require('fs')
+const path           = require('path')
+const _runPrediction = require('./_run-prediction')
 
 const Json2csvParser = require('json2csv').Parser
 const fields = [
@@ -52,11 +53,12 @@ const fields = [
 ]
 const json2csvParser = new Json2csvParser({ fields })
 
-task = async () => {
+task = async (fireDate, hour) => {
+  let date = moment(fireDate).format('YYYY-MM-DD')
   console.log('====== Iniciando generación de predicciones para estaciones Agromet ======')
   let stations = await AgrometStation.find()
-  let from = moment().subtract(1, 'days').startOf('day').toDate()
-  let to   = moment().toDate()
+  let from = moment(date).subtract(1, 'days').startOf('day').toDate()
+  let to   = moment(date).endOf('day').toDate()
   for (let station of stations) {
     _taskLog(station.name, 'Inicio de predicciones.')
     // Obtener mediciones
@@ -78,7 +80,19 @@ task = async () => {
     fs.writeFileSync('./data-files/' + filename, csv)
     _taskLog(station.name, 'Archivo de mediciones creado: ' + './data-files/'+filename)
 
+    // TODO: Seleccionar modelo a ejecutar
+    let modelFile = station.station.id + '_' + hour + '.RData'
+
     // TODO: Ejecutar Script sobre archivo
+    let predictionResult = await _runPrediction(
+      filename,
+      modelFile,
+      date,
+      hour
+    )
+    let resultString = predictionResult.stdout.replace('[1] ', '').replace('\n', '')
+    let prediction = JSON.parse(resultString)
+    _taskLog(station.name, 'Resultado obtenido: ' + JSON.stringify(prediction))
 
     // TODO: Guardar predicción
 
