@@ -247,4 +247,42 @@ export class AgrometService {
       (response: Response) => response.json()
     );
   }
+
+  // Endpoints para gestionar las predicciones almacenadas en el sistema
+  // (Versión nueva de las predicciones que no depende del sistema anterior)
+  getLastPrediction (stationID: string) {
+    let headers = new Headers({
+      'Authorization': 'Bearer ' + this.authenticationService.getToken()
+    });
+    headers.append('Content-Type', 'application/json');
+    let params = new URLSearchParams();
+    let options = new RequestOptions({
+      headers : headers,
+      params  : params
+    });
+    let url = this.baseURL+'/api/v1/last-station-prediction/'+stationID;
+    return this.http.get(url, options).map(
+      (response: Response) => response.json()
+    );
+  }
+
+  getPredictionHistory(stationID: number, fromDate: string, toDate?: string): any{
+    let headers = new Headers({
+      'Authorization': 'Bearer ' + this.authenticationService.getToken()
+    });
+    headers.append('Content-Type', 'application/json');
+    let params = new URLSearchParams();
+    params.append('from', fromDate);
+    if(toDate){
+      params.append('to', toDate);
+    }
+    let options = new RequestOptions({
+      headers : headers,
+      params  : params
+    });
+    let url = this.baseURL+'/api/v1/agromet-prediction-history/'+stationID;
+    return this.http.get(url, options).map(
+      (response: Response) => response.json()
+    );
+  }
 }

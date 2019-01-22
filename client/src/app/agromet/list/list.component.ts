@@ -46,7 +46,7 @@ export class AgrometListComponent implements OnInit {
           'Los datos de estaciones no se pudieron leer.\n'+'Detalles: '+ error.json().message
         )
       }
-    );
+    )
   }
 
   removeStation(stationId){

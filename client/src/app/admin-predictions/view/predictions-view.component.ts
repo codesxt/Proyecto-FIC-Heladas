@@ -34,16 +34,16 @@ export class PredictionsViewComponent implements OnInit {
   prediction: prediction;
   predictionDate: Date;
 	history : any[] = [];
+	nextPrediction: string = ''
 
 	// DatePicker Variables
 	minDate   : Date = new Date(2013, 1, 1);
 	maxDate   : Date = new Date();
 	dateValue : Date = new Date();
+	dateValue2: Date = new Date();
 	bsConfig  : Partial<BsDatepickerConfig>;
 
 	station   : any = {};
-
-	dailyMinimum : any[] = [];
 
   constructor(
     private stationsService : StationsService,
@@ -52,20 +52,6 @@ export class PredictionsViewComponent implements OnInit {
 		private agrometService 	: AgrometService,
 		private localeService   : BsLocaleService
   ) { }
-
-	setNextPredictionTime(){
-		let now = new Date();
-    let hour = now.getHours();
-		if(hour < 15){
-			this.prediction.next_prediction_time =  '15:00';
-		}else if (hour < 18){
-			this.prediction.next_prediction_time = '18:00';
-		}else if (hour < 12){
-			this.prediction.next_prediction_time = '21:00';
-		}else{
-			this.prediction.next_prediction_time = '';
-		}
-	}
 
   ngOnInit(){
     this.route.params.subscribe(params => {
@@ -76,131 +62,65 @@ export class PredictionsViewComponent implements OnInit {
 		this.bsConfig.showWeekNumbers = false;
 		this.localeService.use('es');
 
-    let now = new Date();
-    let hour = now.getHours();
+    let now = new Date()
+    let hour = now.getHours()
+		if (hour < 15) {
+			this.nextPrediction = '15:00 hrs.'
+		} else if (hour < 18) {
+			this.nextPrediction = '18:00 hrs.'
+		} else if (hour < 21) {
+			this.nextPrediction = '21:00 hrs.'
+		} else {
+			this.nextPrediction = 'Mañana a las 15:00 hrs.'
+		}
 
-		this.stationsService.getStation(this.stationId)
+		this.agrometService.getAgrometStation(this.stationId)
 		.subscribe(
 			data => {
-				this.station = data.attributes;
-				this.getMinimumTemperatures();
+				this.station = data.attributes
+				this.getLastPrediction()
+				this.loadHistoryData()
 			},
 			error => {
-				console.log(error);
+				console.log(error)
 			}
 		)
-
-    if(hour < 15){
-      this.stationsService.getStationDayBeforePrediction(this.stationId)
-      .subscribe(
-        data => {
-          this.prediction = {
-            station: data.data.station,
-            frost: data.data.frost,
-            prediction_time: data.data.time,
-            prediction_date: data.data.date
-          };
-          this.predictionDate = new Date();
-					this.setNextPredictionTime();
-        },
-        error => {
-          console.log(error);
-        }
-      )
-    }else{
-			this.stationsService.getStationDayPrediction(this.stationId)
-      .subscribe(
-        data => {
-					this.prediction = {
-            station: data.data.station,
-            frost: data.data.frost,
-            prediction_time: data.data.time,
-            prediction_date: data.data.date
-          };
-          this.predictionDate = moment().add(1, 'days').toDate();
-					this.setNextPredictionTime();
-        },
-        error => {
-          console.log(error);
-        }
-      )
-    }
   }
 
-	loadHistoryData(){
-		this.stationsService.getStationPredictionHistory(this.stationId, this.dateValue.getFullYear(), this.dateValue.getMonth()+1)
+	getLastPrediction () {
+		this.agrometService.getLastPrediction(this.stationId)
 		.subscribe(
 			data => {
-				this.history = data.data;
+				this.prediction = data
+				this.predictionDate = moment(data.date).add(1, 'day')
 			},
 			error => {
-
+				console.log(error)
+				this.notificationsService.error(
+					'Error',
+					'No se obtuvo la predicción para la estación ' + station.name
+				)
 			}
 		)
 	}
 
-	getMinimumTemperatures(){
-		if(this.station.idEMA){
-			let startDate = moment(this.dateValue).date(2).hour(0).minute(0);
-			let endDate   = moment(startDate).add(1, 'month').subtract(1, 'minute');
-			if(moment().isBefore(endDate)){
-				// Cambiar fecha de término
-				endDate = moment().add(1, 'day').hour(23).minute(59);
+	loadHistoryData(){
+		let from = moment(this.dateValue).format('YYYY-MM-DD')
+    let to = moment(this.dateValue2).format('YYYY-MM-DD')
+		this.agrometService.getPredictionHistory(this.stationId, from, to)
+		.subscribe(
+			data => {
+				this.history = data.data
+			},
+			error => {
+				console.log(error)
 			}
-			this.agrometService.getEmaHistory(this.station.idEMA, startDate.format('YYYY-MM-DD'), endDate.format('YYYY-MM-DD'))
-			.subscribe(
-				data => {
-					let minimumTemperatures = [];
-					// Los resultados de la obtención de mediciones de agromet
-					// se agrupan por fechas
-					var results = _.groupBy(data.data, (item) => {
-						return moment.utc(item.date).format('YYYY-MM-DD');
-					})
-
-					// Se crea un arreglo con la lista de fechas para las que se realizaron
-					// predicciones
-					let predictionDates = [];
-					for(let h of this.history){
-						predictionDates.push(h.date);
-					}
-
-					// Se itera para revisar la temperatura mínima correspondiente a cada día
-					_.forEach(results, (value, key) => {
-						// value es un array con las mediciones de cada uno de los días.
-						// Se debe ignorar el día si la fecha no está en
-						// los días en que se realizaron predicciones
-						if(predictionDates.indexOf(moment(value[0].date).format('YYYY-MM-DD')) == -1){
-							return;
-						}
-						let minValue = null;
-						for(let v of value){
-							// Se prueba cada uno de los valores de temperatura.
-							// Si es un número válido, se compara con la temperatura mínima
-							let candidate = parseFloat(v.temperatureMin);
-							if(!isNaN(candidate)){
-								// El valor de temperatura es un número válido;
-								if(minValue == null){
-									minValue = candidate;
-								}else if(candidate < minValue){
-									minValue = candidate;
-								}
-							}
-						}
-						minimumTemperatures.push(minValue);
-					});
-					this.dailyMinimum = minimumTemperatures;
-				},
-				error => {
-					console.log(error);
-				}
-			)
-		}
+		)
 	}
 
 	dateChanged(){
-		this.dailyMinimum = null;
 		this.loadHistoryData();
-		this.getMinimumTemperatures();
+		console.log(this.dateValue, this.dateValue2)
 	}
 
 	goBack(){

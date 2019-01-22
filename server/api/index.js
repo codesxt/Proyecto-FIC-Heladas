@@ -17,6 +17,7 @@ const ctrlAgromet         = require('./controllers/agromet')
 const ctrlHoboStations    = require('./controllers/hobostations')
 const ctrlMiniStations    = require('./controllers/mini-stations')
 const ctrlAgrometModels   = require('./controllers/agromet-models')
+const ctrlAgrometPredictions = require('./controllers/agromet-predictions')
 
 const roleAuth            = ctrlAuthentication.roleAuthorization;
 
@@ -41,14 +42,7 @@ router.patch('/settings', auth, ctrlProfile.updateSettings);
 router.get('/users', auth, roleAuth(['administrator']), ctrlUsers.readUserList);
 router.get('/users/:userId', auth, roleAuth(['administrator']), ctrlUsers.readUser);
 router.patch('/users/:userId', auth, roleAuth(['administrator']), ctrlUsers.updateUser);
-/*
-// ============= Document Endpoints ================
-router.get('/documents/:id', auth, ctrlDocuments.readDocument);
-router.patch('/documents/:id', auth, ctrlDocuments.updateDocument);
-router.delete('/documents/:id', auth, ctrlDocuments.deleteDocument);
-router.post('/documents', auth, ctrlDocuments.createDocument);
-router.get('/user-documents', auth, ctrlDocuments.readUserDocumentList);
-*/
+
 // ========== HoboStations Endpoints ===============
 router.post('/hoboupload', ctrlHoboStations.uploadFile);
 router.get(
@@ -229,6 +223,19 @@ router.post(
   '/agrometmodels',
   //auth,
   ctrlAgrometModels.uploadFiles
+)
+
+// ============== Agromet Predictions ==============
+router.get(
+  '/last-station-prediction/:id',
+  auth,
+  ctrlAgrometPredictions.getLastStationPrediction
+)
+
+router.get(
+  '/agromet-prediction-history/:id',
+  auth,
+  ctrlAgrometPredictions.getPredictionHistory
 )
 
 module.exports = router;
