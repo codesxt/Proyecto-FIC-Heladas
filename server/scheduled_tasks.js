@@ -129,13 +129,13 @@ module.exports.run = () => {
   // const backupJob       = schedule.scheduleJob('0 1 * * *', executeAutomatedBackup);
   // const notificationJob = schedule.scheduleJob('*/1 * * * *', notifyFrosts);
 
-  const agrometPredictionJob15 = schedule.scheduleJob('* 15 * * *', function(fireDate) {
+  const agrometPredictionJob15 = schedule.scheduleJob('0 15 * * *', function(fireDate) {
     taskModule.agrometPredictionTask(fireDate, 15)
   })
-  const agrometPredictionJob18 = schedule.scheduleJob('* 18 * * *', function(fireDate) {
+  const agrometPredictionJob18 = schedule.scheduleJob('0 18 * * *', function(fireDate) {
     taskModule.agrometPredictionTask(fireDate, 18)
   })
-  const agrometPredictionJob21 = schedule.scheduleJob('* 21 * * *', function(fireDate) {
+  const agrometPredictionJob21 = schedule.scheduleJob('0 21 * * *', function(fireDate) {
     taskModule.agrometPredictionTask(fireDate, 21)
   })
   const agrometBackupJob     = schedule.scheduleJob('0 * * * *', taskModule.agrometBackupTask)

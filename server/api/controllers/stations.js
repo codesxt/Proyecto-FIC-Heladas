@@ -198,7 +198,17 @@ module.exports.readStationDayPrediction = (req, res) => {
               });
               return;
             }else{
-              body = JSON.parse(body);
+              try {
+                body = JSON.parse(body)
+              } catch (error) {
+                console.log('No se pudo procesar el mensaje.')
+                console.log(error)
+                console.log(body)
+                utils.sendJSONresponse(res, 404, {
+                  message: "No se pudo procesar el mensaje."
+                })
+                return
+              }
               let prediction = {
                 emaId: emaId,
                 stationId: req.params.id,
@@ -252,7 +262,18 @@ module.exports.readStationDayBeforePrediction = (req, res) => {
               });
               return;
             }else{
-              body = JSON.parse(body);
+              try {
+                body = JSON.parse(body)
+              } catch (error) {
+                console.log('No se pudo procesar el mensaje.')
+                console.log(error)
+                console.log(body)
+                utils.sendJSONresponse(res, 404, {
+                  message: "No se pudo procesar el mensaje."
+                })
+                return
+              }
+
               let prediction = {
                 emaId: emaId,
                 stationId: req.params.id,

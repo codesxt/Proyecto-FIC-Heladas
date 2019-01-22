@@ -3,5 +3,6 @@ export const environment = {
   oldApiUrl         : "https://heladas.utalca.cl/heladas",
   apiUrl            : '',
   hoboUpload        : 'https://heladas.utalca.cl/api/v1/hoboupload',
-  miniStationUpload : 'https://heladas.utalca.cl/api/v1/ministationupload'
+  miniStationUpload : 'https://heladas.utalca.cl/api/v1/ministationupload',
+  agrometModelsUpload : 'https://heladas.utalca.cl/api/v1/agrometmodels'
 };

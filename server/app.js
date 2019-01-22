@@ -31,6 +31,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // Point static path to dist
 app.use(express.static(path.join(__dirname, '../client/dist')));
+app.use('/model-files', express.static(path.join(__dirname, 'model-files')));
 
 // Enable Passport for authentication
 app.use(passport.initialize());

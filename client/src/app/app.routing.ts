@@ -69,6 +69,10 @@ export const routes: Routes = [
       {
         path: 'ministations',
         loadChildren: './ministations/ministations.module#MinistationsModule'
+      },
+      {
+        path: 'agrometmodels',
+        loadChildren: './admin-agrometmodels/agrometmodels.module#AgrometModelsModule'
       }
     ]
   },

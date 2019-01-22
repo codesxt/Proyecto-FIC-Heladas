@@ -37,6 +37,7 @@ import { SystemService } from './shared/services/system.service';
 import { SubscriptionsService } from './shared/services/subscriptions.service';
 import { AgrometService } from './shared/services/agromet.service';
 import { MiniStationsService } from './shared/services/ministations.service';
+import { AgrometModelsService } from './shared/services/agrometmodels.service';
 
 // Shared Module
 import { SharedModule } from './shared/shared.module';
@@ -100,6 +101,7 @@ import { MinistationModalComponent } from './ministations/ministation-modal/mini
     SubscriptionsService,
     AgrometService,
     MiniStationsService,
+    AgrometModelsService,
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy

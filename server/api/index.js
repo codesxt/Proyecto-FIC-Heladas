@@ -6,16 +6,17 @@ const auth = jwt({
   userProperty: 'user'
 });
 
-const ctrlAuthentication  = require('./controllers/authentication');
-const ctrlProfile         = require('./controllers/profile');
-const ctrlUsers           = require('./controllers/users');
-const ctrlEma             = require('./controllers/ema');
-const ctrlStations        = require('./controllers/stations');
-const ctrlSystem          = require('./controllers/system');
-const ctrlSubscriptions   = require('./controllers/subscriptions');
-const ctrlAgromet         = require('./controllers/agromet');
-const ctrlHoboStations    = require('./controllers/hobostations');
-const ctrlMiniStations    = require('./controllers/mini-stations');
+const ctrlAuthentication  = require('./controllers/authentication')
+const ctrlProfile         = require('./controllers/profile')
+const ctrlUsers           = require('./controllers/users')
+const ctrlEma             = require('./controllers/ema')
+const ctrlStations        = require('./controllers/stations')
+const ctrlSystem          = require('./controllers/system')
+const ctrlSubscriptions   = require('./controllers/subscriptions')
+const ctrlAgromet         = require('./controllers/agromet')
+const ctrlHoboStations    = require('./controllers/hobostations')
+const ctrlMiniStations    = require('./controllers/mini-stations')
+const ctrlAgrometModels   = require('./controllers/agromet-models')
 
 const roleAuth            = ctrlAuthentication.roleAuthorization;
 
@@ -210,5 +211,24 @@ router.get(
 router.get('/subscriptions', auth, ctrlSubscriptions.readUserSubscriptions);
 router.post('/subscriptions/:stationId', auth, ctrlSubscriptions.subscribeToStation);
 router.delete('/subscriptions/:stationId', auth, ctrlSubscriptions.unsubscribeToStation);
+
+// ================ Agromet Models =================
+router.get(
+  '/agrometmodels',
+  auth,
+  ctrlAgrometModels.getAll
+)
+
+router.delete(
+  '/agrometmodels/:filename',
+  auth,
+  ctrlAgrometModels.delete
+)
+
+router.post(
+  '/agrometmodels',
+  //auth,
+  ctrlAgrometModels.uploadFiles
+)
 
 module.exports = router;
