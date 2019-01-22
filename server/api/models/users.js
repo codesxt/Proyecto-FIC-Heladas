@@ -21,7 +21,7 @@ var userSchema = new mongoose.Schema({
   },
   subscriptions: [{
     type: Schema.Types.ObjectId,
-    ref: 'Station'
+    ref: 'AgrometStation'
   }],
   settings: {
     dailyEmail: {

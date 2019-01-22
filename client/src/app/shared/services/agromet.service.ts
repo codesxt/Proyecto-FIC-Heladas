@@ -266,7 +266,7 @@ export class AgrometService {
     );
   }
 
-  getPredictionHistory(stationID: number, fromDate: string, toDate?: string): any{
+  getPredictionHistory(stationID: string, fromDate: string, toDate?: string): any{
     let headers = new Headers({
       'Authorization': 'Bearer ' + this.authenticationService.getToken()
     });

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { StationsService } from '../../shared/services/stations.service';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
+import { NotificationsService } from 'angular2-notifications'
 
 // Dependencies of the datepicker
 import { BsDatepickerConfig, BsLocaleService } from 'ngx-bootstrap/datepicker';
@@ -50,7 +51,8 @@ export class PredictionsViewComponent implements OnInit {
     private route        		: ActivatedRoute,
 		private location     		: Location,
 		private agrometService 	: AgrometService,
-		private localeService   : BsLocaleService
+		private localeService   : BsLocaleService,
+		private notificationsService : NotificationsService
   ) { }
 
   ngOnInit(){
@@ -92,13 +94,13 @@ export class PredictionsViewComponent implements OnInit {
 		.subscribe(
 			data => {
 				this.prediction = data
-				this.predictionDate = moment(data.date).add(1, 'day')
+				this.predictionDate = moment(data.date).add(1, 'day').toDate()
 			},
 			error => {
 				console.log(error)
 				this.notificationsService.error(
 					'Error',
-					'No se obtuvo la predicción para la estación ' + station.name
+					'No se obtuvo la predicción para la estación ' + this.station.name
 				)
 			}
 		)

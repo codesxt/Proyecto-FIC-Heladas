@@ -37,19 +37,22 @@
           <a class="nav-link" routerLinkActive="active" [routerLink]="['/agromet/list']"><i class="fa fa-cloud fa-fw"></i> Agromet</a>
         </li>
         <li class="nav-item" *ngIf="isAdmin()">
-          <a class="nav-link" routerLinkActive="active" [routerLink]="['/admin-hobostations']"><i class="icon-grid"></i> Estaciones Hobo</a>
+          <a class="nav-link" routerLinkActive="active" [routerLink]="['/admin-predictions']"><i class="icon-speedometer"></i> Predicciones</a>
         </li>
         <li class="nav-item" *ngIf="isAdmin()">
-          <a class="nav-link" routerLinkActive="active" [routerLink]="['/admin-predictions']"><i class="icon-speedometer"></i> Predicciones</a>
+          <a class="nav-link" routerLinkActive="active" [routerLink]="['/ministations']"><i class="icon-list"></i> Mini Estaciones </a>
+        </li>
+        <li class="nav-title" *ngIf="isAdmin()">
+          Otros
+        </li>
+        <li class="nav-item" *ngIf="isAdmin()">
+          <a class="nav-link" routerLinkActive="active" [routerLink]="['/admin-hobostations']"><i class="icon-grid"></i> Estaciones Hobo</a>
         </li>
         <!--
         <li class="nav-item" *ngIf="isAdmin()">
           <a class="nav-link" routerLinkActive="active" [routerLink]="['/stations-list']"><i class="icon-list"></i> Lista de EMAs </a>
         </li>
         -->
-        <li class="nav-item" *ngIf="isAdmin()">
-          <a class="nav-link" routerLinkActive="active" [routerLink]="['/ministations']"><i class="icon-list"></i> Mini Estaciones </a>
-        </li>
         <li class="nav-title">
           Secciones
         </li>

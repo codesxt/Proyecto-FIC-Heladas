@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const utils = require('./utils');
 const User = mongoose.model('User');
-const Station = mongoose.model('Station');
+const AgrometStation = mongoose.model('AgrometStation');
 
 module.exports.readUserSubscriptions = (req, res) => {
   User
@@ -18,7 +18,7 @@ module.exports.readUserSubscriptions = (req, res) => {
 module.exports.subscribeToStation = (req, res) => {
   let user = req.user;
   let stationId = req.params.stationId;
-  Station.findById(stationId, (err, station) => {
+  AgrometStation.findById(stationId, (err, station) => {
     if(err){
       utils.sendJSONresponse(res, 404, {
         message: "No se encontró la estación."
@@ -55,7 +55,7 @@ module.exports.subscribeToStation = (req, res) => {
 module.exports.unsubscribeToStation = (req, res) => {
   let user = req.user;
   let stationId = req.params.stationId;
-  Station.findById(stationId, (err, station) => {
+  AgrometStation.findById(stationId, (err, station) => {
     if(err){
       utils.sendJSONresponse(res, 404, {
         message: "No se encontró la estación."

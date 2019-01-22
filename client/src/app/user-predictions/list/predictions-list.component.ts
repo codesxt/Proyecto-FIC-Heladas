@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../../shared/services/authentication.service';
 import { NotificationsService } from 'angular2-notifications';
-import { StationsService } from '../../shared/services/stations.service';
+import { AgrometService } from '../../shared/services/agromet.service';
 import { SubscriptionsService } from '../../shared/services/subscriptions.service';
 
 import * as moment from 'moment';
 moment.locale('es-cl');
 
 @Component({
-  selector: 'app-public-predictions-list',
+  selector: 'app-admin-predictions-list',
   templateUrl: './predictions-list.component.html'
 })
 export class PredictionsListComponent implements OnInit {
@@ -25,7 +25,7 @@ export class PredictionsListComponent implements OnInit {
   constructor(
     private notificationsService : NotificationsService,
     private authenticationService: AuthenticationService,
-    private stationsService      : StationsService,
+    private agrometService       : AgrometService,
     private subscriptionsService : SubscriptionsService
   ) {  }
 
@@ -37,6 +37,70 @@ export class PredictionsListComponent implements OnInit {
 			this.predictionDate = moment().add(1, 'days').toDate();
 		}
     this.loadData();
+  }
+
+  loadData(){
+    this.agrometService.getAgrometStations(this.page-1, this.pageSize)
+    .subscribe(
+      data => {
+        this.notificationsService.success(
+          'Datos cargados',
+          'Los datos de estaciones se leyeron exitosamente.'
+        )
+        this.stations = data.data
+        this.total    = data.meta['total-items']
+        this.getStationsPredictions()
+        this.getUserSubscriptions()
+      },
+      error => {
+        this.notificationsService.error(
+          'Error',
+          'Los datos de estaciones no se pudieron leer.\n'+'Detalles: '+ error.json().message
+        )
+      }
+    )
+  }
+
+  getStationsPredictions(){
+    for (let station of this.stations) {
+      this.agrometService.getLastPrediction(station._id)
+      .subscribe(
+        data => {
+          station.prediction = data.frost
+        },
+        error => {
+          console.log(error)
+          this.notificationsService.error(
+            'Error',
+            'No se obtuvo la predicción para la estación ' + station.name
+          )
+        }
+      )
+    }
+	}
+
+  onPageChange(event: Event){
+    console.log(event);
+    this.loadData();
+  }
+
+  getUserSubscriptions () {
+    this.subscriptionsService.getSubscriptions()
+    .subscribe(
+      data => {
+        let subscriptionsIds = [];
+        for(let subscription of data.subscriptions){
+          subscriptionsIds.push(subscription._id);
+        }
+        this.subscriptions = [];
+        for(let station of this.stations){
+          this.subscriptions.push(subscriptionsIds.indexOf(station._id) > -1);
+        }
+      },
+      error => {
+
+      }
+    )
   }
 
   switchClicked(event, station, index){
@@ -80,106 +144,5 @@ export class PredictionsListComponent implements OnInit {
         }
       )
     }
-
-  }
-
-  loadData(){
-    this.stationsService.getPublicStations(this.page-1, this.pageSize)
-    .subscribe(
-      data => {
-        this.notificationsService.success(
-          'Datos cargados',
-          'Los datos de estaciones se leyeron exitosamente.'
-        )
-        this.stations = data.data;
-        this.meta     = data.meta;
-        this.total    = this.meta['total-items'];
-
-        this.getStationsPredictions();
-        this.getUserSubscriptions();
-      },
-      error => {
-        this.notificationsService.error(
-          'Error',
-          'Los datos de estaciones no se pudieron leer.\n'+'Detalles: '+ error.json().message
-        )
-      }
-    );
-  }
-
-  getStationsPredictions(){
-		let hour = new Date().getHours();
-		let index = 0;
-
-		for(let station of this.stations){
-			if(hour < 15){
-	      //console.log("Consultando Predicciones del Día Anterior");
-	      this.stationsService.getStationDayBeforePrediction(station._id)
-	      .subscribe(
-	        data => {
-            station.prediction = data.data.frost;
-	        },
-	        error => {
-	          console.log(error);
-	        }
-	      )
-	    }else{
-	      //console.log("Consultando Predicciones del Día Actual")
-				this.stationsService.getStationDayPrediction(station._id)
-	      .subscribe(
-	        data => {
-            station.prediction = data.data.frost;
-	        },
-	        error => {
-	          console.log(error);
-	        }
-	      )
-	    }
-		}
-	}
-
-  getUserSubscriptions(){
-    this.subscriptionsService.getSubscriptions()
-    .subscribe(
-      data => {
-        let subscriptionsIds = [];
-        for(let subscription of data.subscriptions){
-          subscriptionsIds.push(subscription._id);
-        }
-        this.subscriptions = [];
-        for(let station of this.stations){
-          this.subscriptions.push(subscriptionsIds.indexOf(station._id) > -1);
-        }
-      },
-      error => {
-
-      }
-    )
-  }
-
-  onPageChange(event: Event){
-    console.log(event);
-    this.loadData();
-  }
-
-  deleteStation(stationId: any){
-    let conf = confirm("¿Deseas eliminar la estación?");
-    if(conf) {
-      this.stationsService.deleteStation(stationId)
-      .subscribe(
-        data => {
-          this.notificationsService.success("Estación Eliminada", "La estación fue eliminada exitosamente.");
-          this.loadData();
-        },
-        error => {
-          this.notificationsService.error("Error", "Se produjo un error en la eliminación de la estación.");
-        }
-      )
-    } else {
-      // NO
-    }
-    /*
-
-    */
   }
 }
