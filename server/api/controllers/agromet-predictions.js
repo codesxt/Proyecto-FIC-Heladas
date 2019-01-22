@@ -9,7 +9,11 @@ module.exports.getLastStationPrediction = async (req, res) => {
   })
   .sort('-date')
   .populate('station')
-  utils.sendJSONresponse(res, 200, prediction)
+  if (prediction === null) {
+    utils.sendJSONresponse(res, 200, {frost:null})
+  } else {
+    utils.sendJSONresponse(res, 200, prediction)
+  }  
 }
 
 module.exports.getPredictionHistory = async (req, res) => {
