@@ -152,6 +152,20 @@ export class AgrometService {
     );
   }
 
+  getAgrometPublicStations(pageNumber: number = 0, pageSize: number = 1): any{
+    let headers = new Headers({ });
+    let params = new URLSearchParams();
+    params.append('page[number]', pageNumber+"");
+    params.append('page[size]', pageSize+"");
+    let options = new RequestOptions({
+      headers: headers,
+      params: params
+    });
+    return this.http.get(this.baseURL+'/api/v1/agrometpublicstations', options).map(
+      (response: Response) => response.json()
+    );
+  }
+
   getAgrometStation(stationId: string): any{
     let headers = new Headers({
       'Authorization': 'Bearer ' + this.authenticationService.getToken()

@@ -1,0 +1,32 @@
+Predicciones de heladas para el día {{ predictionDate | amDateFormat:'DD [de] MMMM [de] YYYY'}}
+<agm-map
+  [latitude]="mapLat"
+  [longitude]="mapLng"
+  [zoom]="zoom"
+  [zoomControl]="true">
+  <agm-marker
+    *ngFor="let m of markers; let i = index"
+    [latitude]="m.lat"
+    [longitude]="m.lng"
+    [label]="m.label"
+    [markerDraggable]="m.draggable"
+    [iconUrl]="m.iconUrl"
+    (dragEnd)="markerDragEnd(m, $event)">
+    <agm-info-window>
+      <h6 class="text-center">{{ m.stationData.name }}</h6>
+      <p class="text-info" *ngIf="m.prediction==true">
+        Hay probabilidad de heladas para el <br/> día {{ predictionDate | amDateFormat:'DD [de] MMMM [de] YYYY'}}
+      </p>
+      <p class="text-success" *ngIf="m.prediction==false">
+        No hay probabilidad de heladas para el <br/> día {{ predictionDate | amDateFormat:'DD [de] MMMM [de] YYYY'}}
+      </p>
+      <p class="text-warning" *ngIf="m.prediction==null">
+        No hay datos de predicción para la estación. <br/>Probablemente se encuentre en mantenimiento.
+      </p>
+      <a href="#/public-predictions/view/{{m.stationID}}">
+        Ver Detalles
+      </a>
+    </agm-info-window>
+  </agm-marker>
+</agm-map>
+<!--{{ markers  | json }}-->

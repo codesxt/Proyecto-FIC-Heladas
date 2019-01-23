@@ -100,6 +100,10 @@ router.get(
   roleAuth(['administrator']),
   ctrlAgromet.listAgrometStations
 )
+router.get(
+  '/agrometpublicstations',
+  ctrlAgromet.listAgrometStations
+)
 router.patch(
   '/agrometstations/:id',
   auth,
@@ -108,8 +112,8 @@ router.patch(
 )
 router.get(
   '/agrometstations/:id',
-  auth,
-  roleAuth(['administrator']),
+  // auth,
+  // roleAuth(['administrator']),
   ctrlAgromet.getAgrometStation
 )
 router.delete(
@@ -228,13 +232,13 @@ router.post(
 // ============== Agromet Predictions ==============
 router.get(
   '/last-station-prediction/:id',
-  auth,
+  // auth,
   ctrlAgrometPredictions.getLastStationPrediction
 )
 
 router.get(
   '/agromet-prediction-history/:id',
-  auth,
+  // auth,
   ctrlAgrometPredictions.getPredictionHistory
 )
 

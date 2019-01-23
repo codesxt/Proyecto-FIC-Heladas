@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { StationsService } from '../../shared/services/stations.service';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
+import { NotificationsService } from 'angular2-notifications'
 
 // Dependencies of the datepicker
 import { BsDatepickerConfig, BsLocaleService } from 'ngx-bootstrap/datepicker';
@@ -12,6 +13,9 @@ defineLocale('es', es);
 
 import * as moment from 'moment';
 moment.locale('es-cl');
+
+import { AgrometService } from '../../shared/services/agromet.service';
+import * as _ from 'lodash';
 
 interface prediction {
 	station: string;
@@ -31,33 +35,25 @@ export class PredictionsViewComponent implements OnInit {
   prediction: prediction;
   predictionDate: Date;
 	history : any[] = [];
+	nextPrediction: string = ''
 
 	// DatePicker Variables
 	minDate   : Date = new Date(2013, 1, 1);
 	maxDate   : Date = new Date();
 	dateValue : Date = new Date();
+	dateValue2: Date = new Date();
 	bsConfig  : Partial<BsDatepickerConfig>;
+
+	station   : any = {};
 
   constructor(
     private stationsService : StationsService,
-    private route        : ActivatedRoute,
-		private location     : Location,
-		private localeService: BsLocaleService
+    private route        		: ActivatedRoute,
+		private location     		: Location,
+		private agrometService 	: AgrometService,
+		private localeService   : BsLocaleService,
+		private notificationsService : NotificationsService
   ) { }
-
-	setNextPredictionTime(){
-		let now = new Date();
-    let hour = now.getHours();
-		if(hour < 15){
-			this.prediction.next_prediction_time =  '15:00';
-		}else if (hour < 18){
-			this.prediction.next_prediction_time = '18:00';
-		}else if (hour < 12){
-			this.prediction.next_prediction_time = '21:00';
-		}else{
-			this.prediction.next_prediction_time = '';
-		}
-	}
 
   ngOnInit(){
     this.route.params.subscribe(params => {
@@ -68,63 +64,65 @@ export class PredictionsViewComponent implements OnInit {
 		this.bsConfig.showWeekNumbers = false;
 		this.localeService.use('es');
 
-    let now = new Date();
-    let hour = now.getHours();
+    let now = new Date()
+    let hour = now.getHours()
+		if (hour < 15) {
+			this.nextPrediction = '15:00 hrs.'
+		} else if (hour < 18) {
+			this.nextPrediction = '18:00 hrs.'
+		} else if (hour < 21) {
+			this.nextPrediction = '21:00 hrs.'
+		} else {
+			this.nextPrediction = 'Mañana a las 15:00 hrs.'
+		}
 
-    if(hour < 15){
-      console.log("Consultando Predicciones del Día Anterior");
-      this.stationsService.getStationDayBeforePrediction(this.stationId)
-      .subscribe(
-        data => {
-          this.prediction = {
-            station: data.data.station,
-            frost: data.data.frost,
-            prediction_time: data.data.time,
-            prediction_date: data.data.date
-          };
-          this.predictionDate = new Date();
-					this.setNextPredictionTime();
-        },
-        error => {
-          console.log(error);
-        }
-      )
-    }else{
-      console.log("Consultando Predicciones del Día Actual")
-			this.stationsService.getStationDayPrediction(this.stationId)
-      .subscribe(
-        data => {
-					this.prediction = {
-            station: data.data.station,
-            frost: data.data.frost,
-            prediction_time: data.data.time,
-            prediction_date: data.data.date
-          };
-          this.predictionDate = moment().add(1, 'days').toDate();
-					this.setNextPredictionTime();
-        },
-        error => {
-          console.log(error);
-        }
-      )
-    }
-  }
-
-	loadHistoryData(){
-		this.stationsService.getStationPredictionHistory(this.stationId, this.dateValue.getFullYear(), this.dateValue.getMonth()+1)
+		this.agrometService.getAgrometStation(this.stationId)
 		.subscribe(
 			data => {
-				console.log(data);
-				this.history = data.data;
+				this.station = data.attributes
+				this.getLastPrediction()
+				this.loadHistoryData()
 			},
 			error => {
+				console.log(error)
+			}
+		)
+  }
 
+	getLastPrediction () {
+		this.agrometService.getLastPrediction(this.stationId)
+		.subscribe(
+			data => {
+				this.prediction = data
+				this.predictionDate = moment(data.date).add(1, 'day').toDate()
+			},
+			error => {
+				console.log(error)
+				this.notificationsService.error(
+					'Error',
+					'No se obtuvo la predicción para la estación ' + this.station.name
+				)
+			}
+		)
+	}
+
+	loadHistoryData(){
+		let from = moment(this.dateValue).format('YYYY-MM-DD')
+    let to = moment(this.dateValue2).format('YYYY-MM-DD')
+		this.agrometService.getPredictionHistory(this.stationId, from, to)
+		.subscribe(
+			data => {
+				this.history = data.data
+			},
+			error => {
+				console.log(error)
 			}
 		)
 	}
 
 	dateChanged(){
 		this.loadHistoryData();
+		console.log(this.dateValue, this.dateValue2)
 	}
 
 	goBack(){

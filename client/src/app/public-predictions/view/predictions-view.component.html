@@ -2,8 +2,8 @@
   <div class="card">
     <div class="card-header">
       <strong>Estación
-        <span *ngIf="prediction">
-          {{prediction.station}}
+        <span *ngIf="prediction && prediction.station">
+          {{prediction.station.name}}
         </span>
       </strong>
     </div>
@@ -50,11 +50,11 @@
                 <tbody>
                   <tr>
                     <td>Estación</td>
-                    <td>{{prediction.station}}</td>
+                    <td>{{prediction.station.name}}</td>
                   </tr>
                   <tr>
                     <td>Horario de la Predicción</td>
-                    <td>{{prediction.prediction_time}}</td>
+                    <td>{{prediction.date | amDateFormat:'HH [:] mm'}}</td>
                   </tr>
                   <tr>
                     <td>Predicción para</td>
@@ -62,7 +62,7 @@
                   </tr>
                   <tr>
                     <td>Próxima Predicción</td>
-                    <td>{{prediction.next_prediction_time}} hrs.</td>
+                    <td>{{nextPrediction}}</td>
                   </tr>
                 </tbody>
               </table>
@@ -79,10 +79,10 @@
 
       <hr/>
 
-      <h3> Histórico de Predicciones </h3>
+      <h3> Histórico de Predicciones de la estación {{station.name}} </h3>
 
       <div class="form-group row">
-        <label for="example-text-input" class="col-1 col-form-label">Fecha:</label>
+        <label for="example-text-input" class="col-md-2 form-control-label">Desde:</label>
         <div class="col-md-4">
           <div class="input-group">
             <input
@@ -102,7 +102,29 @@
             </span>
           </div>
         </div>
+
+        <label for="example-text-input" class="col-md-2 form-control-label">Hasta:</label>
+        <div class="col-md-4">
+          <div class="input-group">
+            <input
+              type="text"
+              [minDate]="minDate"
+              [maxDate]="maxDate"
+              #dp2="bsDatepicker"
+              bsDatepicker
+              [(ngModel)]="dateValue2"
+              [bsConfig]="bsConfig"
+              (ngModelChange)="dateChanged()"
+              readonly>
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-primary" (click)="dp2.toggle()">
+                <i class="fa fa-calendar"></i>
+              </button>
+            </span>
+          </div>
+        </div>
       </div>
+      <hr/>
 
       <div class="alert alert-warning" role="alert" *ngIf="history.length==0">
         <strong>Datos no Encontrados.</strong> No se encontraron datos para la fecha seleccionada.
@@ -110,38 +132,25 @@
       <table class="table table-bordered" *ngIf="history.length>0">
         <thead class="bg-primary">
           <tr>
-            <th class="col-1"></th>
-            <th colspan="3" class="text-center">Predicciones para el día siguiente</th>
+            <th class="col-3"></th>
+            <th class="text-center">Predicciones para el día siguiente</th>
           </tr>
           <tr>
             <th>Fecha</th>
-            <th>15:00</th>
-            <th>18:00</th>
-            <th>21:00</th>
+            <th>Predicción día siguiente</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let item of history">
-            <td>{{item.date}}</td>
+          <tr *ngFor="let item of history; let i = index">
+            <td>{{ item.date | amDateFormat:'YYYY-MM-DD HH:mm' }}</td>
             <td [ngClass]="{
-              'table-primary' : item.pred15 == true,
-              'table-warning' : item.pred15 == 'null' || item.pred15 == undefined
+              'table-primary' : item.frost == true,
+              'table-warning' : item.frost == 'null' || item.frost == undefined
             }">
-              {{item.pred15 | predictionTranslate}}
-            </td>
-            <td [ngClass]="{
-              'table-primary' : item.pred18 == true,
-              'table-warning' : item.pred18 == 'null' || item.pred18 == undefined
-            }">
-              {{item.pred18 | predictionTranslate}}
-            </td>
-            <td [ngClass]="{
-              'table-primary' : item.pred21 == true,
-              'table-warning' : item.pred21 == 'null' || item.pred21 == undefined
-            }">
-              {{item.pred21 | predictionTranslate}}
+              {{item.frost | predictionTranslate}}
             </td>
           </tr>
+        </tbody>
       </table>
   </div>
 </div>

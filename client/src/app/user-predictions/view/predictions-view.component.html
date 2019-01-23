@@ -2,7 +2,7 @@
   <div class="card">
     <div class="card-header">
       <strong>Estación
-        <span *ngIf="prediction">
+        <span *ngIf="prediction && prediction.station">
           {{prediction.station.name}}
         </span>
       </strong>
