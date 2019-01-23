@@ -242,4 +242,18 @@ router.get(
   ctrlAgrometPredictions.getPredictionHistory
 )
 
+router.get(
+  '/agrometmeasurements/:id',
+  auth,
+  roleAuth(['administrator']),
+  ctrlAgromet.getSensorDataByDate
+)
+
+router.delete(
+  '/agrometmeasurements/:id',
+  auth,
+  roleAuth(['administrator']),
+  ctrlAgromet.deleteSensorDataByDate
+)
+
 module.exports = router;

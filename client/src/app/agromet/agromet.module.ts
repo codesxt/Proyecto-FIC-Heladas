@@ -8,6 +8,7 @@ import { AgrometRegisterComponent } from './register/register.component';
 import { AgrometListComponent } from './list/list.component';
 import { AgrometEditComponent } from './edit/edit.component';
 import { AgrometDataManagementComponent } from './data-management/data-management.component';
+import { AgrometDataExploreComponent } from './data-explore/dataexplore-agromet.component';
 
 import { AgrometRoutingModule } from './agromet-routing.module';
 
@@ -17,6 +18,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AgmCoreModule } from '@agm/core';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { CalendarModule } from 'angular-calendar';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 @NgModule({
   imports: [
@@ -28,7 +30,8 @@ import { CalendarModule } from 'angular-calendar';
     NgbModule,
     AgmCoreModule,
     ChartsModule,
-    CalendarModule.forRoot()
+    CalendarModule.forRoot(),
+    BsDatepickerModule
   ],
   declarations: [
     AgrometComponent,
@@ -36,7 +39,8 @@ import { CalendarModule } from 'angular-calendar';
     AgrometRegisterComponent,
     AgrometListComponent,
     AgrometEditComponent,
-    AgrometDataManagementComponent
+    AgrometDataManagementComponent,
+    AgrometDataExploreComponent
   ]
 })
 export class AgrometModule { }

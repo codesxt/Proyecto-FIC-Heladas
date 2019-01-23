@@ -299,4 +299,44 @@ export class AgrometService {
       (response: Response) => response.json()
     );
   }
+
+  getMeasurements(stationID: string, fromDate: string, toDate?: string): any{
+    let headers = new Headers({
+      'Authorization': 'Bearer ' + this.authenticationService.getToken()
+    });
+    headers.append('Content-Type', 'application/json');
+    let params = new URLSearchParams();
+    params.append('from', fromDate);
+    if(toDate){
+      params.append('to', toDate);
+    }
+    let options = new RequestOptions({
+      headers : headers,
+      params  : params
+    });
+    let url = this.baseURL+'/api/v1/agrometmeasurements/'+stationID;
+    return this.http.get(url, options).map(
+      (response: Response) => response.json()
+    );
+  }
+
+  deleteMeasurements(stationID: string, fromDate: string, toDate?: string): any{
+    let headers = new Headers({
+      'Authorization': 'Bearer ' + this.authenticationService.getToken()
+    });
+    headers.append('Content-Type', 'application/json');
+    let params = new URLSearchParams();
+    params.append('from', fromDate);
+    if(toDate){
+      params.append('to', toDate);
+    }
+    let options = new RequestOptions({
+      headers : headers,
+      params  : params
+    });
+    let url = this.baseURL+'/api/v1/agrometmeasurements/'+stationID;
+    return this.http.delete(url, options).map(
+      (response: Response) => response.json()
+    );
+  }
 }

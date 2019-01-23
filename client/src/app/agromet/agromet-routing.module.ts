@@ -7,6 +7,7 @@ import { AgrometRegisterComponent } from './register/register.component';
 import { AgrometListComponent } from './list/list.component';
 import { AgrometEditComponent } from './edit/edit.component';
 import { AgrometDataManagementComponent } from './data-management/data-management.component';
+import { AgrometDataExploreComponent } from './data-explore/dataexplore-agromet.component';
 
 const routes: Routes = [
   {
@@ -49,6 +50,13 @@ const routes: Routes = [
         component: AgrometDataManagementComponent,
         data: {
           title: 'Gestión de Datos de Estación'
+        }
+      },
+      {
+        path: 'data-explore/:id',
+        component: AgrometDataExploreComponent,
+        data: {
+          title: 'Explorar Datos de Estación'
         }
       }
     ]
