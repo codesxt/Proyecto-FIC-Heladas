@@ -5,6 +5,12 @@ const mongoose        = require('mongoose')
 const AgrometStation  = mongoose.model('AgrometStation')
 const AgrometSensorData = mongoose.model('AgrometSensorData')
 
+function delay(ms) {
+  return new Promise(function (resolve, reject) {
+    setTimeout(resolve, ms);
+  });
+}
+
 task = async () => {
   console.log('====== Iniciando respaldo automatizado de estaciones Agromet ======')
   let stations = await AgrometStation.find({settings:{autobackup:true}})
@@ -48,6 +54,8 @@ task = async () => {
     } else {
       _taskLog(station.name, 'Error: se leyeron 0 datos de Agromet')
     }
+    _taskLog(station.name, 'Esperando 1000 milisegundos para no saturar Agromet.cl...')
+    await sleep(1000)
   }
 }
 
