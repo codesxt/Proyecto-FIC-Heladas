@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NotificationsService } from 'angular2-notifications';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HoboStationsService } from '../../shared/services/hobostations.service';
 import { AgrometService } from '../../shared/services/agromet.service';
@@ -116,7 +117,8 @@ export class AgrometDataExploreComponent implements OnInit {
     private route                : ActivatedRoute,
     private stationsService      : HoboStationsService,
     private agrometService       : AgrometService,
-    private formBuilder          : FormBuilder
+    private formBuilder          : FormBuilder,
+    private location     		     : Location,
   ) {  }
 
   ngOnInit() {
