@@ -69,7 +69,7 @@ data.forEach(item => {
     region: item.stationData.region,
     city: item.stationData.city,
     settings: {
-      autobackup: false
+      autobackup: true
     },
     location: item.location
   }
