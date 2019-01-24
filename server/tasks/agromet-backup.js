@@ -55,7 +55,7 @@ task = async () => {
       _taskLog(station.name, 'Error: se leyeron 0 datos de Agromet')
     }
     _taskLog(station.name, 'Esperando 1000 milisegundos para no saturar Agromet.cl...')
-    await sleep(1000)
+    await delay(1000)
   }
 }
 
