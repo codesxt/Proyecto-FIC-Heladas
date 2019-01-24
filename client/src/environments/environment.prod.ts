@@ -1,8 +1,8 @@
 export const environment = {
   production        : true,
-  oldApiUrl         : "https://fic.alertfrost.cl/heladas",
+  oldApiUrl         : "http://fic.alertfrost.cl/heladas",
   apiUrl            : '',
-  hoboUpload        : 'https://fic.alertfrost.cl/api/v1/hoboupload',
-  miniStationUpload : 'https://fic.alertfrost.cl/api/v1/ministationupload',
-  agrometModelsUpload : 'https://fic.alertfrost.cl/api/v1/agrometmodels'
+  hoboUpload        : 'http://fic.alertfrost.cl/api/v1/hoboupload',
+  miniStationUpload : 'http://fic.alertfrost.cl/api/v1/ministationupload',
+  agrometModelsUpload : 'http://fic.alertfrost.cl/api/v1/agrometmodels'
 };
