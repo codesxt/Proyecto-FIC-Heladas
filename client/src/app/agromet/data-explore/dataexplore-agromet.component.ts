@@ -275,6 +275,10 @@ export class AgrometDataExploreComponent implements OnInit {
           console.log(error);
         }
       )
-    }    
+    }
   }
+
+  goBack(){
+		this.location.back();
+	}
 }
