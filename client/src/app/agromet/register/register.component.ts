@@ -9,7 +9,8 @@ import * as moment from 'moment';
 
 @Component({
   selector: 'app-agromet-register',
-  templateUrl: './register.component.html'
+  templateUrl: './register.component.html',
+  styleUrls: ['../map.scss']
 })
 export class AgrometRegisterComponent implements OnInit {
   regions  : any = [];
@@ -22,6 +23,12 @@ export class AgrometRegisterComponent implements OnInit {
   formEnabled     : boolean = false;
 
   newRegister : any = {};
+
+  mapLat : number = -35.4422115171564;
+  mapLng : number = -71.63749692030251;
+  lat: number = this.mapLat;
+  lng: number = this.mapLng;
+  zoom: number = 8;
   constructor(
     private notificationsService  : NotificationsService,
     private authenticationService : AuthenticationService,
@@ -140,6 +147,13 @@ export class AgrometRegisterComponent implements OnInit {
 
   doRegister(){
     console.log(this.newRegister);
+    this.newRegister.location = {
+      type: 'Point',
+      coordinates: [
+        this.lng,
+        this.lat
+      ]
+    }
     this.agrometService.createAgrometStation(this.newRegister)
     .subscribe(
       data => {
@@ -150,5 +164,11 @@ export class AgrometRegisterComponent implements OnInit {
         this.notificationsService.error('Error', error.json().message);
       }
     )
+  }
+
+  // Métodos relacionados con mapas
+  mapClicked($event: any) {
+    this.lat = $event.coords.lat;
+    this.lng = $event.coords.lng;
   }
 }

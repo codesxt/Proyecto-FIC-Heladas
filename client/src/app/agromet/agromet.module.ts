@@ -19,6 +19,7 @@ import { AgmCoreModule } from '@agm/core';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { CalendarModule } from 'angular-calendar';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { AgmCoreModule } from '@agm/core';
 
 @NgModule({
   imports: [

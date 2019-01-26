@@ -285,6 +285,7 @@ module.exports.createAgrometStation = (req, res) => {
     station.city     = stationData.city;
     station.region   = stationData.region;
     station.settings = stationData.settings;
+    station.location = stationData.location;
     station.save((err, result) => {
       if(err){
         console.log(err);
@@ -344,7 +345,9 @@ module.exports.listAgrometStations = (req, res) => {
 }
 
 module.exports.getAgrometStation = (req, res) => {
-  AgrometStation.findById(req.params.id, (err, station) => {
+  AgrometStation.findById(req.params.id)
+  .lean()
+  .exec((err, station) => {
     if(err){
       console.log(err);
       utils.sendJSONresponse(res, 400, err);
@@ -357,6 +360,7 @@ module.exports.getAgrometStation = (req, res) => {
           station  : station.station,
           region   : station.region,
           city     : station.city,
+          location : station.location,
           settings : station.settings
         },
         links: {
@@ -390,8 +394,9 @@ module.exports.editAgrometStation = (req, res) => {
         });
         return;
       }else{
-        station.name = req.body.name;
-        station.settings = req.body.settings;
+        station.name = req.body.name
+        station.settings = req.body.settings
+        station.location = req.body.location ? req.body.location : { type: 'Point', coordinates: [-71.665842, -35.426707]}
         station.save((err) => {
           if (err){
             utils.sendJSONresponse(res, 400, {

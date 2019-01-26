@@ -7,13 +7,19 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin-agromet-edit',
-  templateUrl: './edit.component.html'
+  templateUrl: './edit.component.html',
+  styleUrls: ['../map.scss']
 })
 export class AgrometEditComponent implements OnInit {
   stationId   : string;
   stationData : any;
   stationForm : FormGroup;
 
+  mapLat : number = -35.4422115171564;
+  mapLng : number = -71.63749692030251;
+  lat: number = this.mapLat;
+  lng: number = this.mapLng;
+  zoom: number = 8;
   constructor(
     private agrometService       : AgrometService,
     private notificationsService : NotificationsService,
@@ -50,6 +56,12 @@ export class AgrometEditComponent implements OnInit {
           city     : data.attributes.city,
           settings : data.attributes.settings
         }
+
+        this.mapLat = data.attributes.location.coordinates[1]
+        this.mapLng = data.attributes.location.coordinates[0]
+        this.lat = this.mapLat
+        this.lng = this.mapLng
+
         this.stationForm.setValue({
           name                : this.stationData.name,
           settings_autobackup : this.stationData.settings.autobackup
@@ -65,6 +77,13 @@ export class AgrometEditComponent implements OnInit {
     if(this.stationForm.valid){
       let updateData = {
         name: this.stationForm.get('name').value,
+        location: {
+          type: 'Point',
+          coordinates: [
+            this.lng,
+            this.lat
+          ]
+        }
         settings: {
           autobackup : this.stationForm.get('settings_autobackup').value
         }
@@ -86,5 +105,11 @@ export class AgrometEditComponent implements OnInit {
 
   goBack(){
     this.router.navigate(['/agromet/list']);
+  }
+
+  // Métodos relacionados con mapas
+  mapClicked($event: any) {
+    this.lat = $event.coords.lat;
+    this.lng = $event.coords.lng;
   }
 }

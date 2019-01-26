@@ -6,8 +6,8 @@
 export const environment = {
   production        : false,
   oldApiUrl         : "https://heladas.utalca.cl/heladas",
-  apiUrl            : 'http://localhost:3000',
-  hoboUpload        : 'http://localhost:3000/api/v1/hoboupload',
-  miniStationUpload : 'http://localhost:3000/api/v1/ministationupload',
-  agrometModelsUpload : 'http://localhost:3000/api/v1/agrometmodels'
+  apiUrl            : 'http://localhost:3100',
+  hoboUpload        : 'http://localhost:3100/api/v1/hoboupload',
+  miniStationUpload : 'http://localhost:3100/api/v1/ministationupload',
+  agrometModelsUpload : 'http://localhost:3100/api/v1/agrometmodels'
 };

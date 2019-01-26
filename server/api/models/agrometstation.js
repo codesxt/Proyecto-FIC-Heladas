@@ -37,6 +37,16 @@ var agrometStationSchema = new mongoose.Schema({
       required: true
     }
   },
+  location: {
+    type: {
+      type: String,
+      default: 'Point'
+    },
+    coordinates: {
+      type: Array,
+      default: [-71.665842, -35.426707]
+    }
+  },
   settings: {
     autobackup: {
       type: Boolean,
@@ -46,5 +56,7 @@ var agrometStationSchema = new mongoose.Schema({
   }
 }, {
   timestamps: true
-});
+})
+
+agrometStationSchema.index({ location: '2dsphere' })
 mongoose.model('AgrometStation', agrometStationSchema, 'agrometstation');
