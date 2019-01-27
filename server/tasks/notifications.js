@@ -1,13 +1,8 @@
-const request         = require('request')
 const rp              = require('request-promise')
-const moment          = require('moment')
 const mongoose        = require('mongoose')
 const AgrometStation  = mongoose.model('AgrometStation')
 const AgrometPrediction = mongoose.model('AgrometPrediction')
 const User            = mongoose.model('User')
-const fs             = require('fs')
-const path           = require('path')
-const _runPrediction = require('./_run-prediction')
 const mailer         = require('../mailer');
 
 const HOST = 'http://localhost:3100'
