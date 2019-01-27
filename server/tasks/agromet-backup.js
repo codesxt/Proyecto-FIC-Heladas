@@ -18,7 +18,7 @@ task = async () => {
   let to   = moment().format('YYYY-MM-DD')
   for (let station of stations) {
     _taskLog(station.name, 'Inicio de respaldo.')
-    let query = 'http://localhost:3000/api/v1/agromet/history/' +
+    let query = 'http://localhost:3100/api/v1/agromet/history/' +
                 station.station.id +
                 '?from=' + from +
                 '&to=' + to
