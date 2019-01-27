@@ -1,4 +1,5 @@
 const schedule = require('node-schedule')
+const db = require('./api/models/db')
 const taskModule = require('./tasks')
 
 module.exports.run = () => {
