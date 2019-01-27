@@ -83,7 +83,7 @@ export class AgrometEditComponent implements OnInit {
             this.lng,
             this.lat
           ]
-        }
+        },
         settings: {
           autobackup : this.stationForm.get('settings_autobackup').value
         }
