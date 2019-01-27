@@ -9,7 +9,7 @@ var mailGenerator = new Mailgen({
     product: {
       // Appears in header & footer of e-mails
       name: 'Predicción de Heladas ❄',
-      link: 'https://heladas.utalca.cl/predicciones/',
+      link: 'https://fic.alertfrost.cl/predicciones/',
       copyright: '© 2017 Proyecto FIC, código BIP-30.481.998-0.',
     }
 });
@@ -55,14 +55,14 @@ module.exports.sendFrostsEmail = (emailAddress, frosts) => {
               button: {
                   color: '#22BC66',
                   text: 'Ver Predicciones',
-                  link: 'https://heladas.utalca.cl/predicciones/#/user-predictions/list'
+                  link: 'http://fic.alertfrost.cl/#/user-predictions/list'
               }
           },
           {
                 instructions: 'Para modificar la frecuencia con la que se reciben notificaciones, haga click aquí:',
                 button: {
                     text: 'Configuraciones',
-                    link: 'https://heladas.utalca.cl/predicciones/#/settings'
+                    link: 'http://fic.alertfrost.cl/#/settings'
                 }
             }
         ]

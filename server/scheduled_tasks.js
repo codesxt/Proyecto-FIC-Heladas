@@ -141,5 +141,6 @@ module.exports.run = () => {
   const agrometBackupJob     = schedule.scheduleJob('0 * * * *', taskModule.agrometBackupTask)
 
   // TODO: Crear tarea que haga notificaciones
+  const notificationsJob     = schedule.scheduleJob('5 18 * * *', taskModule.notificationsTask)
   console.log("[Task Scheduler] Task Schedule set")
 }
