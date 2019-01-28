@@ -31,7 +31,6 @@ import { FrostService } from './shared/services/frost.service';
 import { AuthenticationService } from './shared/services/authentication.service';
 import { ProfileService } from './shared/services/profile.service';
 import { UsersService } from './shared/services/users.service';
-import { StationsService } from './shared/services/stations.service';
 import { HoboStationsService } from './shared/services/hobostations.service';
 import { SystemService } from './shared/services/system.service';
 import { SubscriptionsService } from './shared/services/subscriptions.service';
@@ -95,7 +94,6 @@ import { MinistationModalComponent } from './ministations/ministation-modal/mini
     AuthenticationService,
     ProfileService,
     UsersService,
-    StationsService,
     HoboStationsService,
     SystemService,
     SubscriptionsService,

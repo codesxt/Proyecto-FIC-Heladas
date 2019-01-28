@@ -5,7 +5,6 @@ import { AdminHoboStationsComponent } from './admin-hobostations.component';
 import { StationsCreateComponent } from './stations-create.component';
 import { StationsListComponent } from './stations-list.component';
 import { StationDetailsComponent } from './station-details.component';
-import { StationsAdminMapComponent } from './stations-map.component';
 import { AdminHoboStationsManualUploadComponent } from './manual-upload/manual-upload.component';
 import { AdminHoboStationsDataDisplayComponent } from './data-display/datadisplay-hobostations.component';
 import { AdminHoboStationsIntegrationsComponent } from './integrations/integrations.component';
@@ -31,13 +30,6 @@ const routes: Routes = [
         component: StationsListComponent,
         data: {
           title: 'Lista de Estaciones'
-        }
-      },
-      {
-        path: 'map',
-        component: StationsAdminMapComponent,
-        data: {
-          title: 'Mapa de Estaciones'
         }
       },
       {

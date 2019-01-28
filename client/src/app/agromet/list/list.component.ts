@@ -1,7 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { AuthenticationService } from '../../shared/services/authentication.service';
 import { NotificationsService } from 'angular2-notifications';
-import { StationsService } from '../../shared/services/stations.service';
 import { AgrometService } from '../../shared/services/agromet.service';
 import { Angular2Csv } from 'angular2-csv/Angular2-csv';
 
@@ -20,7 +19,6 @@ export class AgrometListComponent implements OnInit {
   pageSize : number = 10;
   constructor(
     private notificationsService  : NotificationsService,
-    private stationsService       : StationsService,
     private agrometService        : AgrometService,
     @Inject('moment') private moment
   ) {  }

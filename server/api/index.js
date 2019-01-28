@@ -9,11 +9,11 @@ const auth = jwt({
 const ctrlAuthentication  = require('./controllers/authentication')
 const ctrlProfile         = require('./controllers/profile')
 const ctrlUsers           = require('./controllers/users')
-const ctrlEma             = require('./controllers/ema')
-const ctrlStations        = require('./controllers/stations')
 const ctrlSystem          = require('./controllers/system')
 const ctrlSubscriptions   = require('./controllers/subscriptions')
 const ctrlAgromet         = require('./controllers/agromet')
+const ctrlAgrometStations = require('./controllers/agromet-stations')
+const ctrlAgrometSensorData = require('./controllers/agromet-data')
 const ctrlHoboStations    = require('./controllers/hobostations')
 const ctrlMiniStations    = require('./controllers/mini-stations')
 const ctrlAgrometModels   = require('./controllers/agromet-models')
@@ -22,29 +22,64 @@ const ctrlAgrometPredictions = require('./controllers/agromet-predictions')
 const roleAuth            = ctrlAuthentication.roleAuthorization;
 
 // ========== Authentication Endpoints =============
-
-router.post('/register', ctrlAuthentication.register);
-router.post('/login', ctrlAuthentication.login);
-// router.post('/request-password-reset', ctrlAuth.requestPasswordReset);
-// router.post('/reset-password', ctrlAuth.resetPassword);
+router.post(
+  '/register',
+  ctrlAuthentication.register
+)
+router.post(
+  '/login',
+  ctrlAuthentication.login
+)
+// TODO: Implement password reset
 
 
 // ============== Profile Endpoints ================
-router.get('/profile', auth, ctrlProfile.getProfile);
-router.patch('/profile', auth, ctrlProfile.updateProfile);
-// GET      /profile        Gets user data
-// PATCH    /profile        Updates user data
-// DELETE   /profile        Deletes user account
-router.get('/settings', auth, ctrlProfile.getSettings);
-router.patch('/settings', auth, ctrlProfile.updateSettings);
+router.get(
+  '/profile',
+  auth,
+  ctrlProfile.getProfile
+)
+router.patch(
+  '/profile',
+  auth,
+  ctrlProfile.updateProfile
+)
+router.get(
+  '/settings',
+  auth,
+  ctrlProfile.getSettings
+)
+router.patch(
+  '/settings',
+  auth,
+  ctrlProfile.updateSettings
+)
 
 // =============== User Management =================
-router.get('/users', auth, roleAuth(['administrator']), ctrlUsers.readUserList);
-router.get('/users/:userId', auth, roleAuth(['administrator']), ctrlUsers.readUser);
-router.patch('/users/:userId', auth, roleAuth(['administrator']), ctrlUsers.updateUser);
+router.get(
+  '/users',
+  auth,
+  roleAuth(['administrator']),
+  ctrlUsers.readUserList
+)
+router.get(
+  '/users/:userId',
+  auth,
+  roleAuth(['administrator']),
+  ctrlUsers.readUser
+)
+router.patch(
+  '/users/:userId',
+  auth,
+  roleAuth(['administrator']),
+  ctrlUsers.updateUser
+)
 
 // ========== HoboStations Endpoints ===============
-router.post('/hoboupload', ctrlHoboStations.uploadFile);
+router.post(
+  '/hoboupload',
+  ctrlHoboStations.uploadFile
+)
 router.get(
   '/hobostations',
   ctrlHoboStations.readStationList
@@ -64,7 +99,7 @@ router.delete(
 router.get(
   '/hobostations/:id',
   ctrlHoboStations.readStation
-);
+)
 router.patch(
   '/hobostations/:id',
   auth,
@@ -76,74 +111,62 @@ router.get(
   ctrlHoboStations.getSensorDataByDate
 )
 
-// ================ Ema Endpoints ==================
-// Queries data from legacy API at:
-// http://srvbioinf1.utalca.cl/heladas/monitor/index.php
-router.get('/ema', ctrlEma.readEmaList);
-router.get('/prediction/:id', ctrlEma.readEmaPrediction);
-router.get('/agromet/history/:emaId', ctrlAgromet.getEmaHistory);
-router.get('/agromet/variables', ctrlAgromet.getVariables);
-router.get('/agromet/regions', ctrlAgromet.getRegions);
-router.get('/agromet/cities', ctrlAgromet.getCities);
-router.get('/agromet/emas', ctrlAgromet.getFilteredEMAs);
+// ================ Agromet Endpoints ==================
+router.get(
+  '/agromet/history/:emaId',
+  ctrlAgromet.getEmaHistory
+)
+router.get(
+  '/agromet/variables',
+  ctrlAgromet.getVariables
+)
+router.get(
+  '/agromet/regions',
+  ctrlAgromet.getRegions
+)
+router.get(
+  '/agromet/cities',
+  ctrlAgromet.getCities
+)
+router.get(
+  '/agromet/emas',
+  ctrlAgromet.getFilteredEMAs
+)
 
 // ============ Agromet Backup System ==============
 router.post(
   '/agrometstations',
   auth,
   roleAuth(['administrator']),
-  ctrlAgromet.createAgrometStation
+  ctrlAgrometStations.createAgrometStation
 )
 router.get(
   '/agrometstations',
   auth,
   roleAuth(['administrator']),
-  ctrlAgromet.listAgrometStations
+  ctrlAgrometStations.listAgrometStations
 )
 router.get(
   '/agrometpublicstations',
-  ctrlAgromet.listAgrometPublicStations
+  ctrlAgrometStations.listAgrometPublicStations
 )
 router.patch(
   '/agrometstations/:id',
   auth,
   roleAuth(['administrator']),
-  ctrlAgromet.editAgrometStation
+  ctrlAgrometStations.editAgrometStation
 )
 router.get(
   '/agrometstations/:id',
   // auth,
   // roleAuth(['administrator']),
-  ctrlAgromet.getAgrometStation
+  ctrlAgrometStations.getAgrometStation
 )
 router.delete(
   '/agrometstations/:id',
   auth,
   roleAuth(['administrator']),
-  ctrlAgromet.removeAgrometStation
-)
-router.put(
-  '/agrometdata/:id',
-  auth,
-  roleAuth(['administrator']),
-  ctrlAgromet.backupAgrometData
-)
-// Endpoint utilizado para el respaldo automatizado de datos
-router.put(
-  '/agrometdata/auto/:id',
-  ctrlAgromet.backupAgrometData
-)
-router.get(
-  '/agrometdata/count/:id',
-  auth,
-  roleAuth(['administrator']),
-  ctrlAgromet.getAgrometDataCount
-)
-router.delete(
-  '/agrometdata/:id',
-  auth,
-  roleAuth(['administrator']),
-  ctrlAgromet.removeAgrometData
+  ctrlAgrometStations.removeAgrometStation
 )
 
 // ================ Mini Stations ==================
@@ -183,19 +206,6 @@ router.delete(
   '/ministationdata/:node/:station',
   ctrlMiniStations.deleteSensorDataByDate
 )
-
-// ===============Station Endpoints ================
-router.get('/stations', auth, ctrlStations.readStationList);
-router.get('/public-stations', ctrlStations.readStationList);
-router.get('/stations/:id', ctrlStations.readStation);
-router.post('/stations', auth, roleAuth(['administrator']), ctrlStations.createStation);
-router.patch('/stations/:id', auth, roleAuth(['administrator']), ctrlStations.updateStation);
-router.delete('/stations/:id', auth, roleAuth(['administrator']), ctrlStations.deleteStation);
-
-router.get('/day-prediction/:id', ctrlStations.readStationDayPrediction);
-router.get('/day-before-prediction/:id', ctrlStations.readStationDayBeforePrediction);
-
-router.get('/predictions-history/:id', ctrlStations.getPredictionsHistory);
 
 // =============== System Endpoints ================
 router.get(
@@ -246,14 +256,58 @@ router.get(
   '/agrometmeasurements/:id',
   auth,
   roleAuth(['administrator']),
-  ctrlAgromet.getSensorDataByDate
+  ctrlAgrometSensorData.getSensorDataByDate
 )
 
 router.delete(
   '/agrometmeasurements/:id',
   auth,
   roleAuth(['administrator']),
-  ctrlAgromet.deleteSensorDataByDate
+  ctrlAgrometSensorData.deleteSensorDataByDate
 )
+
+/*
+ * Deleted Endpoints
+ // ===============Station Endpoints ================
+ router.get('/stations', auth, ctrlStations.readStationList);
+ router.get('/public-stations', ctrlStations.readStationList);
+ router.get('/stations/:id', ctrlStations.readStation);
+ router.post('/stations', auth, roleAuth(['administrator']), ctrlStations.createStation);
+ router.patch('/stations/:id', auth, roleAuth(['administrator']), ctrlStations.updateStation);
+ router.delete('/stations/:id', auth, roleAuth(['administrator']), ctrlStations.deleteStation);
+ router.get('/day-prediction/:id', ctrlStations.readStationDayPrediction);
+ router.get('/day-before-prediction/:id', ctrlStations.readStationDayBeforePrediction);
+ router.get('/predictions-history/:id', ctrlStations.getPredictionsHistory);
+
+ // Queries data from legacy API at:
+ // http://srvbioinf1.utalca.cl/heladas/monitor/index.php
+ router.get('/ema', ctrlEma.readEmaList);
+ router.get('/prediction/:id', ctrlEma.readEmaPrediction);
+
+ // Endpoints antiguos para respaldo de datos
+ router.put(
+   '/agrometdata/:id',
+   auth,
+   roleAuth(['administrator']),
+   ctrlAgrometStations.backupAgrometData
+ )
+ // Endpoint utilizado para el respaldo automatizado de datos
+ router.put(
+   '/agrometdata/auto/:id',
+   ctrlAgrometStations.backupAgrometData
+ )
+ router.get(
+   '/agrometdata/count/:id',
+   auth,
+   roleAuth(['administrator']),
+   ctrlAgrometStations.getAgrometDataCount
+ )
+ router.delete(
+   '/agrometdata/:id',
+   auth,
+   roleAuth(['administrator']),
+   ctrlAgrometStations.removeAgrometData
+ )
+ */
 
 module.exports = router;

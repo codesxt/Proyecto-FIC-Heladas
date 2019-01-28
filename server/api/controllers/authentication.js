@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const crypto = require('crypto');
 const moment = require('moment');
-// var nodemailer = require('nodemailer');
 const utils = require('./utils');
 const User = mongoose.model('User');
 

@@ -7,7 +7,6 @@ import { AgrometStationsListComponent } from './agromet-stations/agromet-station
 import { AgrometRegisterComponent } from './register/register.component';
 import { AgrometListComponent } from './list/list.component';
 import { AgrometEditComponent } from './edit/edit.component';
-import { AgrometDataManagementComponent } from './data-management/data-management.component';
 import { AgrometDataExploreComponent } from './data-explore/dataexplore-agromet.component';
 
 import { AgrometRoutingModule } from './agromet-routing.module';
@@ -39,7 +38,6 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
     AgrometRegisterComponent,
     AgrometListComponent,
     AgrometEditComponent,
-    AgrometDataManagementComponent,
     AgrometDataExploreComponent
   ]
 })

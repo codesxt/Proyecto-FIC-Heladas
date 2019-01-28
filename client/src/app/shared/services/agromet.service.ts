@@ -12,6 +12,7 @@ export class AgrometService {
     private authenticationService : AuthenticationService
   ) { }
 
+  /*
   getEmaHistory(emaId: number, from: string, to?: string): any{
     let headers = new Headers({  });
     let options = new RequestOptions({
@@ -25,8 +26,9 @@ export class AgrometService {
     return this.http.get(url, options).map(
       (response: Response) => response.json()
     );
-  }
+  }*/
 
+  /*
   getDayPrediction(stationId: string): any{
     let headers = new Headers({  });
     let options = new RequestOptions({
@@ -35,8 +37,9 @@ export class AgrometService {
     return this.http.post(this.baseURL+'/consulta/index.php?id_est='+stationId, { id_est: stationId }, options).map(
       (response: Response) => response.json()
     );
-  }
+  }*/
 
+  /*
   getHistory(stationId: string, predictionHour: number, year: number, month: number): any{
     let headers = new Headers({  });
     let options = new RequestOptions({
@@ -51,7 +54,7 @@ export class AgrometService {
     }, options).map(
       (response: Response) => response.json()
     );
-  }
+  }*/
 
   getHistoryV2(stationID: number, fromDate: string, toDate?: string): any{
     let headers = new Headers({  });
@@ -71,6 +74,7 @@ export class AgrometService {
     );
   }
 
+  /*
   getStations(): any{
     let headers = new Headers({  });
     let options = new RequestOptions({
@@ -79,7 +83,7 @@ export class AgrometService {
     return this.http.post(this.baseURL+'/monitor/acciones.php?acc=2', { acc: 2 }, options).map(
       (response: Response) => response.json()
     );
-  }
+  }*/
 
   getRegions(): any{
     let headers = new Headers({  });
@@ -202,6 +206,7 @@ export class AgrometService {
     );
   }
 
+  /*
   backupAgrometData(stationID: number, fromDate: string, toDate?: string): any{
     let headers = new Headers({
       'Authorization': 'Bearer ' + this.authenticationService.getToken()
@@ -220,8 +225,9 @@ export class AgrometService {
     return this.http.put(url, {}, options).map(
       (response: Response) => response.json()
     );
-  }
+  }*/
 
+  /*
   getAgrometDataCount(stationID: number, fromDate: string, toDate?: string): any{
     let headers = new Headers({
       'Authorization': 'Bearer ' + this.authenticationService.getToken()
@@ -240,8 +246,9 @@ export class AgrometService {
     return this.http.get(url, options).map(
       (response: Response) => response.json()
     );
-  }
+  }*/
 
+  /*
   removeAgrometData(stationID: number, fromDate: string, toDate?: string): any{
     let headers = new Headers({
       'Authorization': 'Bearer ' + this.authenticationService.getToken()
@@ -260,7 +267,7 @@ export class AgrometService {
     return this.http.delete(url, options).map(
       (response: Response) => response.json()
     );
-  }
+  }*/
 
   // Endpoints para gestionar las predicciones almacenadas en el sistema
   // (Versión nueva de las predicciones que no depende del sistema anterior)

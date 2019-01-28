@@ -27,10 +27,6 @@ export const routes: Routes = [
         loadChildren: './admin-users/admin-users.module#AdminUsersModule'
       },
       {
-        path: 'admin-stations',
-        loadChildren: './admin-stations/admin-stations.module#AdminStationsModule'
-      },
-      {
         path: 'admin-hobostations',
         loadChildren: './admin-hobostations/admin-hobostations.module#AdminHoboStationsModule'
       },
@@ -42,22 +38,11 @@ export const routes: Routes = [
         path: 'user-predictions',
         loadChildren: './user-predictions/user-predictions.module#UserPredictionsModule'
       },
+      /*
       {
         path: 'station/:id',
         loadChildren: './station/station.module#StationModule'
-      },
-      {
-        path: 'mystations/:id',
-        loadChildren: './mystations/mystations.module#MyStationsModule'
-      },
-      {
-        path: 'station-history/:id',
-        loadChildren: './station-history/station-history.module#StationHistoryModule'
-      },
-      {
-        path: 'stations-list',
-        loadChildren: './stations-list/stations-list.module#StationsListModule'
-      },
+      },*/
       {
         path: 'settings',
         loadChildren: './settings/settings.module#SettingsModule'
@@ -135,3 +120,22 @@ export const routes: Routes = [
   exports: [ RouterModule ]
 })
 export class AppRoutingModule {}
+
+/*
+  Old routes.
+  {
+    path: 'admin-stations',
+    loadChildren: './admin-stations/admin-stations.module#AdminStationsModule'
+  },
+{
+  path: 'mystations/:id',
+  loadChildren: './mystations/mystations.module#MyStationsModule'
+},
+{
+  path: 'station-history/:id',
+  loadChildren: './station-history/station-history.module#StationHistoryModule'
+},
+{
+  path: 'stations-list',
+  loadChildren: './stations-list/stations-list.module#StationsListModule'
+},*/

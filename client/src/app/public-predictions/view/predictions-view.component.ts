@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { StationsService } from '../../shared/services/stations.service';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { NotificationsService } from 'angular2-notifications'
@@ -47,7 +46,6 @@ export class PredictionsViewComponent implements OnInit {
 	station   : any = {};
 
   constructor(
-    private stationsService : StationsService,
     private route        		: ActivatedRoute,
 		private location     		: Location,
 		private agrometService 	: AgrometService,

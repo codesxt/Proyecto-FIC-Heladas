@@ -44,7 +44,6 @@ process.on('SIGTERM', function() {
 });
 
 require('./users')
-require('./stations')
 require('./hobodata')
 require('./hobostation')
 require('./agrometstation')
