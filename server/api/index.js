@@ -102,7 +102,7 @@ router.get(
 )
 router.get(
   '/agrometpublicstations',
-  ctrlAgromet.listAgrometStations
+  ctrlAgromet.listAgrometPublicStations
 )
 router.patch(
   '/agrometstations/:id',

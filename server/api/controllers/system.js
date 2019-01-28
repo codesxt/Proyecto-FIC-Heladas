@@ -6,7 +6,7 @@ const rp = require('request-promise')
 
 module.exports.getStatistics = async (req, res) => {
   let stationsCount = await AgrometStation.count()
-  let publicStationsCount = await AgrometStation.count({ public: true })
+  let publicStationsCount = await AgrometStation.count({ 'settings.public': true })
   let usersCount = await User.count()
   let statistics = {
     stations: stationsCount,

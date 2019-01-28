@@ -344,6 +344,44 @@ module.exports.listAgrometStations = (req, res) => {
   );
 }
 
+module.exports.listAgrometPublicStations = (req, res) => {
+  var hostname    = req.headers.host;
+  let requestData = JsonApiQueryParser.parseRequest(req.url);
+  let pageNumber  = requestData.queryData.page.number  || 0;
+  let pageSize    = requestData.queryData.page.size    || 10;
+  let query = { 'settings.public' : true };
+  AgrometStation.find(
+    query
+    ,
+    '',
+    {
+      sort:{ },
+      skip:pageNumber*pageSize,
+      limit:pageSize*1
+    },
+    function(err, stations){
+      if(err){
+        console.log(err);
+        utils.sendJSONresponse(res, 400, err);
+      }else{
+        //console.log(events);
+        AgrometStation.count(query, (err, count) => {
+          utils.sendJSONresponse(res, 201, {
+            meta: {
+              "total-pages": count/pageSize,
+              "total-items": count
+            },
+            links: {
+              self: hostname+'/api/v1/hobostations'
+            },
+            data: stations
+          });
+        });
+      }
+    }
+  );
+}
+
 module.exports.getAgrometStation = (req, res) => {
   AgrometStation.findById(req.params.id)
   .lean()

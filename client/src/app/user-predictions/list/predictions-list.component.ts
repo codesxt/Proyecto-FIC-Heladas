@@ -40,7 +40,7 @@ export class PredictionsListComponent implements OnInit {
   }
 
   loadData(){
-    this.agrometService.getAgrometStations(this.page-1, this.pageSize)
+    this.agrometService.getAgrometPublicStations(this.page-1, this.pageSize)
     .subscribe(
       data => {
         this.notificationsService.success(

@@ -46,7 +46,7 @@ export class PredictionsMapComponent implements OnInit {
   }
 
   loadData(){
-		this.agrometService.getAgrometStations(0, 1000)
+		this.agrometService.getAgrometPublicStations(0, 1000)
 		.subscribe(
 			data => {
         this.notificationsService.success(

@@ -69,8 +69,11 @@ data.forEach(item => {
     region: item.stationData.region,
     city: item.stationData.city,
     settings: {
-      autobackup: true
+      autobackup: true,
+      public: true
     },
+    updatedAt: new Date(),
+    createdAt: new Date(),
     location: item.location
   }
   document.station.id = +document.station.id

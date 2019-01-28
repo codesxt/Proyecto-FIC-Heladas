@@ -32,7 +32,7 @@ export class AgrometEditComponent implements OnInit {
     this.stationForm = this.formBuilder.group({
       name                : ['', Validators.required],
       settings_autobackup : ['', Validators.required],
-      settings_public : ['', Validators.required]
+      settings_public     : ['', Validators.required]
     })
   }
 
@@ -67,7 +67,7 @@ export class AgrometEditComponent implements OnInit {
           name                : this.stationData.name,
           settings_autobackup : this.stationData.settings.autobackup,
           settings_public     : this.stationData.settings.public
-        });
+        })
       },
       error => {
 
