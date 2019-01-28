@@ -16,6 +16,7 @@
       <th>Región</th>
       <th>Ciudad</th>
       <th>Autorespaldo</th>
+      <th>Pública</th>
       <th class="col-2">Opciones</th>
     </tr>
   </thead>
@@ -30,6 +31,14 @@
           Sí
         </span>
         <span *ngIf="!station.settings.autobackup">
+          No
+        </span>
+      </td>
+      <td>
+        <span *ngIf="station.settings.public">
+          Sí
+        </span>
+        <span *ngIf="!station.settings.public">
           No
         </span>
       </td>

@@ -139,7 +139,8 @@ export class AgrometRegisterComponent implements OnInit {
         name : city.name
       },
       settings : {
-        autobackup : false
+        autobackup : false,
+        public: true
       }
     }
     this.formEnabled = true;

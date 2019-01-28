@@ -94,6 +94,16 @@
       </label>
     </div>
   </div>
+  <div class="form-group row" *ngIf="newRegister.settings">
+    <label class="col-md-2 form-control-label" for="name-input">Pública</label>
+    <div class="col-md-10">
+      <label class="switch switch-text switch-pill switch-info">
+        <input type="checkbox" class="switch-input" [(ngModel)]="newRegister.settings.public">
+        <span class="switch-label" data-on="Sí" data-off="No"></span>
+        <span class="switch-handle"></span>
+      </label>
+    </div>
+  </div>
   <div class="form-group row">
     <label class="col-md-2 form-control-label" for="location-input">Ubicación</label>
     <div class="col-md-10">

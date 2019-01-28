@@ -12,6 +12,10 @@ import { AgrometDataExploreComponent } from './data-explore/dataexplore-agromet.
 const routes: Routes = [
   {
     path: '',
+    redirectTo: 'list'
+  },
+  {
+    path: '',
     data: {
       title: 'Datos de Agromet'
     },

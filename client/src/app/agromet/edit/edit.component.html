@@ -24,6 +24,16 @@
       </label>
     </div>
   </div>
+  <div class="form-group row">
+    <label class="col-md-2 form-control-label" for="public-input">Pública</label>
+    <div class="col-md-10">
+      <label class="switch switch-3d switch-primary">
+        <input type="checkbox" class="switch-input" formControlName="settings_public">
+        <span class="switch-label"></span>
+        <span class="switch-handle"></span>
+      </label>
+    </div>
+  </div>
   <div class="form-group row" *ngIf="stationData">
     <label class="col-md-2 form-control-label" for="name-input">Estación</label>
     <div class="col-md-10">

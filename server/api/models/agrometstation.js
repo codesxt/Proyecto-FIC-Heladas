@@ -52,6 +52,11 @@ var agrometStationSchema = new mongoose.Schema({
       type: Boolean,
       required: true,
       default: false
+    },
+    public: {
+      type: Boolean,
+      required: false,
+      default: true
     }
   }
 }, {
