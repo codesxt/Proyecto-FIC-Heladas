@@ -1,26 +1,17 @@
-const mongoose = require('mongoose');
-const validator = require('validator');
-const utils = require('./utils');
-const Station = mongoose.model('Station');
-const User = mongoose.model('User');
-const request = require('request');
+const mongoose = require('mongoose')
+const utils = require('./utils')
+const User = mongoose.model('User')
+const AgrometStation = mongoose.model('AgrometStation')
+const rp = require('request-promise')
 
-const JsonApiQueryParserClass = require('jsonapi-query-parser');
-const JsonApiQueryParser = new JsonApiQueryParserClass();
-
-module.exports.getStatistics = (req, res) => {
-  let statistics = {};
-  Station.count({}, (err, count) => {
-    statistics.stations = count;
-    Station.count({
-      public: true
-    }, (err, count) => {
-      statistics.publicStations = count;
-      User.count({}, (err, count) => {
-        statistics.users = count;
-        utils.sendJSONresponse(res, 200, statistics)
-        return;
-      })
-    })
-  })
+module.exports.getStatistics = async (req, res) => {
+  let stationsCount = await AgrometStation.count()
+  let publicStationsCount = await AgrometStation.count({ public: true })
+  let usersCount = await User.count()
+  let statistics = {
+    stations: stationsCount,
+    publicStations: publicStationsCount,
+    users: usersCount
+  }
+  utils.sendJSONresponse(res, 200, statistics)
 }
