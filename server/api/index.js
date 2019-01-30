@@ -14,10 +14,10 @@ const ctrlSubscriptions   = require('./controllers/subscriptions')
 const ctrlAgromet         = require('./controllers/agromet')
 const ctrlAgrometStations = require('./controllers/agromet-stations')
 const ctrlAgrometSensorData = require('./controllers/agromet-data')
-const ctrlHoboStations    = require('./controllers/hobostations')
-const ctrlMiniStations    = require('./controllers/mini-stations')
 const ctrlAgrometModels   = require('./controllers/agromet-models')
 const ctrlAgrometPredictions = require('./controllers/agromet-predictions')
+const ctrlHoboStations    = require('./controllers/hobostations')
+const ctrlMiniStations    = require('./controllers/mini-stations')
 
 const roleAuth            = ctrlAuthentication.roleAuthorization;
 
